@@ -135,22 +135,13 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 
 		// PnCneter
 		pnCneter = new JPanel();
-		JPanel pnCenterN = new JPanel();
-		pnCenterN.setBackground(new Color(221, 242, 251));
 		JPanel pnCenterC = new JPanel();
 		pnCenterC.setBackground(new Color(221, 242, 251));
 		pnCneter.setLayout(new BorderLayout());
-
-		pnCenterN.setPreferredSize(new Dimension(1000, 80));
-		pnCneter.add(pnCenterN, BorderLayout.NORTH);
 		pnCneter.add(pnCenterC, BorderLayout.CENTER);
-
-		// pnSouth
-		JPanel pnSouth = new JPanel();
 
 		cp.add(menuBar, BorderLayout.NORTH);
 		cp.add(pnCneter, BorderLayout.CENTER);
-		cp.add(pnSouth, BorderLayout.SOUTH);
 		menuBar.setBackground(Color.decode("#B2EBF2"));
 		
 				JMenu mnTaiKhoan = new JMenu("Tài Khoản");
@@ -245,8 +236,16 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		} else if (e.getSource().equals(mnCapNhatSP)) {
 
 		} else if (e.getSource().equals(mnCongDoan)) {
+			CongDoan form_CongDoan = new CongDoan();
+			pnCneter.removeAll();
+			pnCneter.add(form_CongDoan);
+			validate();
 
 		} else if (e.getSource().equals(mnPhanCong)) {
+			BangPhanCong form_bangPhanCong = new BangPhanCong();
+			pnCneter.removeAll();
+			pnCneter.add(form_bangPhanCong);
+			validate();
 
 		} else if (e.getSource().equals(mnChamCongCN)) {
 			ChamCongThoLamDan form_chamCongThoLamDan = new ChamCongThoLamDan();
@@ -263,7 +262,11 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		} else if (e.getSource().equals(mnTimCongNhan)) {
 
 		} else if (e.getSource().equals(mnTimSanPham)) {
-
+			TimKiemThongTinSanPham form_TimKiemSanPham = new TimKiemThongTinSanPham();
+			pnCneter.removeAll();
+			pnCneter.add(form_TimKiemSanPham);
+			validate();
+			
 		}
 	}
 }

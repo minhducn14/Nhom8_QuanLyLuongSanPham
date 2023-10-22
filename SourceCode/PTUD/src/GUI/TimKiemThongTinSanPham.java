@@ -17,12 +17,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
 
 public class TimKiemThongTinSanPham extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
-	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 
@@ -95,7 +95,7 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    lblNewLabel_6_1.setBounds(35, 15, 304, 25);
 	    panel.add(lblNewLabel_6_1);
 	    
-	    JLabel lblNewLabel_1 = new JLabel("Mã sản phẩm");
+	    JLabel lblNewLabel_1 = new JLabel("Tên sản phẩm");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1.setBounds(100, 65, 170, 25);
 	    panel.add(lblNewLabel_1);
@@ -111,12 +111,7 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    textField.setBounds(240, 65, 250, 25);
 	    panel.add(textField);
 	    
-	    textField_1 = new JTextField();
-	    textField_1.setColumns(10);
-	    textField_1.setBounds(240, 165, 250, 25);
-	    panel.add(textField_1);
-	    
-	    JLabel lblNewLabel_1_1_1 = new JLabel("Loại sản phẩm");
+	    JLabel lblNewLabel_1_1_1 = new JLabel("Giá bán");
 	    lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_1_1.setBounds(900, 165, 170, 25);
 	    panel.add(lblNewLabel_1_1_1);
@@ -126,7 +121,7 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    textField_2.setBounds(1060, 165, 250, 25);
 	    panel.add(textField_2);
 	    
-	    JLabel lblNewLabel_1_1_1_1 = new JLabel("Loại sản phẩm");
+	    JLabel lblNewLabel_1_1_1_1 = new JLabel("Tình trạng");
 	    lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_1_1_1.setBounds(900, 65, 170, 25);
 	    panel.add(lblNewLabel_1_1_1_1);
@@ -149,6 +144,31 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    btnXoRng.setBackground(new Color(2, 104, 156));
 	    btnXoRng.setBounds(800, 225, 170, 50);
 	    panel.add(btnXoRng);
+	    
+	    JRadioButton rdbtnMaSanPham = new JRadioButton("");
+	    rdbtnMaSanPham.setBackground(Color.WHITE);
+	    rdbtnMaSanPham.setBounds(60, 65, 27, 21);
+	    panel.add(rdbtnMaSanPham);
+	    
+	    JComboBox comboBoxLoaiSanPham = new JComboBox();
+	    comboBoxLoaiSanPham.setBackground(Color.WHITE);
+	    comboBoxLoaiSanPham.setBounds(240, 165, 250, 25);
+	    panel.add(comboBoxLoaiSanPham);
+	    
+	    JRadioButton rdbtnLoaiSanPham = new JRadioButton("");
+	    rdbtnLoaiSanPham.setBackground(Color.WHITE);
+	    rdbtnLoaiSanPham.setBounds(60, 165, 27, 21);
+	    panel.add(rdbtnLoaiSanPham);
+	    
+	    JRadioButton rdbtnLoaiSanPham_1 = new JRadioButton("");
+	    rdbtnLoaiSanPham_1.setBackground(Color.WHITE);
+	    rdbtnLoaiSanPham_1.setBounds(868, 165, 27, 21);
+	    panel.add(rdbtnLoaiSanPham_1);
+	    
+	    JRadioButton rdbtnLoaiSanPham_1_1 = new JRadioButton("");
+	    rdbtnLoaiSanPham_1_1.setBackground(Color.WHITE);
+	    rdbtnLoaiSanPham_1_1.setBounds(867, 65, 27, 21);
+	    panel.add(rdbtnLoaiSanPham_1_1);
 	    
 	    
 	    	  

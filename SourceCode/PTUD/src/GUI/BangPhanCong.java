@@ -26,6 +26,7 @@ public class BangPhanCong extends JPanel {
 	 * Create the panel.
 	 */
 	public BangPhanCong() {
+		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("New label");

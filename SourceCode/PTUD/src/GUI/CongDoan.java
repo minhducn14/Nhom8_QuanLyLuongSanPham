@@ -1,4 +1,4 @@
-package ptud;
+package GUI;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

@@ -1,4 +1,4 @@
-package ptud;
+package GUI;
 
 import java.awt.EventQueue;
 

@@ -81,9 +81,13 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnNhanVien.add(mnChamCong);
 		mnTinhLuong = new JMenuItem("Tính Lương");
 		mnNhanVien.add(mnTinhLuong);
+	
+		
+		
 		mnChamCong.setPreferredSize(new Dimension(150, 30));
 		mnTinhLuong.setPreferredSize(new Dimension(150, 30));
-
+		
+		
 		JMenu mnThoLamDan = new JMenu("Thợ làm đàn");
 		mnThoLamDan.setIcon(new ImageIcon(getClass().getResource("/icons/worker_icon.png")));
 		mnThoLamDan.setFont(ftmn);
@@ -162,7 +166,6 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 
 		// Event
 		mnTrangChu.addMouseListener(this);
-
 		mnChamCong.addActionListener(this);
 		mnTinhLuong.addActionListener(this);
 		mnChamCongCN.addActionListener(this);
@@ -230,7 +233,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		} else if (e.getSource().equals(mnDangXuat)) {
 
 		} else if (e.getSource().equals(mnCapNhatNV)) {
-
+			QuanLyNhanVien nhanVien = new QuanLyNhanVien();
+			pnCneter.removeAll();
+			pnCneter.add(nhanVien);
+			validate();
 		} else if (e.getSource().equals(mnCapNhatCN)) {
 
 		} else if (e.getSource().equals(mnCapNhatSP)) {

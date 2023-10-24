@@ -5,7 +5,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JButton;
@@ -21,6 +20,7 @@ public class BangPhanCong extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table_2;
+	private JTable table;
 
 	/**
 	 * Create the panel.
@@ -123,29 +123,29 @@ public class BangPhanCong extends JPanel {
 	    JScrollPane scrollPane = new JScrollPane();
 	    scrollPane.setBounds(20, 65, 410, 230);
 	    panel_1.add(scrollPane);
-	    
-	    JTable table = new JTable();
+	    table = new JTable();
 	    scrollPane.setViewportView(table);
 	    table.setModel(new DefaultTableModel(
-	    	new Object[][] {
-	    		{null, null, null},
-	    		{null, null, null},
-	    		{null, null, null},
-	    		{null, null, null},
-	    	},
-	    	new String[] {
-	    		"M\u00E3 TL\u0110", "T\u00EAn TL\u0110", "S\u1ED1 \u0110i\u1EC7n Tho\u1EA1i"
-	    	}
+	    		new Object[][] {
+		    		{null, null},
+		    		{null, null},
+		    		{null, null},
+		    		{null, null},
+		    	},
+		    	new String[] {
+		    		"M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n"
+		    	}
 	    ));
-	    table.setCellSelectionEnabled(true);
-	    table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	    JTableHeader tb = table.getTableHeader();
-	    int rowHeight = 30;
-	    int rowMargin = 30;
-	    table.setRowHeight(rowHeight);
-	    table.setIntercellSpacing(new Dimension(0, rowMargin));
 	    tb.setBackground(new Color(221, 242, 251));
 	    tb.setFont(new Font("Tahoma", Font.BOLD, 16));
+	    int rowHeight = 30;
+	    int rowMargin = 10;
+	    table.setRowHeight(rowHeight);
+	    table.setIntercellSpacing(new Dimension(0, rowMargin));
+
+	    
+
 	    
 	    JSeparator separator_1 = new JSeparator();
 	    separator_1.setBackground(Color.BLACK);
@@ -164,14 +164,13 @@ public class BangPhanCong extends JPanel {
 	    panel_2.add(scrollPane_1);
 	    
 	    JTable table_1 = new JTable();
+	    table_1.setRowMargin(rowMargin);
 	    scrollPane_1.setViewportView(table_1);
 	    JTableHeader tb1 = table_1.getTableHeader();
 	    tb1.setBackground(new Color(221, 242, 251));
 	    tb1.setFont(new Font("Tahoma", Font.BOLD, 16));
-	    int rowHeight1 = 32;
-	    int rowMargin1= 30;
-	    table_1.setRowHeight(rowHeight1);
-	    table_1.setIntercellSpacing(new Dimension(0, rowMargin1));
+	    table_1.setRowHeight(rowHeight);
+	    table_1.setIntercellSpacing(new Dimension(0, rowMargin));
 	    
 	    table_1.setModel(new DefaultTableModel(
 	    	new Object[][] {
@@ -216,10 +215,6 @@ public class BangPhanCong extends JPanel {
 	    	}
 	    ));
 	    JTableHeader tb2 = table_2.getTableHeader();
-	    int rowHeight2 = 30;
-	    int rowMargin2 = 30;
-	    table.setRowHeight(rowHeight2);
-	    table.setIntercellSpacing(new Dimension(0, rowMargin2));
 	    tb2.setBackground(new Color(221, 242, 251));
 	    tb2.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    

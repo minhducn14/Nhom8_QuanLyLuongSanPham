@@ -178,6 +178,7 @@ public class CongDoan extends JPanel {
 	    panel_2.add(scrollPane_1);
 	    
 	    table_1 = new JTable();
+	    table_1.setRowMargin(10);
 	    scrollPane_1.setViewportView(table_1);
 	    JTableHeader tb1 = table_1.getTableHeader();
 	    tb1.setBackground(new Color(221, 242, 251));

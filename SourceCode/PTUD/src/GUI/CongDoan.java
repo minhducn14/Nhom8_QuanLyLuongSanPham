@@ -2,7 +2,6 @@ package GUI;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.CardLayout;
 import java.awt.Font;
 
 import javax.swing.JTextField;
@@ -13,7 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JTable;
-import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -23,7 +21,6 @@ import javax.swing.JSeparator;
 public class CongDoan extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
 	private JTextField textField_1;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;

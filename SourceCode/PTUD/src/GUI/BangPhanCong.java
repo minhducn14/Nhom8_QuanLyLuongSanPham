@@ -126,16 +126,23 @@ public class BangPhanCong extends JPanel {
 	    table = new JTable();
 	    scrollPane.setViewportView(table);
 	    table.setModel(new DefaultTableModel(
-	    		new Object[][] {
-		    		{null, null},
-		    		{null, null},
-		    		{null, null},
-		    		{null, null},
-		    	},
-		    	new String[] {
-		    		"M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n"
-		    	}
-	    ));
+	    	new Object[][] {
+	    		{null, null},
+	    		{null, null},
+	    		{null, null},
+	    		{null, null},
+	    	},
+	    	new String[] {
+	    		"M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n"
+	    	}
+	    ) {
+	    	boolean[] columnEditables = new boolean[] {
+	    		false, false
+	    	};
+	    	public boolean isCellEditable(int row, int column) {
+	    		return columnEditables[column];
+	    	}
+	    });
 	    JTableHeader tb = table.getTableHeader();
 	    tb.setBackground(new Color(221, 242, 251));
 	    tb.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -144,9 +151,6 @@ public class BangPhanCong extends JPanel {
 	    table.setRowHeight(rowHeight);
 	    table.setIntercellSpacing(new Dimension(0, rowMargin));
 
-	    
-
-	    
 	    JSeparator separator_1 = new JSeparator();
 	    separator_1.setBackground(Color.BLACK);
 	    separator_1.setForeground(Color.BLACK);
@@ -183,7 +187,14 @@ public class BangPhanCong extends JPanel {
 	    	new String[] {
 	    		"M\u00E3 Ph\u00E2n C\u00F4ng", "M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n", "M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n", "S\u1ED1 \u0110i\u1EC7n Tho\u1EA1i", "M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m"
 	    	}
-	    ));
+	    ) {
+	    	boolean[] columnEditables = new boolean[] {
+	    		false, false, false, false, false, false, false, false
+	    	};
+	    	public boolean isCellEditable(int row, int column) {
+	    		return columnEditables[column];
+	    	}
+	    });
 	    
 	    JLabel lblNewLabel_6 = new JLabel("New label");
 	    lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -213,11 +224,20 @@ public class BangPhanCong extends JPanel {
 	    	new String[] {
 	    		"M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n"
 	    	}
-	    ));
+	    ) {
+	    	boolean[] columnEditables = new boolean[] {
+	    		false, false
+	    	};
+	    	public boolean isCellEditable(int row, int column) {
+	    		return columnEditables[column];
+	    	}
+	    });
 	    JTableHeader tb2 = table_2.getTableHeader();
 	    tb2.setBackground(new Color(221, 242, 251));
 	    tb2.setFont(new Font("Tahoma", Font.BOLD, 16));
-	    
+	    table_2.setRowHeight(rowHeight);
+	    table_2.setIntercellSpacing(new Dimension(0, rowMargin));
+
 	    JLabel lblNewLabel_5_1 = new JLabel("Danh sách công đoạn");
 	    lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 	    lblNewLabel_5_1.setBounds(35, 15, 217, 25);

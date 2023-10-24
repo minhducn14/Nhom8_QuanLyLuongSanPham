@@ -29,12 +29,12 @@ public class CongDoan extends JPanel {
 	private JTextField textField_3;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
-	private JTable table;
-	private JScrollPane scrollPane;
 	private JPanel panel_1;
 	private JSeparator separator_1;
 	private JTable table_1;
 	private JScrollPane scrollPane_1;
+	private JTable table;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Create the panel.
@@ -137,7 +137,8 @@ public class CongDoan extends JPanel {
 	    scrollPane = new JScrollPane();
 	    scrollPane.setBounds(20, 65, 860, 230);
 	    panel_1.add(scrollPane);
-	    
+	    int rowHeight = 30;
+	    int rowMargin = 10;
 	    table = new JTable();
 	    scrollPane.setViewportView(table);
 	    table.setModel(new DefaultTableModel(
@@ -150,16 +151,19 @@ public class CongDoan extends JPanel {
 	    	new String[] {
 	    		"M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Lo\u1EA1i s\u1EA3n ph\u1EA9m", "Gi\u00E1 b\u00E1n"
 	    	}
-	    ));
-	    table.setCellSelectionEnabled(true);
-	    table.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+	    ) {
+	    	boolean[] columnEditables = new boolean[] {
+	    		false, false, false, false
+	    	};
+	    	public boolean isCellEditable(int row, int column) {
+	    		return columnEditables[column];
+	    	}
+	    });
 	    JTableHeader tb = table.getTableHeader();
-	    int rowHeight = 30;
-	    int rowMargin = 30;
-	    table.setRowHeight(rowHeight);
-	    table.setIntercellSpacing(new Dimension(0, rowMargin));
 	    tb.setBackground(new Color(221, 242, 251));
 	    tb.setFont(new Font("Tahoma", Font.BOLD, 16));
+	    table.setRowHeight(rowHeight);
+	    table.setIntercellSpacing(new Dimension(0, rowMargin));
 	    
 	    separator_1 = new JSeparator();
 	    separator_1.setBackground(Color.BLACK);
@@ -178,15 +182,12 @@ public class CongDoan extends JPanel {
 	    panel_2.add(scrollPane_1);
 	    
 	    table_1 = new JTable();
-	    table_1.setRowMargin(10);
 	    scrollPane_1.setViewportView(table_1);
 	    JTableHeader tb1 = table_1.getTableHeader();
 	    tb1.setBackground(new Color(221, 242, 251));
 	    tb1.setFont(new Font("Tahoma", Font.BOLD, 16));
-	    int rowHeight1 = 32;
-	    int rowMargin1= 30;
-	    table_1.setRowHeight(rowHeight1);
-	    table_1.setIntercellSpacing(new Dimension(0, rowMargin1));
+	    table_1.setRowHeight(rowHeight);
+	    table_1.setIntercellSpacing(new Dimension(0, rowMargin));
 	    
 	    table_1.setModel(new DefaultTableModel(
 	    	new Object[][] {
@@ -199,7 +200,14 @@ public class CongDoan extends JPanel {
 	    	new String[] {
 	    		"M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n", "M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m", "Gi\u00E1 C\u00F4ng \u0110o\u1EA1n"
 	    	}
-	    ));
+	    ) {
+	    	boolean[] columnEditables = new boolean[] {
+	    		false, false, false, false, false, false
+	    	};
+	    	public boolean isCellEditable(int row, int column) {
+	    		return columnEditables[column];
+	    	}
+	    });
 	    
 	    JLabel lblNewLabel_6 = new JLabel("New label");
 	    lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 20));

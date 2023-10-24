@@ -1,24 +1,13 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import java.awt.*;
-import java.awt.Window.Type;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import javax.swing.border.TitledBorder;
+
 import com.toedter.calendar.JDateChooser;
 
 public class QuanLyNhanVien extends JPanel {

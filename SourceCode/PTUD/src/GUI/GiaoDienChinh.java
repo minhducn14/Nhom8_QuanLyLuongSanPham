@@ -22,12 +22,12 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 	JMenu mnTrangChu;
 	JMenuItem mnChamCong, mnTinhLuong;
 	JMenuItem mnCongDoan;
-	JMenuItem mnPhanCong, mnChamCongCN, mnTinhLuongCN;
-	JMenuItem mnCapNhatNV, mnCapNhatCN, mnCapNhatSP;
+	JMenuItem mnPhanCong, mnChamCongTLD, mnTinhLuongTLD;
+	JMenuItem mnCapNhatNV, mnCapNhatTLD, mnCapNhatSP;
 	JMenuItem mnTimSanPham, mnTimNhanVien, mnTimCongNhan;
-	JMenuItem mnDangXuat, mnDoiMatKhau;
-	private JMenu mnThoat;
-	private JPanel panel;
+	private JMenu mnTroGiup;
+	private JMenu mnThngK;
+	private JMenuItem mntmNewMenuItem;
 
 	public static void main(String[] args) {
 				
@@ -92,26 +92,26 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnThoLamDan.setIcon(new ImageIcon(getClass().getResource("/icons/worker_icon.png")));
 		mnThoLamDan.setFont(ftmn);
 		mnThoLamDan.add(mnPhanCong = new JMenuItem("Phân Công"));
-		mnThoLamDan.add(mnChamCongCN = new JMenuItem("Chấm Công"));
-		mnThoLamDan.add(mnTinhLuongCN = new JMenuItem("Tính Lương"));
+		mnThoLamDan.add(mnChamCongTLD = new JMenuItem("Chấm Công"));
+		mnThoLamDan.add(mnTinhLuongTLD = new JMenuItem("Tính Lương"));
 		mnPhanCong.setPreferredSize(new Dimension(150, 30));
-		mnChamCongCN.setPreferredSize(new Dimension(150, 30));
-		mnTinhLuongCN.setPreferredSize(new Dimension(150, 30));
+		mnChamCongTLD.setPreferredSize(new Dimension(150, 30));
+		mnTinhLuongTLD.setPreferredSize(new Dimension(150, 30));
 
-		JMenu mnSanPham = new JMenu("Sản Phẩm");
+		JMenu mnSanPham = new JMenu("Đàn");
 		mnSanPham.setIcon(new ImageIcon(getClass().getResource("/icons/product_icon.png")));
 		mnSanPham.setFont(ftmn);
 		mnSanPham.add(mnCongDoan = new JMenuItem("Công Đoạn"));
 		mnCongDoan.setPreferredSize(new Dimension(150, 30));
 
-		JMenu mnCapNhat = new JMenu("Cập Nhật");
-		mnCapNhat.setIcon(new ImageIcon(getClass().getResource("/icons/update_icon_menu.png")));
-		mnCapNhat.setFont(ftmn);
-		mnCapNhat.add(mnCapNhatNV = new JMenuItem("Nhân Viên"));
-		mnCapNhat.add(mnCapNhatCN = new JMenuItem("Thợ làm đàn"));
-		mnCapNhat.add(mnCapNhatSP = new JMenuItem("Sản Phẩm"));
+		JMenu mnQuanLy = new JMenu("Quản Lý");
+		mnQuanLy.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/management.png")));
+		mnQuanLy.setFont(ftmn);
+		mnQuanLy.add(mnCapNhatNV = new JMenuItem("Nhân Viên"));
+		mnQuanLy.add(mnCapNhatTLD = new JMenuItem("Thợ làm đàn"));
+		mnQuanLy.add(mnCapNhatSP = new JMenuItem("Sản Phẩm"));
 		mnCapNhatNV.setPreferredSize(new Dimension(150, 30));
-		mnCapNhatCN.setPreferredSize(new Dimension(150, 30));
+		mnCapNhatTLD.setPreferredSize(new Dimension(150, 30));
 		mnCapNhatSP.setPreferredSize(new Dimension(150, 30));
 
 		JMenu mnTimKiem = new JMenu("Tìm Kiếm");
@@ -129,13 +129,13 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		menuBar.add(mnNhanVien);
 		menuBar.add(mnThoLamDan);
 		menuBar.add(mnSanPham);
-		menuBar.add(mnCapNhat);
+		menuBar.add(mnQuanLy);
 		menuBar.add(mnTimKiem);
 		
-		mnThoat = new JMenu("Thoát");
-		mnThoat.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/exit_icon.png")));
-		mnThoat.setFont(new Font("Arial", Font.BOLD, 20));
-		menuBar.add(mnThoat);
+		mnTroGiup = new JMenu("Trợ giúp");
+		mnTroGiup.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/HoTro.png")));
+		mnTroGiup.setFont(new Font("Arial", Font.BOLD, 20));
+		menuBar.add(mnTroGiup);
 
 		// PnCneter
 		pnCneter = new JPanel();
@@ -148,36 +148,33 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		cp.add(pnCneter, BorderLayout.CENTER);
 		menuBar.setBackground(Color.decode("#B2EBF2"));
 		
-				JMenu mnTaiKhoan = new JMenu("Tài Khoản");
-				mnTaiKhoan.setIcon(new ImageIcon(getClass().getResource("/icons/user_icon.png")));
-				mnTaiKhoan.setFont(ftmn);
-				mnTaiKhoan.add(mnDoiMatKhau = new JMenuItem("Đổi Mật Khẩu"));
-				mnTaiKhoan.add(mnDangXuat = new JMenuItem("Đăng Xuất"));
-				mnDoiMatKhau.setPreferredSize(new Dimension(150, 30));
-				mnDangXuat.setPreferredSize(new Dimension(150, 30));
+			
 				
-				panel = new JPanel();
-				panel.setBackground(new Color(221, 242, 251));
-				menuBar.add(panel);
-				menuBar.add(mnTaiKhoan);
-				mnDoiMatKhau.addActionListener(this);
-				mnDangXuat.addActionListener(this);
+		mnThngK = new JMenu("Thống kê");
+		mnThngK.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/analytis_icon.png")));
+		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
+		menuBar.add(mnThngK);
+		
+		mntmNewMenuItem = new JMenuItem("New menu item");
+		mnThngK.add(mntmNewMenuItem);
+				
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
 		// Event
 		mnTrangChu.addMouseListener(this);
 		mnChamCong.addActionListener(this);
 		mnTinhLuong.addActionListener(this);
-		mnChamCongCN.addActionListener(this);
-		mnTinhLuongCN.addActionListener(this);
+		mnChamCongTLD.addActionListener(this);
+		mnTinhLuongTLD.addActionListener(this);
 		mnPhanCong.addActionListener(this);
-		mnCapNhatCN.addActionListener(this);
+		mnCapNhatTLD.addActionListener(this);
 		mnCapNhatNV.addActionListener(this);
 		mnCapNhatSP.addActionListener(this);
 		mnTimNhanVien.addActionListener(this);
 		mnTimCongNhan.addActionListener(this);
 		mnTimSanPham.addActionListener(this);
 		mnCongDoan.addActionListener(this);
+		mnTroGiup.addMouseListener(this);
 
 	}
 
@@ -190,9 +187,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.removeAll();
 			pnCneter.add(form_trangChu);
 			validate();
-		} else if (e.getSource().equals(mnThoat)) {
-			setVisible(false);
-			dispose();
+		} else if (e.getSource().equals(mnTroGiup)) {
 		}
 
 	}
@@ -230,14 +225,12 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_luongNhanVien);
 			validate();
 
-		} else if (e.getSource().equals(mnDangXuat)) {
-
-		} else if (e.getSource().equals(mnCapNhatNV)) {
+		}  else if (e.getSource().equals(mnCapNhatNV)) {
 			QuanLyNhanVien nhanVien = new QuanLyNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(nhanVien);
 			validate();
-		} else if (e.getSource().equals(mnCapNhatCN)) {
+		} else if (e.getSource().equals(mnCapNhatTLD)) {
 
 		} else if (e.getSource().equals(mnCapNhatSP)) {
 
@@ -253,12 +246,12 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_bangPhanCong);
 			validate();
 
-		} else if (e.getSource().equals(mnChamCongCN)) {
+		} else if (e.getSource().equals(mnChamCongTLD)) {
 			ChamCongThoLamDan form_chamCongThoLamDan = new ChamCongThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_chamCongThoLamDan);
 			validate();
-		} else if (e.getSource().equals(mnTinhLuongCN)) {
+		} else if (e.getSource().equals(mnTinhLuongTLD)) {
 			LuongThoLamDan form_luongThoLamDan = new LuongThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_luongThoLamDan);

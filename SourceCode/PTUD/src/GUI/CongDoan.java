@@ -12,7 +12,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JTable;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;

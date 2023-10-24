@@ -7,6 +7,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JDayChooser;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -15,12 +19,16 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class BangPhanCong extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table_2;
 	private JTable table;
+	private JDateChooser ngayPhanCong;
 
 	/**
 	 * Create the panel.
@@ -64,11 +72,21 @@ public class BangPhanCong extends JPanel {
 	    btnNewButton_2.setBackground(new Color(2, 104, 156));
 	    btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
 	    btnNewButton_2.setText("Xoá rỗng");
+	   
 	    
-	    JTextField textField_3 = new JTextField();
-	    textField_3.setBounds(200, 207, 200, 25);
-	    panel.add(textField_3);
-	    textField_3.setColumns(10);
+	    ngayPhanCong = new JDateChooser();
+	    ngayPhanCong.setSize(new Dimension(30,20));
+	    ngayPhanCong.setDateFormatString("dd-MM-yyyy");
+        try {
+            Date date = Date.valueOf(LocalDate.now());
+            ngayPhanCong.setDate(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ngayPhanCong.setBounds(200, 207, 200, 25);
+        ngayPhanCong.setEnabled(false);
+        panel.add(ngayPhanCong);
+	    
 	    
 	    JLabel lblNewLabel_3 = new JLabel("New label");
 	    lblNewLabel_3.setBounds(20, 205, 170, 25);

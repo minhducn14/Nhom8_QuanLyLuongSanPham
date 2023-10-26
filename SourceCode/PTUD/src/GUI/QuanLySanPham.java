@@ -78,7 +78,7 @@ public class QuanLySanPham extends JPanel {
 	    add(panel);
 	    panel.setLayout(null);
 	    
-	    JLabel lblThongTinSanPham = new JLabel("Thông tin sản phẩm");
+	    JLabel lblThongTinSanPham = new JLabel("Thông tin sảnn phẩm");
 	    lblThongTinSanPham.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblThongTinSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 	    lblThongTinSanPham.setBounds(54, 11, 256, 25);

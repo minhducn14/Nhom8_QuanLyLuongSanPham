@@ -118,7 +118,7 @@ public class TimKiemNhanVien extends JPanel  {
 	    rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
 	    panel_1.add(rdbtnNewRadioButton);
 	    
-	    JLabel lblNewLabel_1 = new JLabel("Mã Nhân Viên");
+	    JLabel lblNewLabel_1 = new JLabel("Mã Nhân Viênn");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1.setBounds(31, 0, 140, 25);
 	    panel_1.add(lblNewLabel_1);

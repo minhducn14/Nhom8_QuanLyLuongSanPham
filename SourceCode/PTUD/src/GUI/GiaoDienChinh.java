@@ -185,8 +185,11 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
 		menuBar.add(mnThngK);
 		
-		mntmNewMenuItem = new JMenuItem("New menu item");
+		mntmNewMenuItem = new JMenuItem("Biểu đồ");
 		mnThngK.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+		mnThngK.add(mntmNewMenuItem_1);
 				
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
@@ -261,7 +264,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(nhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
-
+			ThoLamDan thoLamDan = new ThoLamDan();
+			pnCneter.removeAll();
+			pnCneter.add(thoLamDan);
+			validate();
 		} else if (e.getSource().equals(mnCapNhatSP)) {
 
 		} else if (e.getSource().equals(mnCongDoan)) {

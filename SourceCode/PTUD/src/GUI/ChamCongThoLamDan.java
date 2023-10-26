@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Event;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -22,7 +23,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class ChamCongThoLamDan extends JPanel {
+public class ChamCongThoLamDan extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtTenThoLamDan;
@@ -32,10 +33,9 @@ public class ChamCongThoLamDan extends JPanel {
 	private JTextField txtSNgayLamNuaCa;
 	private JTextField txtThang;
 	private JTextField txtPhCpThm;
-	private JTable tbl_BangLuong;
+	private JTable tbl_BangChamCong;
 	private JTable tbl_BangPhanCong;
 	private JTextField textField_1;
-	private JTextField textField;
 
 	/**
 	 * Create the panel.
@@ -148,38 +148,26 @@ public class ChamCongThoLamDan extends JPanel {
 		txtPhCpThm.setBounds(450, 85, 130, 15);
 		panel.add(txtPhCpThm);
 		
-		JButton btnTnhTonB_1_1_1_1 = new JButton("Chấm công");
-		btnTnhTonB_1_1_1_1.setBounds(60, 210, 140, 40);
-		panel.add(btnTnhTonB_1_1_1_1);
-		btnTnhTonB_1_1_1_1.setForeground(Color.WHITE);
-		btnTnhTonB_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_1_1_1.setBackground(new Color(2, 104, 156));
+		JButton btnChamCong = new JButton("Chấm công");
+		btnChamCong.setBounds(60, 210, 140, 40);
+		panel.add(btnChamCong);
+		btnChamCong.setForeground(Color.WHITE);
+		btnChamCong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnChamCong.setBackground(new Color(2, 104, 156));
 		
-		JButton btnTnhTonB_1_1_1_1_1 = new JButton("Hủy");
-		btnTnhTonB_1_1_1_1_1.setForeground(Color.WHITE);
-		btnTnhTonB_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_1_1_1_1.setBackground(new Color(120, 186, 219));
-		btnTnhTonB_1_1_1_1_1.setBounds(240, 210, 140, 40);
-		panel.add(btnTnhTonB_1_1_1_1_1);
+		JButton btnHuy = new JButton("Hủy");
+		btnHuy.setForeground(Color.WHITE);
+		btnHuy.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnHuy.setBackground(new Color(120, 186, 219));
+		btnHuy.setBounds(240, 210, 140, 40);
+		panel.add(btnHuy);
 		
-		JButton btnTnhTonB_1_1_1_1_2 = new JButton("Xóa rỗng");
-		btnTnhTonB_1_1_1_1_2.setForeground(Color.WHITE);
-		btnTnhTonB_1_1_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_1_1_1_2.setBackground(new Color(2, 104, 156));
-		btnTnhTonB_1_1_1_1_2.setBounds(420, 210, 140, 40);
-		panel.add(btnTnhTonB_1_1_1_1_2);
-		
-		JLabel lblSLngCn = new JLabel("Số lượng còn lại");
-		lblSLngCn.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblSLngCn.setBounds(300, 145, 116, 15);
-		panel.add(lblSLngCn);
-		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBackground(new Color(151, 202, 219));
-		textField.setBounds(450, 145, 130, 15);
-		panel.add(textField);
+		JButton btnXoaRong = new JButton("Xóa rỗng");
+		btnXoaRong.setForeground(Color.WHITE);
+		btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnXoaRong.setBackground(new Color(2, 104, 156));
+		btnXoaRong.setBounds(420, 210, 140, 40);
+		panel.add(btnXoaRong);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(2, 104, 156));
@@ -194,53 +182,48 @@ public class ChamCongThoLamDan extends JPanel {
 		panel_1_1.setBounds(15, 400, 1420, 290);
 		add(panel_1_1);
 		
-		JLabel lblBngLngNhn = new JLabel("Danh sách chấm công thợ làm đàn");
-		lblBngLngNhn.setForeground(new Color(0, 27, 72));
-		lblBngLngNhn.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblBngLngNhn.setBounds(30, 10, 420, 25);
-		panel_1_1.add(lblBngLngNhn);
+		JLabel lblBDanhSachChamCong = new JLabel("Danh sách chấm công thợ làm đàn");
+		lblBDanhSachChamCong.setForeground(new Color(0, 27, 72));
+		lblBDanhSachChamCong.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblBDanhSachChamCong.setBounds(30, 10, 420, 25);
+		panel_1_1.add(lblBDanhSachChamCong);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(30, 50, 1360, 214);
 		panel_1_1.add(scrollPane_1);
 		
-		tbl_BangLuong = new JTable();
-		scrollPane_1.setViewportView(tbl_BangLuong);
-		tbl_BangLuong.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "H\u1ECD T\u00EAn", "C\u00F4ng vi\u1EC7c", "S\u1ED1 l\u01B0\u1EE3ng", "Ng\u00E0y ch\u1EA5m c\u00F4ng"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tbl_BangLuong.getColumnModel().getColumn(0).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(1).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(2).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(3).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(4).setResizable(false);
 		
-		JTableHeader tbBangLuong= tbl_BangLuong.getTableHeader();
+		
+		DefaultTableModel model_BangChamCong= new DefaultTableModel(
+				new String[] {
+					"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "H\u1ECD T\u00EAn", "C\u00F4ng vi\u1EC7c", "S\u1ED1 l\u01B0\u1EE3ng", "Ng\u00E0y ch\u1EA5m c\u00F4ng"
+				},6) {
+			/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};
+		tbl_BangChamCong = new JTable(model_BangChamCong);
+		scrollPane_1.setViewportView(tbl_BangChamCong);
+		tbl_BangChamCong.getColumnModel().getColumn(0).setResizable(false);
+		tbl_BangChamCong.getColumnModel().getColumn(1).setResizable(false);
+		tbl_BangChamCong.getColumnModel().getColumn(2).setResizable(false);
+		tbl_BangChamCong.getColumnModel().getColumn(3).setResizable(false);
+		tbl_BangChamCong.getColumnModel().getColumn(4).setResizable(false);
+		
+		JTableHeader tbBangLuong= tbl_BangChamCong.getTableHeader();
 		tbBangLuong.setBackground(new Color(151, 201, 219));
 		tbBangLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		int rowHeight = 30;
 	    int rowMargin = 10;
-	    tbl_BangLuong.setRowHeight(rowHeight);
-	    tbl_BangLuong.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
+	    tbl_BangChamCong.setRowHeight(rowHeight);
+	    tbl_BangChamCong.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
 		
 		JPanel panel_1_2 = new JPanel();
 		panel_1_2.setBackground(Color.WHITE);
@@ -258,31 +241,34 @@ public class ChamCongThoLamDan extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 58, 730, 185);
 		panel_1_2.add(scrollPane);
-		
-		tbl_BangPhanCong = new JTable();
+		DefaultTableModel model_BagPhanCong=new DefaultTableModel(
+				new Object[][] {
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+					{null, null, null, null, null, null},
+				},
+				new String[] {
+					"M\u00E3 TLD", "H\u1ECD t\u00EAn", "S\u1EA3n ph\u1EA9m", "C\u00F4ng \u0111o\u1EA1n", "Gi\u00E1 ti\u1EC1n", "S\u1ED1 l\u01B0\u1EE3ng"
+				}
+			) {
+				/**s
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};
+		tbl_BangPhanCong = new JTable(model_BagPhanCong);
 		tbl_BangPhanCong.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(tbl_BangPhanCong);
-		tbl_BangPhanCong.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"M\u00E3 TLD", "H\u1ECD t\u00EAn", "S\u1EA3n ph\u1EA9m", "C\u00F4ng \u0111o\u1EA1n", "Gi\u00E1 ti\u1EC1n", "S\u1ED1 l\u01B0\u1EE3ng"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
 		tbl_BangPhanCong.getColumnModel().getColumn(0).setResizable(false);
 		tbl_BangPhanCong.getColumnModel().getColumn(1).setResizable(false);
 		tbl_BangPhanCong.getColumnModel().getColumn(2).setResizable(false);
@@ -314,5 +300,20 @@ public class ChamCongThoLamDan extends JPanel {
 		btnTnhTonB_1.setBackground(new Color(2, 104, 156));
 		btnTnhTonB_1.setBounds(500, 10, 61, 25);
 		panel_1_2.add(btnTnhTonB_1);
+		
+		
+		
+		btnChamCong.addActionListener(this);
+		btnHuy.addActionListener(this);
+		btnHuy.setEnabled(false);
+		btnXoaRong.addActionListener(this);
+		
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

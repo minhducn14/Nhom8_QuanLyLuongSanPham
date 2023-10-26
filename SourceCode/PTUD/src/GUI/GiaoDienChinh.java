@@ -226,14 +226,17 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			validate();
 
 		}  else if (e.getSource().equals(mnCapNhatNV)) {
-			QuanLyNhanVien nhanVien = new QuanLyNhanVien();
+			QuanLyNhanVien form_NhanVien = new QuanLyNhanVien();
 			pnCneter.removeAll();
-			pnCneter.add(nhanVien);
+			pnCneter.add(form_NhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
 
 		} else if (e.getSource().equals(mnCapNhatSP)) {
-
+			QuanLySanPham form_SanPham = new QuanLySanPham();
+			pnCneter.removeAll();
+			pnCneter.add(form_SanPham);
+			validate();
 		} else if (e.getSource().equals(mnCongDoan)) {
 			CongDoan form_CongDoan = new CongDoan();
 			pnCneter.removeAll();
@@ -257,7 +260,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_luongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimNhanVien)) {
-
+			TimKiemNhanVien form_TimKiemNhanVien = new TimKiemNhanVien();
+			pnCneter.removeAll();
+			pnCneter.add(form_TimKiemNhanVien);
+			validate();
 		} else if (e.getSource().equals(mnTimCongNhan)) {
 			TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new TimKiemThongTinThoLamDan();
 			pnCneter.removeAll();

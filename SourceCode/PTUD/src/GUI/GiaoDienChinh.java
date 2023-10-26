@@ -259,6 +259,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		} else if (e.getSource().equals(mnTimNhanVien)) {
 
 		} else if (e.getSource().equals(mnTimCongNhan)) {
+			TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new TimKiemThongTinThoLamDan();
+			pnCneter.removeAll();
+			pnCneter.add(form_TimKiemThoLamDan);
+			validate();
 
 		} else if (e.getSource().equals(mnTimSanPham)) {
 			TimKiemThongTinSanPham form_TimKiemSanPham = new TimKiemThongTinSanPham();

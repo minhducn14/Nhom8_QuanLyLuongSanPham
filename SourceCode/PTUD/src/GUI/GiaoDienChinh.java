@@ -155,7 +155,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		lblNewLabel_1.setBounds(424, 122, 555, 73);
 		pnCenterC.add(lblNewLabel_1);
 		
-		lblNewLabel_3 = new JLabel("Harmonious Guitars ");
+		lblNewLabel_3 = new JLabel("Harmonious Guitars");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 70));

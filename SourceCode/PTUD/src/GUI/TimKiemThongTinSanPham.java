@@ -18,13 +18,14 @@ import javax.swing.table.JTableHeader;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 
-public class TimKiemThongTinSanPham extends JPanel {
+public class TimKiemThongTinSanPham extends JPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField textField_2;
 	private JTextField textField_3;
-
+	private JButton btnTimKiem;
+	private JButton btnXoaRong;
 	/**
 	 * Create the panel.
 	 */
@@ -130,19 +131,19 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    textField_3.setBounds(1060, 65, 250, 25);
 	    panel.add(textField_3);
 	    
-	    JButton btnTmKim = new JButton("Tìm kiếm");
-	    btnTmKim.setForeground(Color.WHITE);
-	    btnTmKim.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnTmKim.setBackground(new Color(2, 104, 156));
-	    btnTmKim.setBounds(500, 225, 170, 50);
-	    panel.add(btnTmKim);
+	    JButton btnTimKiem = new JButton("Tìm kiếm");
+	    btnTimKiem.setForeground(Color.WHITE);
+	    btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnTimKiem.setBackground(new Color(2, 104, 156));
+	    btnTimKiem.setBounds(500, 225, 170, 50);
+	    panel.add(btnTimKiem);
 	    
-	    JButton btnXoRng = new JButton("Xoá rỗng");
-	    btnXoRng.setForeground(Color.WHITE);
-	    btnXoRng.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnXoRng.setBackground(new Color(2, 104, 156));
-	    btnXoRng.setBounds(800, 225, 170, 50);
-	    panel.add(btnXoRng);
+	    JButton btnXoaRong = new JButton("Xoá rỗng");
+	    btnXoaRong.setForeground(Color.WHITE);
+	    btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnXoaRong.setBackground(new Color(2, 104, 156));
+	    btnXoaRong.setBounds(800, 225, 170, 50);
+	    panel.add(btnXoaRong);
 	    
 	    JRadioButton rdbtnMaSanPham = new JRadioButton("");
 	    rdbtnMaSanPham.setBackground(Color.WHITE);
@@ -171,5 +172,10 @@ public class TimKiemThongTinSanPham extends JPanel {
 	    
 	    
 	    	  
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

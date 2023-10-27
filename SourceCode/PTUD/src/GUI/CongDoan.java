@@ -17,15 +17,15 @@ import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
-public class CongDoan extends JPanel {
+public class CongDoan extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField textField_1;
+	private JTextField txtMaCongDoan;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JTextField textField_2;
+	private JTextField txtTenCongDoan;
 	private JLabel lblNewLabel_3;
-	private JTextField textField_3;
+	private JTextField txtGiaCongDoan;
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JPanel panel_1;
@@ -34,6 +34,9 @@ public class CongDoan extends JPanel {
 	private JScrollPane scrollPane_1;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private JButton btnThem;
+	private JButton btnSua;
+	private JButton btnXoaRong;
 
 	/**
 	 * Create the panel.
@@ -54,34 +57,35 @@ public class CongDoan extends JPanel {
 	    add(panel);
 	    panel.setLayout(null);
 	    
-	    JButton btnNewButton = new JButton("New button");
-	    btnNewButton.setBounds(20, 260, 120, 30);
-	    panel.add(btnNewButton);
-	    btnNewButton.setForeground(Color.WHITE);
-	    btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton.setBackground(new Color(2, 104, 156));
-	    btnNewButton.setText("Thêm");
+	    JButton btnThem = new JButton("New button");
+	    btnThem.setBounds(20, 260, 120, 30);
+	    panel.add(btnThem);
+	    btnThem.setForeground(Color.WHITE);
+	    btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnThem.setBackground(new Color(2, 104, 156));
+	    btnThem.setText("Thêm");
 	    
-	    JButton btnNewButton_1 = new JButton("New button");
-	    btnNewButton_1.setBounds(160, 260, 120, 30);
-	    panel.add(btnNewButton_1);
-	    btnNewButton_1.setBackground(new Color(2, 104, 156));
-	    btnNewButton_1.setForeground(Color.WHITE);
-	    btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton_1.setText("Sửa thông tin");
+	    JButton btnSua = new JButton("New button");
+	    btnSua.setBounds(160, 260, 120, 30);
+	    panel.add(btnSua);
+	    btnSua.setBackground(new Color(2, 104, 156));
+	    btnSua.setForeground(Color.WHITE);
+	    btnSua.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnSua.setText("Sửa thông tin");
 	    
-	    JButton btnNewButton_2 = new JButton("New button");
-	    btnNewButton_2.setBounds(295, 260, 120, 30);
-	    panel.add(btnNewButton_2);
-	    btnNewButton_2.setForeground(Color.WHITE);
-	    btnNewButton_2.setBackground(new Color(2, 104, 156));
-	    btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton_2.setText("Xoá rỗng");
+	    JButton btnXoaRong = new JButton("New button");
+	    btnXoaRong.setBounds(295, 260, 120, 30);
+	    panel.add(btnXoaRong);
+	    btnXoaRong.setForeground(Color.WHITE);
+	    btnXoaRong.setBackground(new Color(2, 104, 156));
+	    btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnXoaRong.setText("Xoá rỗng");
 	    
-	    textField_3 = new JTextField();
-	    textField_3.setBounds(160, 207, 250, 25);
-	    panel.add(textField_3);
-	    textField_3.setColumns(10);
+	    txtGiaCongDoan = new JTextField();
+	    txtGiaCongDoan.setBounds(160, 207, 250, 25);
+	    panel.add(txtGiaCongDoan);
+	    txtGiaCongDoan.setColumns(10);
+	    txtGiaCongDoan.setEnabled(false);
 	    
 	    lblNewLabel_3 = new JLabel("New label");
 	    lblNewLabel_3.setBounds(20, 205, 170, 25);
@@ -95,17 +99,19 @@ public class CongDoan extends JPanel {
 	    lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_2.setText("Tên công đoạn");
 	    
-	    textField_2 = new JTextField();
-	    textField_2.setBounds(160, 135, 250, 25);
-	    panel.add(textField_2);
-	    textField_2.setColumns(10);
-	    lblNewLabel_2.setLabelFor(textField_2);
+	    txtTenCongDoan = new JTextField();
+	    txtTenCongDoan.setBounds(160, 135, 250, 25);
+	    panel.add(txtTenCongDoan);
+	    txtTenCongDoan.setColumns(10);
+	    lblNewLabel_2.setLabelFor(txtTenCongDoan);
+	    txtTenCongDoan.setEnabled(false);
 	    
-	    textField_1 = new JTextField();
-	    textField_1.setBounds(160, 65, 250, 25);
-	    panel.add(textField_1);
-	    textField_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-	    textField_1.setColumns(10);
+	    txtMaCongDoan = new JTextField();
+	    txtMaCongDoan.setBounds(160, 65, 250, 25);
+	    panel.add(txtMaCongDoan);
+	    txtMaCongDoan.setFont(new Font("Tahoma", Font.PLAIN, 16));
+	    txtMaCongDoan.setColumns(10);
+	    txtMaCongDoan.setEnabled(false);
 	    
 	    
 	    JLabel lblNewLabel = new JLabel("New label");
@@ -113,7 +119,7 @@ public class CongDoan extends JPanel {
 	    panel.add(lblNewLabel);
 	    lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel.setText("Mã công đoạn");
-	    lblNewLabel.setLabelFor(textField_1);
+	    lblNewLabel.setLabelFor(txtMaCongDoan);
 	    
 	    lblNewLabel_4 = new JLabel("New label");
 	    lblNewLabel_4.setBounds(35, 15, 220, 25);
@@ -214,17 +220,38 @@ public class CongDoan extends JPanel {
 	    add(lblNewLabel_6);
 	    lblNewLabel_6.setText("Danh sách công đoạn");
 	    
-	    btnNewButton_2.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
-	    btnNewButton_1.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
-	    btnNewButton.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });	   
+		btnThem.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnXoaRong.addActionListener(this);
+	    
 	}
+	
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource().equals(btnThem)) {
+				if(btnThem.getText().equals("Thêm")) {
+					btnThem.setText("Lưu");
+					txtGiaCongDoan.setEnabled(true);
+					txtTenCongDoan.setEnabled(true);
+				}
+				else {
+					btnThem.setText("Thêm");
+					txtGiaCongDoan.setEnabled(false);
+					txtTenCongDoan.setEnabled(false);
+				}
+			}
+			else if(e.getSource().equals(btnSua)) {
+				if(btnSua.getText().equals("Sửa thông tin")) {
+					btnSua.setText("Huỷ");
+					txtGiaCongDoan.setEnabled(true);
+					txtTenCongDoan.setEnabled(true);
+				}
+				else {
+					btnThem.setText("Sửa thông tin");
+					txtGiaCongDoan.setEnabled(false);
+					txtTenCongDoan.setEnabled(false);
+				}
+			}
+		}
 }

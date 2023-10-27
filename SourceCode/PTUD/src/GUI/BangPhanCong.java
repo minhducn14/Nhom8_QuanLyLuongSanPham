@@ -23,13 +23,17 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
-public class BangPhanCong extends JPanel {
+public class BangPhanCong extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table_2;
 	private JTable table;
 	private JDateChooser ngayPhanCong;
-
+	private JButton btnThem;
+	private JButton btnSua;
+	private JButton btnXoaRongs;
+	private JTextField txtMaPhanCong;
+	private JTextField txtSoLuongSanPham;
 	/**
 	 * Create the panel.
 	 */
@@ -43,35 +47,35 @@ public class BangPhanCong extends JPanel {
 		add(lblNewLabel);
 		lblNewLabel.setText("BẢNG PHÂN CÔNG");
 		
-		JPanel panel = new JPanel();
-	    panel.setBounds(990, 90, 450, 315);
-	    panel.setBackground(Color.WHITE);
-	    add(panel);
-	    panel.setLayout(null);
+		JPanel pnlThongTinCongDoan = new JPanel();
+	    pnlThongTinCongDoan.setBounds(990, 90, 450, 315);
+	    pnlThongTinCongDoan.setBackground(Color.WHITE);
+	    add(pnlThongTinCongDoan);
+	    pnlThongTinCongDoan.setLayout(null);
 	    
-	    JButton btnNewButton = new JButton("New button");
-	    btnNewButton.setBounds(20, 260, 120, 30);
-	    panel.add(btnNewButton);
-	    btnNewButton.setForeground(Color.WHITE);
-	    btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton.setBackground(new Color(2, 104, 156));
-	    btnNewButton.setText("Thêm");
+	    JButton btnThem = new JButton("New button");
+	    btnThem.setBounds(20, 260, 120, 30);
+	    pnlThongTinCongDoan.add(btnThem);
+	    btnThem.setForeground(Color.WHITE);
+	    btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnThem.setBackground(new Color(2, 104, 156));
+	    btnThem.setText("Thêm");
 	    
-	    JButton btnNewButton_1 = new JButton("New button");
-	    btnNewButton_1.setBounds(160, 260, 120, 30);
-	    panel.add(btnNewButton_1);
-	    btnNewButton_1.setBackground(new Color(2, 104, 156));
-	    btnNewButton_1.setForeground(Color.WHITE);
-	    btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton_1.setText("Sửa thông tin");
+	    JButton btnSua = new JButton("New button");
+	    btnSua.setBounds(160, 260, 120, 30);
+	    pnlThongTinCongDoan.add(btnSua);
+	    btnSua.setBackground(new Color(2, 104, 156));
+	    btnSua.setForeground(Color.WHITE);
+	    btnSua.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnSua.setText("Sửa thông tin");
 	    
-	    JButton btnNewButton_2 = new JButton("New button");
-	    btnNewButton_2.setBounds(295, 260, 120, 30);
-	    panel.add(btnNewButton_2);
-	    btnNewButton_2.setForeground(Color.WHITE);
-	    btnNewButton_2.setBackground(new Color(2, 104, 156));
-	    btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnNewButton_2.setText("Xoá rỗng");
+	    JButton btnXoaRong = new JButton("New button");
+	    btnXoaRong.setBounds(295, 260, 120, 30);
+	    pnlThongTinCongDoan.add(btnXoaRong);
+	    btnXoaRong.setForeground(Color.WHITE);
+	    btnXoaRong.setBackground(new Color(2, 104, 156));
+	    btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnXoaRong.setText("Xoá rỗng");
 	   
 	    
 	    ngayPhanCong = new JDateChooser();
@@ -85,44 +89,46 @@ public class BangPhanCong extends JPanel {
         }
         ngayPhanCong.setBounds(200, 207, 200, 25);
         ngayPhanCong.setEnabled(false);
-        panel.add(ngayPhanCong);
+        pnlThongTinCongDoan.add(ngayPhanCong);
 	    
 	    
 	    JLabel lblNewLabel_3 = new JLabel("New label");
 	    lblNewLabel_3.setBounds(20, 205, 170, 25);
-	    panel.add(lblNewLabel_3);
+	    pnlThongTinCongDoan.add(lblNewLabel_3);
 	    lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_3.setText("Ngày chấm công");
 	    
 	    JLabel lblNewLabel_2 = new JLabel("New label");
 	    lblNewLabel_2.setBounds(20, 135, 170, 25);
-	    panel.add(lblNewLabel_2);
+	    pnlThongTinCongDoan.add(lblNewLabel_2);
 	    lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_2.setText("Số lượng sản phẩm\r\n");
 	    
-	    JTextField textField_2 = new JTextField();
-	    textField_2.setBounds(200, 137, 200, 25);
-	    panel.add(textField_2);
-	    textField_2.setColumns(10);
-	    lblNewLabel_2.setLabelFor(textField_2);
+	    JTextField txtSoLuongSanPham = new JTextField();
+	    txtSoLuongSanPham.setBounds(200, 137, 200, 25);
+	    pnlThongTinCongDoan.add(txtSoLuongSanPham);
+	    txtSoLuongSanPham.setColumns(10);
+	    lblNewLabel_2.setLabelFor(txtSoLuongSanPham);
+	    txtSoLuongSanPham.setEnabled(false);
 	    
-	    JTextField textField_1 = new JTextField();
-	    textField_1.setBounds(200, 65, 200, 25);
-	    panel.add(textField_1);
-	    textField_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-	    textField_1.setColumns(10);
+	    JTextField txtMaPhanCong = new JTextField();
+	    txtMaPhanCong.setBounds(200, 65, 200, 25);
+	    pnlThongTinCongDoan.add(txtMaPhanCong);
+	    txtMaPhanCong.setFont(new Font("Tahoma", Font.PLAIN, 16));
+	    txtMaPhanCong.setColumns(10);
+	    txtMaPhanCong.setEnabled(false);
 	    
 	    
 	    JLabel lblNewLabel1 = new JLabel("New label");
 	    lblNewLabel1.setBounds(20, 65, 170, 25);
-	    panel.add(lblNewLabel1);
+	    pnlThongTinCongDoan.add(lblNewLabel1);
 	    lblNewLabel1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel1.setText("Mã phân công");
-	    lblNewLabel1.setLabelFor(textField_1);
+	    lblNewLabel1.setLabelFor(txtMaPhanCong);
 	    
 	    JLabel lblNewLabel_4 = new JLabel("New label");
 	    lblNewLabel_4.setBounds(35, 15, 220, 25);
-	    panel.add(lblNewLabel_4);
+	    pnlThongTinCongDoan.add(lblNewLabel_4);
 	    lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
 	    lblNewLabel_4.setText("Thông tin công đoạn");
 	    
@@ -261,17 +267,35 @@ public class BangPhanCong extends JPanel {
 	    lblNewLabel_5_1.setBounds(35, 15, 217, 25);
 	    panel_3.add(lblNewLabel_5_1);
 	    
-	    btnNewButton_2.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
-	    btnNewButton_1.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
-	    btnNewButton.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    	}
-	    });
+	    btnThem.addActionListener(this);
+	    btnSua.addActionListener(this);
+	    btnXoaRong.addActionListener(this);
+	    
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource().equals(btnThem)) {
+			if(btnThem.getText().equals("Thêm")) {
+				btnThem.setText("Lưu");
+				txtSoLuongSanPham.setEnabled(true);
+			}
+			else {
+				btnThem.setText("Thêm");
+				txtSoLuongSanPham.setEnabled(false);
+			}
+		}
+		else if(e.getSource().equals(btnSua)) {
+			if(btnSua.getText().equals("Sửa thông tin")) {
+				btnSua.setText("Huỷ");
+				txtSoLuongSanPham.setEnabled(true);
+			}
+			else {
+				btnThem.setText("Sửa thông tin");
+				txtSoLuongSanPham.setEnabled(false);	
+			}
+		}
 	}
 	}
+	

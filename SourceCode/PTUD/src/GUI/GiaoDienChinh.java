@@ -28,6 +28,9 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 	private JMenu mnTroGiup;
 	private JMenu mnThngK;
 	private JMenuItem mntmNewMenuItem;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_1;
 
 	public static void main(String[] args) {
 				
@@ -143,6 +146,33 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		pnCenterC.setBackground(new Color(221, 242, 251));
 		pnCneter.setLayout(new BorderLayout());
 		pnCneter.add(pnCenterC, BorderLayout.CENTER);
+		pnCenterC.setLayout(null);
+		
+		lblNewLabel_1 = new JLabel("LƯƠNG SẢN PHẨM");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.ORANGE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 55));
+		lblNewLabel_1.setBounds(424, 122, 555, 73);
+		pnCenterC.add(lblNewLabel_1);
+		
+		lblNewLabel_3 = new JLabel("Harmonious Guitars");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setForeground(Color.WHITE);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 70));
+		lblNewLabel_3.setBounds(329, 219, 766, 73);
+		pnCenterC.add(lblNewLabel_3);
+		
+		lblNewLabel_2 = new JLabel("PHẦN MỀM QUẢN LÝ");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setForeground(Color.ORANGE);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 55));
+		lblNewLabel_2.setBounds(384, 38, 630, 73);
+		pnCenterC.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/BG.jpg")));
+		lblNewLabel.setBounds(0, 0, 1450, 733);
+		pnCenterC.add(lblNewLabel);
 
 		cp.add(menuBar, BorderLayout.NORTH);
 		cp.add(pnCneter, BorderLayout.CENTER);
@@ -155,8 +185,11 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
 		menuBar.add(mnThngK);
 		
-		mntmNewMenuItem = new JMenuItem("New menu item");
+		mntmNewMenuItem = new JMenuItem("Biểu đồ");
 		mnThngK.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+		mnThngK.add(mntmNewMenuItem_1);
 				
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
@@ -231,7 +264,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_NhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
-
+			ThoLamDan thoLamDan = new ThoLamDan();
+			pnCneter.removeAll();
+			pnCneter.add(thoLamDan);
+			validate();
 		} else if (e.getSource().equals(mnCapNhatSP)) {
 			QuanLySanPham form_SanPham = new QuanLySanPham();
 			pnCneter.removeAll();

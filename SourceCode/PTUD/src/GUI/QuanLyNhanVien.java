@@ -4,13 +4,18 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import java.util.List;
 
 import java.awt.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import com.toedter.calendar.JDateChooser;
 
-public class QuanLyNhanVien extends JPanel {
+import DAO.DAO_NhanVien;
+import Entity.NhanVien;
+
+public class QuanLyNhanVien extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JTable tbl_BangLuong;
 	private JTextField txtMaNhanVien;
@@ -19,6 +24,8 @@ public class QuanLyNhanVien extends JPanel {
 	private JTextField txtSDT;
 	private JTextField txtDiaChi;
 	private JTextField txtLuongCoBan;
+	private JRadioButton rbtNam,rbtNu;
+	private JButton btnThem,btnXoaRong,btnSua;
 	public QuanLyNhanVien() {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
@@ -133,19 +140,23 @@ public class QuanLyNhanVien extends JPanel {
 	    lblHeSoLuong.setBounds(20, 275, 133, 25);
 	    panel_1.add(lblHeSoLuong);
 	    
-	    JRadioButton rdbtnNewRadioButton = new JRadioButton("        Nam");
-	    rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
-	    rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	    rdbtnNewRadioButton.setSelected(true);
-	    rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.LEFT);
-	    rdbtnNewRadioButton.setBounds(163, 53, 153, 28);
-	    panel_1.add(rdbtnNewRadioButton);
+	    rbtNam = new JRadioButton("        Nam");
+	    rbtNam.setBackground(new Color(255, 255, 255));
+	    rbtNam.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	    rbtNam.setSelected(true);
+	    rbtNam.setHorizontalAlignment(SwingConstants.LEFT);
+	    rbtNam.setBounds(163, 53, 153, 28);
+	    panel_1.add(rbtNam);
 	    
-	    JRadioButton rdbtnN = new JRadioButton("          Nữ");
-	    rdbtnN.setBackground(new Color(255, 255, 255));
-	    rdbtnN.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	    rdbtnN.setBounds(315, 53, 153, 28);
-	    panel_1.add(rdbtnN);
+	    rbtNu = new JRadioButton("          Nữ");
+	    rbtNu.setBackground(new Color(255, 255, 255));
+	    rbtNu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	    rbtNu.setBounds(315, 53, 153, 28);
+	    panel_1.add(rbtNu);
+	    
+	    ButtonGroup G =new ButtonGroup();
+	    G.add(rbtNam);
+	    G.add(rbtNu);
 	    
 	    txtCMND = new JTextField();
 	    txtCMND.setColumns(10);
@@ -247,7 +258,7 @@ public class QuanLyNhanVien extends JPanel {
 	    txtLuongCoBan.setBounds(163, 279, 305, 27);
 	    panel_1_2.add(txtLuongCoBan);
 	    
-	    	    JButton btnThem = new JButton("New button");
+	    	    btnThem = new JButton("New button");
 	    	    btnThem.setBounds(473, 394, 120, 30);    	    
 	    	    btnThem.setForeground(Color.WHITE);
 	    	    btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -255,7 +266,7 @@ public class QuanLyNhanVien extends JPanel {
 	    	    btnThem.setText("Thêm");
 	    	    panel.add(btnThem);
 	    	    
-	    	    JButton btnSua = new JButton("New button");   	   
+	    	    btnSua = new JButton("New button");   	   
 	    	    btnSua.setBounds(649, 394, 120, 30);  
 	    	    btnSua.setBackground(new Color(0, 128, 255));
 	    	    btnSua.setForeground(Color.WHITE);
@@ -264,12 +275,42 @@ public class QuanLyNhanVien extends JPanel {
 	    	    panel.add(btnSua);
 	    	    
 	    	    
-	    	    JButton btnXoaRong = new JButton("New button");
+	    	    btnXoaRong = new JButton("New button");
 	    	    btnXoaRong.setBounds(827, 394, 120, 30);
 	    	    btnXoaRong.setForeground(Color.WHITE);
 	    	    btnXoaRong.setBackground(new Color(0, 128, 255));
 	    	    btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
 	    	    btnXoaRong.setText("Xoá rỗng");
 	    	    panel.add(btnXoaRong);
+	    	    
+	    	    btnXoaRong.addActionListener(this);
+	}
+	private void updateTableDataNhanVien() {
+		 
+		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
+		List<NhanVien> list = dsNhanVien.docTuBang();
+		for (NhanVien nv : list) {
+			String [] rowData = {nv.getMaNhanVien(),nv.getCongNhanVien().getHoTen(),nv.getCongNhanVien().isGioiTinh()? "Nam":"Nữ",nv.getCongNhanVien().getMaCanCuocCongDan(),nv.getCongNhanVien().getSoDienThoai()};
+			((DefaultTableModel)tbl_BangLuong.getModel()).addRow(rowData);
+		}	 
+	}
+	
+	public void xoaRong() {
+		txtMaNhanVien.setText("");
+		txtCMND.setText("");
+		txtHoTen.setText(""); 
+		txtSDT.setText(""); 
+		txtDiaChi.setText("");
+		txtLuongCoBan.setText("");
+		rbtNam.isSelected();
+		txtMaNhanVien.requestFocus();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if(o.equals(btnXoaRong)) {
+			xoaRong();
+		}
+		
 	}
 }

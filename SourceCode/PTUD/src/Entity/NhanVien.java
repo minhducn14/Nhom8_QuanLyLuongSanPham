@@ -8,6 +8,10 @@ public class NhanVien {
 	private PhongBan phongBan;
 	private CongNhanVien congNhanVien;
 
+	public NhanVien() {
+		super();
+	}
+	
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}

@@ -30,6 +30,11 @@ public class PhongBan {
 		super();
 	}
 
+	public PhongBan(String maPhongBan) {
+		super();
+		this.maPhongBan = maPhongBan;
+	}
+
 	@Override
 	public String toString() {
 		return "PhongBan [maPhongBan=" + maPhongBan + ", tenPhongBan=" + tenPhongBan + "]";

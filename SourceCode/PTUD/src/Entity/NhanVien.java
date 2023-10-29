@@ -1,5 +1,7 @@
 package Entity;
 
+import java.sql.Date;
+
 public class NhanVien {
 	private String maNhanVien;
 	private String chucVu;
@@ -7,11 +9,39 @@ public class NhanVien {
 	private double luongCoBan;
 	private PhongBan phongBan;
 	private CongNhanVien congNhanVien;
+	
+	
+	
 
 	public NhanVien() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public NhanVien(String maNhanVien, String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
+			CongNhanVien congNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+		this.chucVu = chucVu;
+		this.trinhDoVanHoa = trinhDoVanHoa;
+		this.luongCoBan = luongCoBan;
+		this.phongBan = phongBan;
+		this.congNhanVien = congNhanVien;
 	}
 	
+	public NhanVien(String maNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+	}
+
+	@Override
+	public String toString() {
+		return "NhanVien [maNhanVien=" + maNhanVien + ", chucVu=" + chucVu + ", trinhDoVanHoa=" + trinhDoVanHoa
+				+ ", luongCoBan=" + luongCoBan + ", phongBan=" + phongBan + ", congNhanVien=" + congNhanVien + "]";
+	}
+
 	public String getMaNhanVien() {
 		return maNhanVien;
 	}
@@ -58,23 +88,6 @@ public class NhanVien {
 
 	public void setCongNhanVien(CongNhanVien congNhanVien) {
 		this.congNhanVien = congNhanVien;
-	}
-
-	public NhanVien(String maNhanVien, String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
-			CongNhanVien congNhanVien) {
-		super();
-		this.maNhanVien = maNhanVien;
-		this.chucVu = chucVu;
-		this.trinhDoVanHoa = trinhDoVanHoa;
-		this.luongCoBan = luongCoBan;
-		this.phongBan = phongBan;
-		this.congNhanVien = congNhanVien;
-	}
-
-	@Override
-	public String toString() {
-		return "NhanVien [maNhanVien=" + maNhanVien + ", chucVu=" + chucVu + ", trinhDoVanHoa=" + trinhDoVanHoa
-				+ ", luongCoBan=" + luongCoBan + ", phongBan=" + phongBan + ", congNhanVien=" + congNhanVien + "]";
 	}
 
 	private double xacDinhHeSoLuongBanDau() {

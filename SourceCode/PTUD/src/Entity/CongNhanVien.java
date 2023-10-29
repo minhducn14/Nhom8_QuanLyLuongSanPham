@@ -102,6 +102,20 @@ public class CongNhanVien {
 		this.ngayVaoLam = ngayVaoLam;
 	}
 
+	public CongNhanVien(String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan, String soDienThoai) {
+		super();
+		this.hoTen = hoTen;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.maCanCuocCongDan = maCanCuocCongDan;
+		this.soDienThoai = soDienThoai;
+	}
+
+	public CongNhanVien(String maCongNhanVien) {
+		super();
+		this.maCongNhanVien = maCongNhanVien;
+	}
+	
 	@Override
 	public String toString() {
 		return "CongNhanVien [maCongNhanVien=" + maCongNhanVien + ", hoTen=" + hoTen + ", gioiTinh=" + gioiTinh

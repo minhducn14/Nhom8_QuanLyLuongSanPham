@@ -350,9 +350,8 @@ public class BangThongKeLuong extends JPanel {
 	    JTableHeader tb2 = table_2.getTableHeader();
 	    tb2.setBackground(new Color(221, 242, 251));
 	    tb2.setFont(new Font("Tahoma", Font.BOLD, 16));
-	    int rowMargin2= 30;
 	    table_2.setRowHeight(32);
-	    table_2.setIntercellSpacing(new Dimension(0, rowMargin2));
+	    table_2.setIntercellSpacing(new Dimension(0, 30));
 	    
 	    table_2.setModel(new DefaultTableModel(
 	    	new Object[][] {
@@ -372,16 +371,17 @@ public class BangThongKeLuong extends JPanel {
 	    	new String[] {
 	    		"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n", "C\u00F4ng \u0110o\u1EA1n Th\u1EF1c Hi\u1EC7n", "L\u01B0\u01A1ng T\u1EEB S\u1EA3n Ph\u1EA9m (VND)", "L\u01B0\u01A1ng T\u1EEB S\u1EA3n Ph\u1EA9m T\u0103ng Ca", "T\u1ED5ng Ti\u1EC1n L\u01B0\u01A1ng (VND)"
 	    	}
+	    	
 	    ));
 	    
 	    JLabel lblNewLabel_4 = new JLabel("Phòng ban");
-	    lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 14));
+	    lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_4.setBackground(new Color(255, 255, 255));
 	    lblNewLabel_4.setBounds(569, 90, 104, 25);
 	    add(lblNewLabel_4);
 	    
 	    JLabel lblNewLabel_4_1 = new JLabel("Thợ làm đàn");
-	    lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+	    lblNewLabel_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_4_1.setBackground(Color.WHITE);
 	    lblNewLabel_4_1.setBounds(569, 360, 104, 25);
 	    add(lblNewLabel_4_1);

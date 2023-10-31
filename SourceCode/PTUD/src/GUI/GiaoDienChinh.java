@@ -306,6 +306,6 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_TimKiemSanPham);
 			validate();
 			
-		}
+		} 
 	}
 }

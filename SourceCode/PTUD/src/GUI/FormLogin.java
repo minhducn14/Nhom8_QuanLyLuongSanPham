@@ -8,15 +8,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.net.URI;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -26,6 +31,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Canvas;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JDesktopPane;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
@@ -35,6 +41,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
@@ -145,9 +152,10 @@ public class FormLogin extends JFrame {
 		checkbox_show.addActionListener((new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				boolean isChecked = checkbox_show.isSelected();
+				passwordField.setEchoChar(isChecked ? '\0':'●');
 			}
-		}));
+			}));
 		
 		passwordField = new JPasswordField();
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 24));
@@ -155,12 +163,32 @@ public class FormLogin extends JFrame {
 		login.add(passwordField);
 		
 		JButton btn_login = new JButton("Đăng nhập");
+		btn_login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String username = textField.getText();
+				String password = new String(passwordField.getPassword());
+				if(username.equals("login")&&password.equals("123")) {
+					GiaoDienChinh giaoDienChinh = new GiaoDienChinh();
+					giaoDienChinh.setVisible(true);
+					FormLogin.this.dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "username hoặc password không đúng","Lỗi",JOptionPane.ERROR_MESSAGE);
+					textField.setText("");
+					passwordField.setText("");
+				}
+			}
+		});
 		btn_login.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_login.setBackground(new Color(255, 255, 255));
 		btn_login.setBounds(73, 319, 120, 40);
 		login.add(btn_login);
 		
 		JButton btn_exit = new JButton("Thoát");
+		btn_exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FormLogin.this.dispose();
+			}
+		});
 		btn_exit.setBackground(new Color(255, 255, 255));
 		btn_exit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_exit.setBounds(350, 321, 120, 40);

@@ -39,4 +39,39 @@ public class DAO_CongNhanVien {
 		}
 		return dsCongNhanVien;		
 	}
+	public boolean taoCNV(CongNhanVien cnv) {
+		Connection con = MyConnection.getInstance().getConnection();
+		if (con == null) {
+			// Xử lý lỗi kết nối
+			return false;
+		}
+
+		PreparedStatement stm = null;
+		int n = 0;
+		try {
+			String sql ="insert into CongNhanVien values(?,?,?,?,?,?,?,?)";
+			stm = con.prepareStatement(sql);
+			stm.setString(2, cnv.getHoTen());
+			stm.setBoolean(3, cnv.isGioiTinh());
+			stm.setDate(4, cnv.getNgaySinh());
+			stm.setString(5, cnv.getMaCanCuocCongDan());
+			stm.setString(6, cnv.getSoDienThoai());
+			stm.setString(7, cnv.getDiaChi());
+			stm.setBoolean(8, cnv.isTrangThai());
+			stm.setDate(9, cnv.getNgayVaoLam());
+			n = stm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return n > 0;
+	}
 }

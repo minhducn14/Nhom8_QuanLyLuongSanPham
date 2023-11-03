@@ -36,6 +36,20 @@ public class NhanVien {
 		this.maNhanVien = maNhanVien;
 	}
 
+	public NhanVien( String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
+			CongNhanVien congNhanVien) {
+		// TODO Auto-generated constructor stub
+		super();
+		
+		this.chucVu = chucVu;
+		this.trinhDoVanHoa = trinhDoVanHoa;
+		this.luongCoBan = luongCoBan;
+		this.phongBan = phongBan;
+		this.congNhanVien = congNhanVien;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "NhanVien [maNhanVien=" + maNhanVien + ", chucVu=" + chucVu + ", trinhDoVanHoa=" + trinhDoVanHoa
@@ -90,7 +104,7 @@ public class NhanVien {
 		this.congNhanVien = congNhanVien;
 	}
 
-	private double xacDinhHeSoLuongBanDau() {
+	public double xacDinhHeSoLuongBanDau() {
 		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
 			return 2.1;
 		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {

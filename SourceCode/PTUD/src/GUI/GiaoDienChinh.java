@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
@@ -55,7 +56,8 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		getContentPane().setBackground(new Color(221, 242, 251));
 		doShow();
 	}
-
+	
+	
 	public void doShow() {
 		setType(Type.POPUP);
 		setResizable(false);

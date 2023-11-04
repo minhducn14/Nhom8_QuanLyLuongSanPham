@@ -30,9 +30,9 @@ public class PhongBan {
 		super();
 	}
 
-	public PhongBan(String maPhongBan) {
+	public PhongBan(String tenPhongBan) {
 		super();
-		this.maPhongBan = maPhongBan;
+		this.tenPhongBan = tenPhongBan;
 	}
 
 	@Override

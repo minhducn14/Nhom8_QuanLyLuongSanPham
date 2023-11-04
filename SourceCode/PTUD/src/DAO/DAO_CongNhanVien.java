@@ -49,16 +49,16 @@ public class DAO_CongNhanVien {
 		PreparedStatement stm = null;
 		int n = 0;
 		try {
-			String sql ="insert into CongNhanVien values(?,?,?,?,?,?,?,?)";
+			String sql ="insert into CongNhanVien(hoTen,gioiTinh,ngaySinh,maCanCuocCongDan,soDienThoai,diaChi,trangThai,ngayVaoLam) values(?,?,?,?,?,?,?,?)";
 			stm = con.prepareStatement(sql);
-			stm.setString(2, cnv.getHoTen());
-			stm.setBoolean(3, cnv.isGioiTinh());
-			stm.setDate(4, cnv.getNgaySinh());
-			stm.setString(5, cnv.getMaCanCuocCongDan());
-			stm.setString(6, cnv.getSoDienThoai());
-			stm.setString(7, cnv.getDiaChi());
-			stm.setBoolean(8, cnv.isTrangThai());
-			stm.setDate(9, cnv.getNgayVaoLam());
+			stm.setString(1, cnv.getHoTen());
+			stm.setBoolean(2, cnv.isGioiTinh());
+			stm.setDate(3, cnv.getNgaySinh());
+			stm.setString(4, cnv.getMaCanCuocCongDan());
+			stm.setString(5, cnv.getSoDienThoai());
+			stm.setString(6, cnv.getDiaChi());
+			stm.setBoolean(7, cnv.isTrangThai());
+			stm.setDate(8, cnv.getNgayVaoLam());
 			n = stm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

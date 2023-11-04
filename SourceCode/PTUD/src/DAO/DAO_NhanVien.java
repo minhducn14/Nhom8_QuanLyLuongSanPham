@@ -61,14 +61,14 @@ public class DAO_NhanVien {
 		PreparedStatement stm = null;
 		int n = 0;
 		try {
-			String sql ="insert into NhanVien values(chucVu,trinhDoVanHoa,luongCoBan,maPhongBan,maCongNhanVien)";
+			String sql ="insert into NhanVien(chucVu,trinhDoVanHoa,luongCoBan,maPhongBan,maCongNhanVien) values(?,?,?,?,?)";
 			stm = con.prepareStatement(sql);
 			
-			stm.setString(2, nv.getChucVu());
-			stm.setString(3, nv.getTrinhDoVanHoa());
-			stm.setDouble(4, nv.getLuongCoBan());
-			stm.setString(5, nv.getPhongBan().getMaPhongBan());
-			stm.setString(6, nv.getCongNhanVien().getMaCongNhanVien());
+			stm.setString(1, nv.getChucVu());
+			stm.setString(2, nv.getTrinhDoVanHoa());
+			stm.setDouble(3, nv.getLuongCoBan());
+			stm.setString(4, nv.getPhongBan().getMaPhongBan());
+			stm.setString(5, nv.getCongNhanVien().getMaCongNhanVien());
 	
 			n = stm.executeUpdate();
 		} catch (SQLException e) {

@@ -38,40 +38,22 @@ public class DAO_PhongBan {
 			return dsPhongBan;		
 		}
 		
-		
-		// chỗ này chưa xong
-		public boolean taoPB(PhongBan pb) {
-			Connection con = MyConnection.getInstance().getConnection();
-			if (con == null) {
-				// Xử lý lỗi kết nối
-				return false;
-			}
-
-			PreparedStatement stm = null;
-			int n = 0;
+		public PhongBan getPhongBanTheoTen(String tenPhongBan) {
+			PhongBan phongBan = new PhongBan();
+			
 			try {
-				String sql ="insert into PhongBan(tenPhongBan) values(?)";
-				stm = con.prepareStatement(sql);
-				
-				stm.setString(1, pb.getTenPhongBan());
-				
-				n = stm.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (stm != null) {
-						stm.close();
-					}
-				} catch (SQLException ex) {
-					ex.printStackTrace();
+				Connection con = MyConnection.getInstance().getConnection();
+				PreparedStatement preparedStatement = con
+						.prepareStatement("select * from PhongBan where tenPhongBan = '" + tenPhongBan + "'");
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					phongBan.setMaPhongBan(resultSet.getString(1));
+					phongBan.setTenPhongBan(resultSet.getString(2));
 				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-			return n > 0;
+			return phongBan;
 		}
-		
-		
-	
-
 }

@@ -352,13 +352,13 @@ public class QuanLyNhanVien extends JPanel implements ActionListener{
 
 		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
 		DAO_CongNhanVien dsCongNhanVien = new DAO_CongNhanVien();
-		DAO_PhongBan dsPhongBan = new DAO_PhongBan();
+		
 		List<NhanVien> listnv = dsNhanVien.docTuBang();
 		List<CongNhanVien> listcnv = dsCongNhanVien.docTuBang();
-		List<PhongBan> listpb = dsPhongBan.docTuBang();
+		
 		for (NhanVien nv : listnv) {
 			for (CongNhanVien cnv : listcnv) {
-				for(PhongBan pb : listpb) {
+				
 				String [] rowData = {nv.getMaNhanVien(),
 						cnv.getHoTen(),
 						String.valueOf(cnv.isGioiTinh()),
@@ -368,8 +368,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener{
 						};
 			modelNhanVien.addRow(rowData);
 
-			}
 			
+	
 			}
 		}	 
 	}
@@ -468,13 +468,14 @@ public class QuanLyNhanVien extends JPanel implements ActionListener{
 				NhanVien nv = new NhanVien(chucVu,trinhDo,luongCoBan,pb,cnv);
 				
 				
+				
+
+				modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), 
+						nv.getCongNhanVien().getHoTen(), nv.getCongNhanVien().isGioiTinh(), nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(), nv.getCongNhanVien().getSoDienThoai() });
+				
 				dao_pb.taoPB(pb);
 				dao_cnv.taoCNV(cnv);
 				dao_nv.taoNV(nv);
-
-				((DefaultTableModel) tbl_bangTen.getModel()).addRow(new Object[] { nv.getMaNhanVien(), 
-						nv.getCongNhanVien().getHoTen(), nv.getCongNhanVien().isGioiTinh(), nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(), nv.getCongNhanVien().getSoDienThoai() });
-			
 			
 		}
 

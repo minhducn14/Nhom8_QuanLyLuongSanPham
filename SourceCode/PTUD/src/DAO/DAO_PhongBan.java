@@ -50,10 +50,10 @@ public class DAO_PhongBan {
 			PreparedStatement stm = null;
 			int n = 0;
 			try {
-				String sql ="insert into PhongBan values(?)";
+				String sql ="insert into PhongBan(tenPhongBan) values(?)";
 				stm = con.prepareStatement(sql);
 				
-				stm.setString(2, pb.getTenPhongBan());
+				stm.setString(1, pb.getTenPhongBan());
 				
 				n = stm.executeUpdate();
 			} catch (SQLException e) {

@@ -33,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ItemEvent;
 
-public class ThoLamDan extends JPanel {
+public class QuanLyThoLamDan extends JPanel {
 
 	/**
 	 * Create the panel.
@@ -45,7 +45,7 @@ public class ThoLamDan extends JPanel {
 	private JTextField jsdt;
 	private JTextField textField_5;
 	private JTextField jdiaChi;
-	public ThoLamDan() {
+	public QuanLyThoLamDan() {
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
 	    

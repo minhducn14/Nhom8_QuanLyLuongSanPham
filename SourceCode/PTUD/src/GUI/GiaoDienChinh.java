@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
@@ -27,7 +28,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 	JMenuItem mnTimSanPham, mnTimNhanVien, mnTimCongNhan;
 	private JMenu mnTroGiup;
 	private JMenu mnThngK;
-	private JMenuItem mntmNewMenuItem, mntmNewMenuItem_1;
+	private JMenuItem mntmNewMenuItem;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
@@ -55,7 +56,8 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		getContentPane().setBackground(new Color(221, 242, 251));
 		doShow();
 	}
-
+	
+	
 	public void doShow() {
 		setType(Type.POPUP);
 		setResizable(false);
@@ -188,7 +190,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mntmNewMenuItem = new JMenuItem("Biểu đồ");
 		mnThngK.add(mntmNewMenuItem);
 		
-		mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
 		mnThngK.add(mntmNewMenuItem_1);
 				
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
@@ -208,7 +210,6 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnTimSanPham.addActionListener(this);
 		mnCongDoan.addActionListener(this);
 		mnTroGiup.addMouseListener(this);
-		mntmNewMenuItem_1.addActionListener(this);
 
 	}
 
@@ -260,17 +261,20 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			validate();
 
 		}  else if (e.getSource().equals(mnCapNhatNV)) {
-			QuanLyNhanVien nhanVien = new QuanLyNhanVien();
+			QuanLyNhanVien form_NhanVien = new QuanLyNhanVien();
 			pnCneter.removeAll();
-			pnCneter.add(nhanVien);
+			pnCneter.add(form_NhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
-			ThoLamDan thoLamDan = new ThoLamDan();
+			QuanLyThoLamDan thoLamDan = new QuanLyThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(thoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatSP)) {
-
+			QuanLySanPham form_SanPham = new QuanLySanPham();
+			pnCneter.removeAll();
+			pnCneter.add(form_SanPham);
+			validate();
 		} else if (e.getSource().equals(mnCongDoan)) {
 			CongDoan form_CongDoan = new CongDoan();
 			pnCneter.removeAll();
@@ -294,7 +298,10 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_luongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimNhanVien)) {
-
+			TimKiemNhanVien form_TimKiemNhanVien = new TimKiemNhanVien();
+			pnCneter.removeAll();
+			pnCneter.add(form_TimKiemNhanVien);
+			validate();
 		} else if (e.getSource().equals(mnTimCongNhan)) {
 			TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new TimKiemThongTinThoLamDan();
 			pnCneter.removeAll();
@@ -307,11 +314,6 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_TimKiemSanPham);
 			validate();
 			
-		} else if (e.getSource().equals(mntmNewMenuItem_1)) {
-			BangThongKeLuong bangThongKeLuong = new BangThongKeLuong();
-			pnCneter.removeAll();
-			pnCneter.add(bangThongKeLuong);
-			validate();
 		}
 	}
 }

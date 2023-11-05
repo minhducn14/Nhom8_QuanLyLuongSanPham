@@ -40,11 +40,29 @@ public class DAO_PhongBan {
 		
 		public PhongBan getPhongBanTheoTen(String tenPhongBan) {
 			PhongBan phongBan = new PhongBan();
-			
 			try {
 				Connection con = MyConnection.getInstance().getConnection();
 				PreparedStatement preparedStatement = con
 						.prepareStatement("select * from PhongBan where tenPhongBan = '" + tenPhongBan + "'");
+				ResultSet resultSet = preparedStatement.executeQuery();
+				while (resultSet.next()) {
+					phongBan.setMaPhongBan(resultSet.getString(1));
+					phongBan.setTenPhongBan(resultSet.getString(2));
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return phongBan;
+		}
+		
+		
+		public PhongBan getPhongBanTheoMa(String maPhongBan) {
+			PhongBan phongBan = new PhongBan();
+			try {
+				Connection con = MyConnection.getInstance().getConnection();
+				PreparedStatement preparedStatement = con
+						.prepareStatement("select * from PhongBan where maPhongBan = '" + maPhongBan + "'");
 				ResultSet resultSet = preparedStatement.executeQuery();
 				while (resultSet.next()) {
 					phongBan.setMaPhongBan(resultSet.getString(1));

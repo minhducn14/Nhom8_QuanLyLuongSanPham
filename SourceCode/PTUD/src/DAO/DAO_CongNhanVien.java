@@ -64,6 +64,7 @@ public class DAO_CongNhanVien {
 			n = stm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		} finally {
 			try {
 				if (stm != null) {
@@ -100,4 +101,29 @@ public class DAO_CongNhanVien {
 		}
 		return cnv;
 	}
+
+	public CongNhanVien getCongNhanVienTheoMa(String maCongNhanVien) {
+		CongNhanVien cnv = new CongNhanVien();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM CongNhanVien\r\n" + "Where maCongNhanVien = '" + maCongNhanVien + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				cnv.setMaCongNhanVien(rs.getString(1));
+				cnv.setHoTen(rs.getString(2));
+				cnv.setGioiTinh(rs.getBoolean(3));
+				cnv.setNgaySinh(rs.getDate(4));
+				cnv.setMaCanCuocCongDan(rs.getString(5));
+				cnv.setSoDienThoai(rs.getString(6));
+				cnv.setDiaChi(rs.getString(7));
+				cnv.setTrangThai(rs.getBoolean(8));
+				cnv.setNgayVaoLam(rs.getDate(9));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cnv;
+	}
+
 }

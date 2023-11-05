@@ -20,6 +20,13 @@ import javax.swing.table.JTableHeader;
 
 import com.toedter.calendar.JDateChooser;
 
+import Connection.MyConnection;
+import DAO.DAO_CongNhanVien;
+import DAO.DAO_ThoLamDan;
+import Entity.CongNhanVien;
+import Entity.ThoLamDan;
+import datechooser.model.multiple.Period;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -28,7 +35,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ItemEvent;
@@ -39,13 +50,19 @@ public class QuanLyThoLamDan extends JPanel {
 	 * Create the panel.
 	 */
 	private static final long serialVersionUID = 1L;
+	private DefaultTableModel modalThoLamDan;
 	private JTextField jmaTLD;
 	private JTextField jcmnd;
 	private JTextField jhoTen;
 	private JTextField jsdt;
 	private JTextField textField_5;
 	private JTextField jdiaChi;
+	private DAO_CongNhanVien dao_cnv;
+	private DAO_ThoLamDan dao_tld;
 	public QuanLyThoLamDan() {
+		
+		dao_cnv = new DAO_CongNhanVien();
+		dao_tld = new DAO_ThoLamDan();
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
 	    
@@ -80,18 +97,22 @@ public class QuanLyThoLamDan extends JPanel {
 	    table_1.setRowHeight(30);
 	    table_1.setIntercellSpacing(new Dimension(0, 5));
 	    
-	    table_1.setModel(new DefaultTableModel(
-	    	new Object[][] {
-	    		{null, null, null, null, null, null},
-	    		{null, null, null, null, null, null},
-	    		{null, null, null, null, null, null},
-	    		{null, null, null, null, null, null},
-	    		{null, null, null, null, null, null},
-	    	},
-	    	new String[] {
-	    		"M\u00E3 th\u1EE3 l\u00E0m \u0111\u00E0n", "H\u1ECD t\u00EAn th\u1EE3 l\u00E0m \u0111\u00E0n", "Gi\u1EDBi t\u00EDnh", "Ng\u00E0y sinh", "CMND", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i"
-	    	}
-	    ));
+//	    table_1.setModel(new DefaultTableModel(
+//	    	new Object[][] {
+//	    		{null, null, null, null, null, null},
+//	    		{null, null, null, null, null, null},
+//	    		{null, null, null, null, null, null},
+//	    		{null, null, null, null, null, null},
+//	    		{null, null, null, null, null, null},
+//	    	},
+//	    	new String[] {
+//	    		"M\u00E3 th\u1EE3 l\u00E0m \u0111\u00E0n", "H\u1ECD t\u00EAn th\u1EE3 l\u00E0m \u0111\u00E0n", "Gi\u1EDBi t\u00EDnh", "Ng\u00E0y sinh", "CMND", "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i"
+//	    	}
+//	    ));
+
+		String[] colHeader = {"Mã Thợ Làm Đàn", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT"};
+		modalThoLamDan = new DefaultTableModel(colHeader,0);
+		table_1.setModel(modalThoLamDan);
 	    
 	    JLabel lblNewLabel_6 = new JLabel("New label");
 	    lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -371,15 +392,27 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_9.add(jtrangThai);
 	    
 	    //Xóa
+	    JButton btnThm = new JButton("Thêm");
+	    JButton btnTmKim = new JButton("Sửa thông tin");
 	    JButton btnXoRng = new JButton("Xoá rỗng");
 	    btnXoRng.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
+//	    		int row = table_1.getSelectedRow();
+//	    		if(row==-1) {
+//	    			JOptionPane.showMessageDialog(null, "Vui long chon dong de xoa");
+//	    		} else {
+//	    			if()
+//	    			((DefaultTableModel) table_1.getModel()).removeRow(row);
+//	    		}
 	    		int row = table_1.getSelectedRow();
 	    		if(row==-1) {
-	    			JOptionPane.showMessageDialog(null, "Vui long chon dong de xoa");
-	    		} else {
-	    			((DefaultTableModel) table_1.getModel()).removeRow(row);
-	    		}
+	    			JOptionPane.showMessageDialog(null, "Vui lòng chọn thợ làm đàn để xóa");
+	    		} else if(row!=-1){
+	    			int option = JOptionPane.showConfirmDialog(btnTmKim,  "Bạn có muốn xóa thợ làm đàn này không?","Xóa hàng trống",JOptionPane.YES_NO_OPTION);
+	    			if(option == JOptionPane.YES_OPTION) {
+	    				((DefaultTableModel) table_1.getModel()).removeRow(row);
+	    			}
+	    	}
 	    	}
 	    });
 	    btnXoRng.setForeground(Color.WHITE);
@@ -389,7 +422,7 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel.add(btnXoRng);
 	    
 	    //Sửa thông tin
-	    JButton btnTmKim = new JButton("Sửa thông tin");
+//	    JButton btnTmKim = new JButton("Sửa thông tin");
 	    btnTmKim.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    	}
@@ -406,7 +439,7 @@ public class QuanLyThoLamDan extends JPanel {
 	    Pattern patternsdt = Pattern.compile("^(0[0-9]{9})$");
 	    Pattern patternsmnd = Pattern.compile("^[0-9]{12}$");
 	    
-	    JButton btnThm = new JButton("Thêm");
+//	    JButton btnThm = new JButton("Thêm");
 	    btnThm.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    		//Mã TLD
@@ -429,9 +462,9 @@ public class QuanLyThoLamDan extends JPanel {
 	    		java.util.Date ngaySinh = jngaySinh.getDate();
 	    		String NgaySinh = sdf.format(ngaySinh);
 	    		java.util.Date today = new java.util.Date();
-	    		if(ngaySinh.after(today)&& (int)(today.getTime()-ngaySinh.getTime())/(1000*60*24*60*365)<18) {
-	    			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
-	    		}
+//	    		if(ngaySinh.after(today) || (int)((today.getTime() - ngaySinh.getTime())/(1000*60*24*60*365))<18) {
+//	    			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+//	    		} 
 	    		//SDT
 	    		String sdt = jsdt.getText();
 	    		Matcher matchersdt = patternsdt.matcher(sdt);
@@ -439,20 +472,47 @@ public class QuanLyThoLamDan extends JPanel {
 	    		String diaChi = jdiaChi.getText();
 	    		//Trạng Thái
 	    		String trangThai = (String) jtrangThai.getSelectedItem();
-	    		//Check điều kiện 
-	    		if(!matchersdt.matches()) {
-	    			JOptionPane.showMessageDialog(null, "Số Điện Thoại Không Hợp Lệ");
-	    		}else if(!matchercmnd.matches()){
-	    			JOptionPane.showMessageDialog(null, "Căn Cước Công Dân Không Hợp Lệ");	    			
-	    		}else{
+	    		//Check điều kiện
+//	    		if(!matchersdt.matches()) {
+//	    			JOptionPane.showMessageDialog(null, "Số Điện Thoại Không Hợp Lệ");
+//	    		}else if(!matchercmnd.matches()){
+//	    			JOptionPane.showMessageDialog(null, "Căn Cước Công Dân Không Hợp Lệ");	    			
+//	    		}else{
+//	    		
+//	    		Object[] rowData = {maTLD, hoTen, gioiTinh,NgaySinh,cmnd,sdt};
+////	    		((DefaultTableModel) table_1.getModel()).addRow(rowData);
+//	    		
+//	    		if(maTLD.equals("")&&hoTen.equals("")&&cmnd.equals("")&&sdt.equals("")&&diaChi.equals("")&&ngaySinh.equals("")&&ngayVaoLam==null) {
+//	    			JOptionPane.showMessageDialog(null, "Error");
+//	    		} else {	    			
+//	    			((DefaultTableModel) table_1.getModel()).insertRow(0, rowData);
+////	    			jmaTLD.setText("");
+//	    			jhoTen.setText("");
+//	    			jsdt.setText("");
+//	    			jdiaChi.setText("");
+//	    			jngaySinh.setDate(null);
+//	    			jngayVaoLam.setDate(null);
+//	    			jtayNghe.setSelectedIndex(0);
+//	    			jtrangThai.setSelectedIndex(0);
+//	    			jcmnd.setText("");
+//	    		}
 	    		
-	    		Object[] rowData = {maTLD, hoTen, gioiTinh,NgaySinh,cmnd,sdt};
-//	    		((DefaultTableModel) table_1.getModel()).addRow(rowData);
-	    		if(maTLD.equals("")&&hoTen.equals("")&&cmnd.equals("")&&sdt.equals("")&&diaChi.equals("")&&ngaySinh.equals("")&&ngayVaoLam==null) {
-	    			JOptionPane.showMessageDialog(null, "Error");
-	    		} else {	    			
+	    		if(maTLD.equals("")||hoTen.equals("")||cmnd.equals("")||sdt.equals("")||diaChi.equals("")||ngaySinh.equals("")||ngayVaoLam==null) {
+	    			JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
+	    		} else if(!matchersdt.matches()) {
+	    			JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
+	    		} else if(!matchercmnd.matches()) {
+	    			JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
+	    		} else if(ngaySinh.after(today) || (int)((today.getTime() - ngaySinh.getTime())/(1000*60*24*60*365))<18) {
+	    			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+	    		} else if(ngayVaoLam.after(today)) {
+	    			JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");	    			
+	    		}
+	    		
+	    		else {
+		    		Object[] rowData = {maTLD, hoTen, gioiTinh,NgaySinh,cmnd,sdt};
 	    			((DefaultTableModel) table_1.getModel()).insertRow(0, rowData);
-	    			jmaTLD.setText("");
+//	    			jmaTLD.setText("");
 	    			jhoTen.setText("");
 	    			jsdt.setText("");
 	    			jdiaChi.setText("");
@@ -461,30 +521,37 @@ public class QuanLyThoLamDan extends JPanel {
 	    			jtayNghe.setSelectedIndex(0);
 	    			jtrangThai.setSelectedIndex(0);
 	    			jcmnd.setText("");
+	    			
+	    			CongNhanVien cnv = new CongNhanVien(hoTen, isSelected, null, sdt, trangThai, diaChi, isSelected, null);
+	    			ThoLamDan tld = new ThoLamDan(tayNghe, cnv);
+//	    			ThoLamDan tld = new ThoLamDan(maTLD, tayNghe, cnv);
+	    			
+	    			dao_cnv.taoCNV(cnv);
+	    			dao_tld.taoTLD(tld);
 	    		}
-	    		try {
-					Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QuanLyLuongSP", "sa", "sapassword");
-	    			String sql = "INSERT INTO CongNhanVien(maCongNhanVien, hoTen, gioiTinh,ngaySinh,maCanCuocCongDan,soDienThoai, diaChi, trangThai,ngayVaoLam) VALUES (?,?,?,?,?,?,?,?,?)";
-	    			PreparedStatement statement = conn.prepareStatement(sql);
-	    			statement.setString(1, maTLD);
-	    			statement.setString(2, hoTen);
-	    			statement.setString(3,gioiTinh);
-	    			statement.setDate(4, new Date(jngaySinh.getDate().getTime()));
-	    			statement.setString(5, cmnd);
-	    			statement.setString(6,sdt);
-	    			statement.setString(7, diaChi);
-	    			statement.setString(8, (String)jtrangThai.getSelectedItem());
-	    			statement.setDate(9, new Date(jngayVaoLam.getDate().getTime()));
-	    			
-	    			
-	    			statement.executeUpdate(sql);
-	    			conn.close();
-	    			
-				} catch (Exception e2) {
-					// TODO: handle exception
-					e2.printStackTrace();
-				}
-	    	}
+//	    		try {
+//					Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QuanLyLuongSP", "sa", "sapassword");
+//	    			String sql = "INSERT INTO CongNhanVien(maCongNhanVien, hoTen, gioiTinh,ngaySinh,maCanCuocCongDan,soDienThoai, diaChi, trangThai,ngayVaoLam) VALUES (?,?,?,?,?,?,?,?,?)";
+//	    			PreparedStatement statement = conn.prepareStatement(sql);
+//	    			statement.setString(1, maTLD);
+//	    			statement.setString(2, hoTen);
+//	    			statement.setString(3,gioiTinh);
+//	    			statement.setDate(4, new Date(jngaySinh.getDate().getTime()));
+//	    			statement.setString(5, cmnd);
+//	    			statement.setString(6,sdt);
+//	    			statement.setString(7, diaChi);
+//	    			statement.setString(8, (String)jtrangThai.getSelectedItem());
+//	    			statement.setDate(9, new Date(jngayVaoLam.getDate().getTime()));
+//	    			
+//	    			
+//	    			statement.executeUpdate(sql);
+//	    			conn.close();
+//	    			
+//				} catch (Exception e2) {
+//					// TODO: handle exception
+//					e2.printStackTrace();
+//				}
+//	    	}
 	    	}
 	    });
 	    btnThm.setForeground(Color.WHITE);
@@ -493,5 +560,65 @@ public class QuanLyThoLamDan extends JPanel {
 	    btnThm.setBounds(350, 260, 170, 40);
 	    panel.add(btnThm);
 	    
+	    MyConnection.getInstance().MyConnection();
+	    autoGenIdNhanVien();
+	    updateTLD();
 	}
+	
+	private void updateTLD() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		DAO_ThoLamDan dsThoLamDan = new DAO_ThoLamDan();
+		DAO_CongNhanVien dsCongNhanVien = new DAO_CongNhanVien();
+		
+		List<ThoLamDan> listtld = dsThoLamDan.docTuBang();
+		List<CongNhanVien> listcnv = dsCongNhanVien.docTuBang();
+		for (ThoLamDan tld : listtld) {
+			for (CongNhanVien cnv : listcnv) {
+				String [] rowData = {
+					tld.getMaThoLamDan(),
+					cnv.getHoTen(),
+					String.valueOf(cnv.getNgaySinh()),
+					cnv.getMaCanCuocCongDan(),
+					cnv.getSoDienThoai()
+				};
+				
+			}
+		}
+		
+	}
+	
+	public void autoGenIdNhanVien() {
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT MAX(maThoLamDan) AS maxThoLamDan from ThoLamDan ";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			if(rs.next()) {
+				String maThoLamDan = rs.getString("maxThoLamDan");
+				if(maThoLamDan == null) {
+					jmaTLD.setText("TLD001");
+				}
+				else {
+					 Long stt = Long.parseLong(maThoLamDan.substring(4));
+				        stt++;
+				        jmaTLD.setText("TLD" + String.format("%03d", stt));
+				}
+			}
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+//	public void xoaRong() {
+//		jmaTLD.setText("");
+//		jcmnd.setText("");
+//		jhoTen.setText(""); 
+//		jsdt.setText(""); 
+//		jdiaChi.setText("");
+//		jmaTLD.requestFocus();
+//	}
+
 }

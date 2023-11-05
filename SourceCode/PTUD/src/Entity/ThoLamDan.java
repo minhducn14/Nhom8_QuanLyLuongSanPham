@@ -36,6 +36,12 @@ public class ThoLamDan {
 		this.congNhanVien = congNhanVien;
 	}
 
+	public ThoLamDan(String tayNghe, CongNhanVien congNhanVien) {
+		super();
+		this.tayNghe = tayNghe;
+		this.congNhanVien = congNhanVien;
+	}
+
 	@Override
 	public String toString() {
 		return "ThoLamDan [maThoLamDan=" + maThoLamDan + ", tayNghe=" + tayNghe + ", congNhanVien=" + congNhanVien

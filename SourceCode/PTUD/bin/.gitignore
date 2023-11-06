@@ -1,2 +1,9 @@
+<<<<<<< Updated upstream
 /.metadata/
 /GUI/
+=======
+/DAO/
+/Entity/
+/GUI/
+/icons/
+>>>>>>> Stashed changes

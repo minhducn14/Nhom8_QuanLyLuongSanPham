@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import java.util.List;
 
@@ -88,6 +89,14 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		panel_1_1.add(scrollPane_1);
 
 		tbl_bangTen = new JTable();
+		
+		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
+        columnModel.setColumnSelectionAllowed(false);
+        columnModel.setColumnMargin(0);
+        tbl_bangTen.getTableHeader().setReorderingAllowed(false);
+        
+        
+        
 		scrollPane_1.setViewportView(tbl_bangTen);
 
 		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
@@ -458,9 +467,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			String sdt = txtSDT.getText();
 			String diaChi = txtDiaChi.getText();
 			boolean trangThai = true;
-			if (cbbTrangThai.equals("Đang Làm")) {
+			if (cbbTrangThai.toString().equals("Đang Làm")) {
 				trangThai = true;
-			} else if (cbbTrangThai.equals("Nghỉ Làm")) {
+			} else if (cbbTrangThai.toString().equals("Nghỉ Làm")) {
 				trangThai = false;
 			}
 			Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());

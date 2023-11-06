@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -95,6 +96,10 @@ public class QuanLyThoLamDan extends JPanel implements ActionListener {
 		tb1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		table_1.setRowHeight(30);
 		table_1.setIntercellSpacing(new Dimension(0, 5));
+		TableColumnModel columnModel = table_1.getColumnModel();
+		columnModel.setColumnSelectionAllowed(false);
+		columnModel.setColumnMargin(0);
+		table_1.getTableHeader().setReorderingAllowed(false);
 
 		String[] colHeader = { "Mã Thợ Làm Đàn", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
 		modelThoLamDan = new DefaultTableModel(colHeader, 0);

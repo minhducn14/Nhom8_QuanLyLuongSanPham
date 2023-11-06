@@ -81,23 +81,23 @@ public class ChiTietBangLuong extends JFrame {
 		lblNewLabel.setForeground((new Color(0, 27, 72)));
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNewLabel_1_2 = new JLabel("NV001");
-		lblNewLabel_1_2.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_2.setBounds(242, 69, 300, 25);
-		contentPane.add(lblNewLabel_1_2);
+		JLabel lblMaNhanVien = new JLabel("NV001");
+		lblMaNhanVien.setForeground(new Color(0, 27, 72));
+		lblMaNhanVien.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMaNhanVien.setBounds(242, 69, 300, 25);
+		contentPane.add(lblMaNhanVien);
 		
-		JLabel lblNewLabel_1_1_2 = new JLabel("Chung Gi");
-		lblNewLabel_1_1_2.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2.setBounds(242, 114, 300, 25);
-		contentPane.add(lblNewLabel_1_1_2);
+		JLabel lblTenNhanVien = new JLabel("Chung Gi");
+		lblTenNhanVien.setForeground(new Color(0, 27, 72));
+		lblTenNhanVien.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenNhanVien.setBounds(242, 114, 300, 25);
+		contentPane.add(lblTenNhanVien);
 		
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Nhân Viên");
-		lblNewLabel_1_1_1_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1_1.setBounds(242, 159, 300, 20);
-		contentPane.add(lblNewLabel_1_1_1_1);
+		JLabel lblChucVu = new JLabel("Nhân Viên");
+		lblChucVu.setForeground(new Color(0, 27, 72));
+		lblChucVu.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblChucVu.setBounds(242, 159, 300, 20);
+		contentPane.add(lblChucVu);
 		
 		JLabel lblNewLabel_1_1_1_2 = new JLabel("Lương Chính");
 		lblNewLabel_1_1_1_2.setForeground(new Color(0, 27, 72));
@@ -153,23 +153,23 @@ public class ChiTietBangLuong extends JFrame {
 		lblNewLabel_1_1_1_3.setBounds(447, 159, 300, 20);
 		contentPane.add(lblNewLabel_1_1_1_3);
 		
-		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("26");
-		lblNewLabel_1_1_1_1_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1_1_1.setBounds(762, 159, 300, 20);
-		contentPane.add(lblNewLabel_1_1_1_1_1);
+		JLabel lblNgayCongTinhLuong = new JLabel("26");
+		lblNgayCongTinhLuong.setForeground(new Color(0, 27, 72));
+		lblNgayCongTinhLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNgayCongTinhLuong.setBounds(762, 159, 300, 20);
+		contentPane.add(lblNgayCongTinhLuong);
 		
-		JLabel lblNewLabel_1_1_2_1 = new JLabel("23");
-		lblNewLabel_1_1_2_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_2_1.setBounds(762, 114, 300, 25);
-		contentPane.add(lblNewLabel_1_1_2_1);
+		JLabel lblNgayCongTT = new JLabel("23");
+		lblNgayCongTT.setForeground(new Color(0, 27, 72));
+		lblNgayCongTT.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNgayCongTT.setBounds(762, 114, 300, 25);
+		contentPane.add(lblNgayCongTT);
 		
-		JLabel lblNewLabel_1_2_1 = new JLabel("23000000");
-		lblNewLabel_1_2_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_2_1.setBounds(762, 69, 203, 25);
-		contentPane.add(lblNewLabel_1_2_1);
+		JLabel lbLuong = new JLabel("23000000");
+		lbLuong.setForeground(new Color(0, 27, 72));
+		lbLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lbLuong.setBounds(762, 69, 203, 25);
+		contentPane.add(lbLuong);
 		
 		JLabel lblNewLabel_1_1_1_2_3_2 = new JLabel("Số tiền");
 		lblNewLabel_1_1_1_2_3_2.setForeground(new Color(0, 27, 72));

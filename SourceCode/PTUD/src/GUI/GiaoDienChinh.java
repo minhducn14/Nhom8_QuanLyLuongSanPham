@@ -118,7 +118,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnCapNhatNV.setPreferredSize(new Dimension(150, 30));
 		mnCapNhatTLD.setPreferredSize(new Dimension(150, 30));
 		mnCapNhatSP.setPreferredSize(new Dimension(150, 30));
-
+		
 		JMenu mnTimKiem = new JMenu("Tìm Kiếm");
 		mnTimKiem.setIcon(new ImageIcon(getClass().getResource("/icons/search_icon.png")));
 		mnTimKiem.setFont(ftmn);

@@ -1,7 +1,5 @@
 package Entity;
 
-import java.sql.Date;
-
 public class NhanVien {
 	private String maNhanVien;
 	private String chucVu;
@@ -114,7 +112,7 @@ public class NhanVien {
 		}
 	}
 
-	private double tinhHeSoTienTrien(int soNamLamViec) {
+	public double tinhHeSoLuong(int soNamLamViec) {
 		int soBacTangLuong = soNamLamViec / 3;
 
 		double heSoTienTrienCaoDang = 0.15; 

@@ -17,7 +17,7 @@ public class DAO_ThoLamDan {
 	public ArrayList<ThoLamDan> docTuBang(){
 		try {
 			Connection conn = MyConnection.getInstance().getConnection();
-			String sql = "SELECT maThoLamDan, tayNghe, maCongNhanVien" + "FROM CongNhanVien";
+			String sql = "SELECT maThoLamDan, tayNghe, maCongNhanVien FROM ThoLamDan";
 			Statement statement = conn.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()) {
@@ -50,8 +50,8 @@ public class DAO_ThoLamDan {
 			String sql ="insert into ThoLamDan(tayNghe, maCongNhanVien) values(?,?)";
 			stm = conn.prepareStatement(sql);
 			
-			stm.setString(2, tld.getTayNghe());
-			stm.setString(3, tld.getCongNhanVien().getMaCongNhanVien());
+			stm.setString(1, tld.getTayNghe());
+			stm.setString(2, tld.getCongNhanVien().getMaCongNhanVien());
 	
 			n = stm.executeUpdate();
 		} catch (SQLException e) {
@@ -67,5 +67,21 @@ public class DAO_ThoLamDan {
 		}
 
 		return n > 0;
+	}
+		public String getMaThoLamDanMoiTao() {
+			String maThoLamDan = null;
+			try {
+				Connection conn = MyConnection.getInstance().getConnection();
+				String sql = "SELECT TOP 1 maThoLamDan  FROM ThoLamDan  ORDER BY maThoLamDan DESC";
+				Statement statement = conn.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while(rs.next()) {
+					maThoLamDan = rs.getString(1);
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			return maThoLamDan;
 	}
 }

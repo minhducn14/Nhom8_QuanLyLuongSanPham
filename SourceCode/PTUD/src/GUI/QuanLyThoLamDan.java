@@ -44,7 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ItemEvent;
 
-public class QuanLyThoLamDan extends JPanel {
+public class QuanLyThoLamDan extends JPanel implements ActionListener {
 
 	/**
 	 * Create the panel.
@@ -57,6 +57,11 @@ public class QuanLyThoLamDan extends JPanel {
 	private JTextField jsdt;
 	private JTextField textField_5;
 	private JTextField jdiaChi;
+	private JRadioButton rdbtnNewRadioButton_5,rdbtnNewRadioButton_4;
+	private JDateChooser jngayVaoLam, jngaySinh;
+	private ButtonGroup buttonGroup;
+	private JButton btnThem, btnXoaRong, btnSua;
+	private JComboBox<String> jtayNghe, jtrangThai;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_ThoLamDan dao_tld;
 	public QuanLyThoLamDan() {
@@ -139,18 +144,13 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel.add(panel_1);
 	    panel_1.setLayout(null);
 	    
-	    JRadioButton rdbtnNewRadioButton = new JRadioButton("");
-	    rdbtnNewRadioButton.setBounds(0, 0, 25, 25);
-	    rdbtnNewRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
-	    panel_1.add(rdbtnNewRadioButton);
-	    
 	    JLabel lblNewLabel_1 = new JLabel("Mã thợ làm đàn:");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1.setBounds(31, 0, 140, 25);
 	    panel_1.add(lblNewLabel_1);
 	    
 	    jmaTLD = new JTextField();
+	    jmaTLD.setEditable(false);
 	    jmaTLD.setBounds(180, 0, 380, 25);
 	    panel_1.add(jmaTLD);
 	    jmaTLD.setColumns(10);
@@ -160,12 +160,6 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_1.setBackground(Color.WHITE);
 	    panel_1_1.setBounds(91, 130, 560, 25);
 	    panel.add(panel_1_1);
-	    
-	    JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("");
-	    rdbtnNewRadioButton_1.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_1.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_1.setBounds(0, 0, 25, 25);
-	    panel_1_1.add(rdbtnNewRadioButton_1);
 	    
 	    JLabel lblNewLabel_1_1 = new JLabel("CMND:");
 	    lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -183,12 +177,6 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_2.setBounds(759, 50, 560, 25);
 	    panel.add(panel_1_2);
 	    
-	    JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("");
-	    rdbtnNewRadioButton_2.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_2.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_2.setBounds(0, 0, 25, 25);
-	    panel_1_2.add(rdbtnNewRadioButton_2);
-	    
 	    JLabel lblNewLabel_1_2 = new JLabel("Họ tên:");
 	    lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_2.setBounds(31, 0, 140, 25);
@@ -204,12 +192,6 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_3.setBackground(Color.WHITE);
 	    panel_1_3.setBounds(759, 130, 560, 25);
 	    panel.add(panel_1_3);
-	    
-	    JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("");
-	    rdbtnNewRadioButton_3.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_3.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_3.setBounds(0, 0, 25, 25);
-	    panel_1_3.add(rdbtnNewRadioButton_3);
 	    
 	    JLabel lblNewLabel_1_3 = new JLabel("Số điện thoại:");
 	    lblNewLabel_1_3.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -227,12 +209,6 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel.add(panel_1_4);
 	    panel_1_4.setLayout(null);
 	    
-	    JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("");
-	    rdbtnNewRadioButton_6.setBackground(new Color(255, 255, 255));
-	    rdbtnNewRadioButton_6.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_6.setBounds(1, 0, 25, 25);
-	    panel_1_4.add(rdbtnNewRadioButton_6);
-	    
 
 	    
 	    JLabel lblNewLabel_4 = new JLabel("Giới tính:");
@@ -240,7 +216,7 @@ public class QuanLyThoLamDan extends JPanel {
 	    lblNewLabel_4.setBounds(32, 0, 93, 25);
 	    panel_1_4.add(lblNewLabel_4);
 	    
-	    JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("");
+	    rdbtnNewRadioButton_5 = new JRadioButton("");
 	    rdbtnNewRadioButton_5.setSelected(true);
 	    rdbtnNewRadioButton_5.setBackground(new Color(255, 255, 255));
 	    rdbtnNewRadioButton_5.setHorizontalAlignment(SwingConstants.CENTER);
@@ -252,14 +228,14 @@ public class QuanLyThoLamDan extends JPanel {
 	    lblNewLabel_3.setBounds(218, 0, 93, 25);
 	    panel_1_4.add(lblNewLabel_3);
 	    
-	    JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("");
-	    rdbtnNewRadioButton_4.addItemListener(new ItemListener() {
-	    	public void itemStateChanged(ItemEvent e) {
-	    		if(e.getStateChange()==ItemEvent.SELECTED) {
-	    			rdbtnNewRadioButton_5.setSelected(false);
-	    		}
-	    	}
-	    });
+	    rdbtnNewRadioButton_4 = new JRadioButton("");
+//	    rdbtnNewRadioButton_4.addItemListener(new ItemListener() {
+//	    	public void itemStateChanged(ItemEvent e) {
+//	    		if(e.getStateChange()==ItemEvent.SELECTED) {
+//	    			rdbtnNewRadioButton_5.setSelected(false);
+//	    		}
+//	    	}
+//	    });
 	    rdbtnNewRadioButton_4.setBackground(new Color(255, 255, 255));
 	    rdbtnNewRadioButton_4.setHorizontalAlignment(SwingConstants.CENTER);
 	    rdbtnNewRadioButton_4.setBounds(373, 0, 25, 25);
@@ -270,7 +246,7 @@ public class QuanLyThoLamDan extends JPanel {
 	    lblNewLabel_2.setBounds(404, 0, 93, 25);
 	    panel_1_4.add(lblNewLabel_2);
 	    
-	    ButtonGroup buttonGroup = new ButtonGroup();
+	    buttonGroup = new ButtonGroup();
 	    buttonGroup.add(rdbtnNewRadioButton_4);
 	    buttonGroup.add(rdbtnNewRadioButton_5);
 	    
@@ -282,19 +258,13 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_5.setBounds(91, 170, 560, 25);
 	    panel.add(panel_1_5);
 	    
-	    JRadioButton rdbtnNewRadioButton_7 = new JRadioButton("");
-	    rdbtnNewRadioButton_7.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_7.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_7.setBounds(0, 0, 25, 25);
-	    panel_1_5.add(rdbtnNewRadioButton_7);
-	    
 	    JLabel lblNewLabel_1_4 = new JLabel("Tay nghề:");
 	    lblNewLabel_1_4.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_4.setBounds(31, 0, 140, 25);
 	    panel_1_5.add(lblNewLabel_1_4);
 	    
 	    String[] trinhDo = {"Bậc 1","Bậc 2","Bậc 3","Bậc 4","Bậc 5"};
-        JComboBox<String> jtayNghe = new JComboBox<>(trinhDo);
+        jtayNghe = new JComboBox<>(trinhDo);
 	    jtayNghe.setBounds(180, 0, 380, 25);
 	    panel_1_5.add(jtayNghe);
 	    
@@ -310,18 +280,12 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_6.setBounds(91, 210, 560, 25);
 	    panel.add(panel_1_6);
 	    
-	    JRadioButton rdbtnNewRadioButton_8 = new JRadioButton("");
-	    rdbtnNewRadioButton_8.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_8.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_8.setBounds(0, 0, 25, 25);
-	    panel_1_6.add(rdbtnNewRadioButton_8);
-	    
 	    JLabel lblNewLabel_1_5 = new JLabel("Ngày vào làm:");
 	    lblNewLabel_1_5.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_5.setBounds(31, 0, 140, 25);
 	    panel_1_6.add(lblNewLabel_1_5);
 	    
-	    JDateChooser jngayVaoLam = new JDateChooser();
+	    jngayVaoLam = new JDateChooser();
 	    jngayVaoLam.setLocation(180, 0);
 	    jngayVaoLam.setSize(380, 25);
 	    panel_1_6.add(jngayVaoLam);
@@ -331,12 +295,6 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_7.setBackground(Color.WHITE);
 	    panel_1_7.setBounds(759, 170, 560, 25);
 	    panel.add(panel_1_7);
-	    
-	    JRadioButton rdbtnNewRadioButton_9 = new JRadioButton("");
-	    rdbtnNewRadioButton_9.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_9.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_9.setBounds(0, 0, 25, 25);
-	    panel_1_7.add(rdbtnNewRadioButton_9);
 	    
 	    JLabel lblNewLabel_1_6 = new JLabel("Địa chỉ:");
 	    lblNewLabel_1_6.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -354,18 +312,12 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_8.setBounds(759, 90, 560, 25);
 	    panel.add(panel_1_8);
 	    
-	    JRadioButton rdbtnNewRadioButton_10 = new JRadioButton("");
-	    rdbtnNewRadioButton_10.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_10.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_10.setBounds(0, 0, 25, 25);
-	    panel_1_8.add(rdbtnNewRadioButton_10);
-	    
 	    JLabel lblNewLabel_1_7 = new JLabel("Ngày sinh:");
 	    lblNewLabel_1_7.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_7.setBounds(31, 0, 140, 25);
 	    panel_1_8.add(lblNewLabel_1_7);
 	    
-	    JDateChooser jngaySinh = new JDateChooser();
+	    jngaySinh = new JDateChooser();
 	    jngaySinh.setBounds(180, 0, 380, 25);
 	    panel_1_8.add(jngaySinh);
 	    
@@ -375,144 +327,213 @@ public class QuanLyThoLamDan extends JPanel {
 	    panel_1_9.setBounds(759, 210, 560, 25);
 	    panel.add(panel_1_9);
 	    
-	    JRadioButton rdbtnNewRadioButton_11 = new JRadioButton("");
-	    rdbtnNewRadioButton_11.setHorizontalAlignment(SwingConstants.CENTER);
-	    rdbtnNewRadioButton_11.setBackground(Color.WHITE);
-	    rdbtnNewRadioButton_11.setBounds(0, 0, 25, 25);
-	    panel_1_9.add(rdbtnNewRadioButton_11);
-	    
 	    JLabel lblNewLabel_1_8 = new JLabel("Trạng thái:");
 	    lblNewLabel_1_8.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1_8.setBounds(31, 0, 140, 25);
 	    panel_1_9.add(lblNewLabel_1_8);
 	    
-	    String[] trangThai = {"Đang làm","Nghỉ việc"};
-        JComboBox<String> jtrangThai = new JComboBox<>(trangThai);
+//	    String[] trangThai = {"Đang làm","Nghỉ việc"};
+        jtrangThai = new JComboBox<>();
+        jtrangThai.addItem("Đang làm");
+        jtrangThai.addItem("Nghỉ việc");
 	    jtrangThai.setBounds(180, 0, 380, 25);
 	    panel_1_9.add(jtrangThai);
 	    
 	    //Xóa
-	    JButton btnThm = new JButton("Thêm");
-	    JButton btnTmKim = new JButton("Sửa thông tin");
-	    JButton btnXoRng = new JButton("Xoá rỗng");
-	    btnXoRng.addActionListener(new ActionListener() {
+	    btnSua = new JButton("Sửa thông tin");
+	    btnXoaRong = new JButton("Xoá rỗng");
+	    btnXoaRong.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
-//	    		int row = table_1.getSelectedRow();
-//	    		if(row==-1) {
-//	    			JOptionPane.showMessageDialog(null, "Vui long chon dong de xoa");
-//	    		} else {
-//	    			if()
-//	    			((DefaultTableModel) table_1.getModel()).removeRow(row);
-//	    		}
 	    		int row = table_1.getSelectedRow();
 	    		if(row==-1) {
 	    			JOptionPane.showMessageDialog(null, "Vui lòng chọn thợ làm đàn để xóa");
 	    		} else if(row!=-1){
-	    			int option = JOptionPane.showConfirmDialog(btnTmKim,  "Bạn có muốn xóa thợ làm đàn này không?","Xóa hàng trống",JOptionPane.YES_NO_OPTION);
+	    			int option = JOptionPane.showConfirmDialog(null,  "Bạn có muốn xóa thợ làm đàn này không?","Xóa hàng trống",JOptionPane.YES_NO_OPTION);
 	    			if(option == JOptionPane.YES_OPTION) {
 	    				((DefaultTableModel) table_1.getModel()).removeRow(row);
 	    			}
 	    	}
 	    	}
 	    });
-	    btnXoRng.setForeground(Color.WHITE);
-	    btnXoRng.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnXoRng.setBackground(new Color(2, 104, 156));
-	    btnXoRng.setBounds(900, 260, 170, 40);
-	    panel.add(btnXoRng);
+	    btnXoaRong.setForeground(Color.WHITE);
+	    btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnXoaRong.setBackground(new Color(2, 104, 156));
+	    btnXoaRong.setBounds(900, 260, 170, 40);
+	    panel.add(btnXoaRong);
 	    
 	    //Sửa thông tin
 //	    JButton btnTmKim = new JButton("Sửa thông tin");
-	    btnTmKim.addActionListener(new ActionListener() {
+	    btnSua.addActionListener(new ActionListener() {
 	    	public void actionPerformed(ActionEvent e) {
 	    	}
 	    });
-	    btnTmKim.setForeground(Color.WHITE);
-	    btnTmKim.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnTmKim.setBackground(new Color(2, 104, 156));
-	    btnTmKim.setBounds(625, 260, 170, 40);
-	    panel.add(btnTmKim);
+	    btnSua.setForeground(Color.WHITE);
+	    btnSua.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnSua.setBackground(new Color(2, 104, 156));
+	    btnSua.setBounds(625, 260, 170, 40);
+	    panel.add(btnSua);
 	    
 	    
 	    
 	    //Thêm
+	    
+	    btnThem= new JButton("Thêm");
+	    btnThem.setForeground(Color.WHITE);
+	    btnThem.setFont(new Font("Tahoma", Font.BOLD, 12));
+	    btnThem.setBackground(new Color(2, 104, 156));
+	    btnThem.setBounds(350, 260, 170, 40);
+	    panel.add(btnThem);
+	    
+	    btnThem.addActionListener(this);
+	    btnXoaRong.addActionListener(this);
+	    
+	    MyConnection.getInstance().MyConnection();
+	    autoGenIdThoLamDan();
+	    updateTableDataNhanVien();
+	}
+	
+	private void updateTableDataNhanVien() {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+		DAO_ThoLamDan dsThoLamDan = new DAO_ThoLamDan();
+		DAO_CongNhanVien dsCongNhanVien = new DAO_CongNhanVien();
+
+		List<ThoLamDan> listtld = dsThoLamDan.docTuBang();
+		List<CongNhanVien> listcnv = dsCongNhanVien.docTuBang();
+		for (ThoLamDan tld : listtld) {
+			for (CongNhanVien cnv : listcnv) {
+				String gioiTinh;
+				if (String.valueOf(cnv.isGioiTinh()) == "True") {
+					gioiTinh = "Nữ";
+				} else {
+					gioiTinh = "Nam";
+				}
+				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
+				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh,ngaySinh,
+						cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai() };
+				modalThoLamDan.addRow(rowData);
+			}
+		}
+	}
+
+	public void autoGenIdThoLamDan() {
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT MAX(maThoLamDan) AS maxThoLamDan from ThoLamDan ";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next()) {
+				String maThoLamDan = rs.getString("maxThoLamDan");
+				if (maThoLamDan == null) {
+					jmaTLD.setText("TLD001");
+				} else {
+					Long stt = Long.parseLong(maThoLamDan.substring(4));
+					stt++;
+					jmaTLD.setText("TLD" + String.format("%03d", stt));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+//	public void xoaRong() {
+//		txtMaNhanVien.setText("");
+//		txtCMND.setText("");
+//		txtHoTen.setText("");
+//		txtSDT.setText("");
+//		txtDiaChi.setText("");
+//		txtLuongCoBan.setText("");
+//		rbtNam.isSelected();
+//		txtMaNhanVien.requestFocus();
+//	}
+
+//	public void layDataVoComboBox() {
+//		try {
+//			Connection con = MyConnection.getInstance().getConnection();
+//			String sql = "SELECT * from PhongBan";
+//			Statement statement = con.createStatement();
+//			ResultSet rs = statement.executeQuery(sql);
+//			while (rs.next()) {
+//				cbbPhongBan.addItem(rs.getString("tenPhongBan"));
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+
 	    Pattern patternsdt = Pattern.compile("^(0[0-9]{9})$");
 	    Pattern patternsmnd = Pattern.compile("^[0-9]{12}$");
-	    
-//	    JButton btnThm = new JButton("Thêm");
-	    btnThm.addActionListener(new ActionListener() {
-	    	public void actionPerformed(ActionEvent e) {
-	    		//Mã TLD
-	    		String maTLD = jmaTLD.getText();
-	    		//Giới Tính
-	    		boolean isSelected = rdbtnNewRadioButton_5.isSelected();
-	    		String gioiTinh = isSelected ? "Nam":"Nữ";
-	    		//CMND
-	    		String cmnd = jcmnd.getText();
-	    		Matcher matchercmnd = patternsmnd.matcher(cmnd);
-	    		//Tay Nghề
-	    		String tayNghe = (String) jtayNghe.getSelectedItem();
-	    		//Ngày Vào Làm
-	    		java.util.Date ngayVaoLam = jngayVaoLam.getDate();
-	    		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//	    		String NgayVaoLam = sdf.format(ngayVaoLam);
-	    		//Họ Tên
-	    		String hoTen = jhoTen.getText();
-	    		//Ngày Sinh
-	    		java.util.Date ngaySinh = jngaySinh.getDate();
-	    		String NgaySinh = sdf.format(ngaySinh);
-	    		java.util.Date today = new java.util.Date();
-//	    		if(ngaySinh.after(today) || (int)((today.getTime() - ngaySinh.getTime())/(1000*60*24*60*365))<18) {
-//	    			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
-//	    		} 
-	    		//SDT
-	    		String sdt = jsdt.getText();
-	    		Matcher matchersdt = patternsdt.matcher(sdt);
-	    		//Địa Chỉ
-	    		String diaChi = jdiaChi.getText();
-	    		//Trạng Thái
-	    		String trangThai = (String) jtrangThai.getSelectedItem();
-	    		//Check điều kiện
-//	    		if(!matchersdt.matches()) {
-//	    			JOptionPane.showMessageDialog(null, "Số Điện Thoại Không Hợp Lệ");
-//	    		}else if(!matchercmnd.matches()){
-//	    			JOptionPane.showMessageDialog(null, "Căn Cước Công Dân Không Hợp Lệ");	    			
-//	    		}else{
-//	    		
-//	    		Object[] rowData = {maTLD, hoTen, gioiTinh,NgaySinh,cmnd,sdt};
-////	    		((DefaultTableModel) table_1.getModel()).addRow(rowData);
-//	    		
-//	    		if(maTLD.equals("")&&hoTen.equals("")&&cmnd.equals("")&&sdt.equals("")&&diaChi.equals("")&&ngaySinh.equals("")&&ngayVaoLam==null) {
-//	    			JOptionPane.showMessageDialog(null, "Error");
-//	    		} else {	    			
-//	    			((DefaultTableModel) table_1.getModel()).insertRow(0, rowData);
-////	    			jmaTLD.setText("");
-//	    			jhoTen.setText("");
-//	    			jsdt.setText("");
-//	    			jdiaChi.setText("");
-//	    			jngaySinh.setDate(null);
-//	    			jngayVaoLam.setDate(null);
-//	    			jtayNghe.setSelectedIndex(0);
-//	    			jtrangThai.setSelectedIndex(0);
-//	    			jcmnd.setText("");
-//	    		}
-	    		
-	    		if(maTLD.equals("")||hoTen.equals("")||cmnd.equals("")||sdt.equals("")||diaChi.equals("")||ngaySinh.equals("")||ngayVaoLam==null) {
-	    			JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
-	    		} else if(!matchersdt.matches()) {
-	    			JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
-	    		} else if(!matchercmnd.matches()) {
-	    			JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
-	    		} else if(ngaySinh.after(today) || (int)((today.getTime() - ngaySinh.getTime())/(1000*60*24*60*365))<18) {
-	    			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
-	    		} else if(ngayVaoLam.after(today)) {
-	    			JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");	    			
-	    		}
-	    		
-	    		else {
-		    		Object[] rowData = {maTLD, hoTen, gioiTinh,NgaySinh,cmnd,sdt};
-	    			((DefaultTableModel) table_1.getModel()).insertRow(0, rowData);
-//	    			jmaTLD.setText("");
+	    java.util.Date today = new java.util.Date();
+		if (o.equals(btnThem)) {
+
+//			String trangThai = (String) jtrangThai.getSelectedItem();
+			String tayNghe = (String) jtayNghe.getSelectedItem();
+			String hoTen = jhoTen.getText();
+			boolean phai = false;
+			if (buttonGroup.getSelection() != null) {
+				if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+					phai = true;
+				} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+					phai = false;
+				}
+			}
+			Date ngaySinh = new Date(jngaySinh.getDate().getTime());
+			Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
+
+			String cmnd = jcmnd.getText();
+			Matcher matchercmnd = patternsmnd.matcher(cmnd);
+			String sdt = jsdt.getText();
+			Matcher matchersdt = patternsdt.matcher(sdt);
+			String diaChi = jdiaChi.getText();
+			boolean trangThai = true;
+			if (jtrangThai.equals("Đang Làm")) {
+				trangThai = true;
+			} else if (jtrangThai.equals("Nghỉ Làm")) {
+				trangThai = false;
+			}
+			CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
+			dao_cnv.taoCNV(cnv);
+			CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+			ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
+			dao_tld.taoTLD(tld);
+			System.out.println(tld);
+			String maThoLamDanMoi = dao_tld.getMaThoLamDanMoiTao();
+			tld.setMaThoLamDan(maThoLamDanMoi);
+			System.out.println(maThoLamDanMoi);
+			System.out.println(tld);
+			String gioiTinh;
+			Boolean gt = tld.getCongNhanVien().isGioiTinh();
+			boolean kiemTraGT = true;
+
+			if (gt == kiemTraGT) {
+				gioiTinh = "Nam";
+			} else {
+				gioiTinh = "Nữ";
+			}
+			
+			if(hoTen.equals("")||cmnd.equals("")||sdt.equals("")||diaChi.equals("")||ngaySinh.equals("")||ngayVaoLam.equals("")) {
+			JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
+			} else if(!matchersdt.matches()) {
+				JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
+			} else if(!matchercmnd.matches()) {
+				JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
+			} else if(ngaySinh.after(today) || (int)((today.getTime() - ngaySinh.getTime())/(1000*60*24*60*365))<18) {
+				JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+			} else if(ngayVaoLam.after(today)) {
+				JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");	    			
+			} else {
+					modalThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
+							gioiTinh, tld.getCongNhanVien().getNgaySinh(),
+							tld.getCongNhanVien().getMaCanCuocCongDan(), tld.getCongNhanVien().getSoDienThoai() });
 	    			jhoTen.setText("");
 	    			jsdt.setText("");
 	    			jdiaChi.setText("");
@@ -521,104 +542,12 @@ public class QuanLyThoLamDan extends JPanel {
 	    			jtayNghe.setSelectedIndex(0);
 	    			jtrangThai.setSelectedIndex(0);
 	    			jcmnd.setText("");
-	    			
-	    			CongNhanVien cnv = new CongNhanVien(hoTen, isSelected, null, sdt, trangThai, diaChi, isSelected, null);
-	    			ThoLamDan tld = new ThoLamDan(tayNghe, cnv);
-//	    			ThoLamDan tld = new ThoLamDan(maTLD, tayNghe, cnv);
-	    			
-	    			dao_cnv.taoCNV(cnv);
-	    			dao_tld.taoTLD(tld);
-	    		}
-//	    		try {
-//					Connection conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=QuanLyLuongSP", "sa", "sapassword");
-//	    			String sql = "INSERT INTO CongNhanVien(maCongNhanVien, hoTen, gioiTinh,ngaySinh,maCanCuocCongDan,soDienThoai, diaChi, trangThai,ngayVaoLam) VALUES (?,?,?,?,?,?,?,?,?)";
-//	    			PreparedStatement statement = conn.prepareStatement(sql);
-//	    			statement.setString(1, maTLD);
-//	    			statement.setString(2, hoTen);
-//	    			statement.setString(3,gioiTinh);
-//	    			statement.setDate(4, new Date(jngaySinh.getDate().getTime()));
-//	    			statement.setString(5, cmnd);
-//	    			statement.setString(6,sdt);
-//	    			statement.setString(7, diaChi);
-//	    			statement.setString(8, (String)jtrangThai.getSelectedItem());
-//	    			statement.setDate(9, new Date(jngayVaoLam.getDate().getTime()));
-//	    			
-//	    			
-//	    			statement.executeUpdate(sql);
-//	    			conn.close();
-//	    			
-//				} catch (Exception e2) {
-//					// TODO: handle exception
-//					e2.printStackTrace();
-//				}
-//	    	}
-	    	}
-	    });
-	    btnThm.setForeground(Color.WHITE);
-	    btnThm.setFont(new Font("Tahoma", Font.BOLD, 12));
-	    btnThm.setBackground(new Color(2, 104, 156));
-	    btnThm.setBounds(350, 260, 170, 40);
-	    panel.add(btnThm);
-	    
-	    MyConnection.getInstance().MyConnection();
-	    autoGenIdNhanVien();
-	    updateTLD();
-	}
-	
-	private void updateTLD() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		
-		DAO_ThoLamDan dsThoLamDan = new DAO_ThoLamDan();
-		DAO_CongNhanVien dsCongNhanVien = new DAO_CongNhanVien();
-		
-		List<ThoLamDan> listtld = dsThoLamDan.docTuBang();
-		List<CongNhanVien> listcnv = dsCongNhanVien.docTuBang();
-		for (ThoLamDan tld : listtld) {
-			for (CongNhanVien cnv : listcnv) {
-				String [] rowData = {
-					tld.getMaThoLamDan(),
-					cnv.getHoTen(),
-					String.valueOf(cnv.getNgaySinh()),
-					cnv.getMaCanCuocCongDan(),
-					cnv.getSoDienThoai()
-				};
-				
 			}
+//			modalThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
+//					gioiTinh, tld.getCongNhanVien().getNgaySinh(),
+//					tld.getCongNhanVien().getMaCanCuocCongDan(), tld.getCongNhanVien().getSoDienThoai() });
 		}
-		
-	}
-	
-	public void autoGenIdNhanVien() {
-		try {
-			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT MAX(maThoLamDan) AS maxThoLamDan from ThoLamDan ";
-			Statement statement = con.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-			if(rs.next()) {
-				String maThoLamDan = rs.getString("maxThoLamDan");
-				if(maThoLamDan == null) {
-					jmaTLD.setText("TLD001");
-				}
-				else {
-					 Long stt = Long.parseLong(maThoLamDan.substring(4));
-				        stt++;
-				        jmaTLD.setText("TLD" + String.format("%03d", stt));
-				}
-			}
 
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
 	}
-	
-//	public void xoaRong() {
-//		jmaTLD.setText("");
-//		jcmnd.setText("");
-//		jhoTen.setText(""); 
-//		jsdt.setText(""); 
-//		jdiaChi.setText("");
-//		jmaTLD.requestFocus();
-//	}
 
 }

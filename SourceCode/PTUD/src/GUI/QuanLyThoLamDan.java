@@ -409,6 +409,7 @@ public class QuanLyThoLamDan extends JPanel implements ActionListener {
 				} else {
 					gioiTinh = "Nam";
 				}
+				
 				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
 				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh,ngaySinh,
 						cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai() };
@@ -530,7 +531,7 @@ public class QuanLyThoLamDan extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
 			} else if(ngayVaoLam.after(today)) {
 				JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");	    			
-			} else {
+			} else if(matchercmnd.matches()&&matchersdt.matches()&&ngaySinh.equals(true)&&ngayVaoLam.equals(true))	{
 					modalThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
 							gioiTinh, tld.getCongNhanVien().getNgaySinh(),
 							tld.getCongNhanVien().getMaCanCuocCongDan(), tld.getCongNhanVien().getSoDienThoai() });

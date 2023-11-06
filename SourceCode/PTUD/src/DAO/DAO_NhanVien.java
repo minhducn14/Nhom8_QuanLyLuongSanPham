@@ -1,31 +1,23 @@
 package DAO;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import GUI.QuanLyNhanVien;
 import Connection.MyConnection;
 import Entity.CongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
 
-//private String maNhanVien;
-//private String chucVu;
-//private String trinhDoVanHoa;
-//private double luongCoBan;
-//private PhongBan phongBan;
-//private CongNhanVien congNhanVien;
-
 public class DAO_NhanVien {
-	private static ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 
 	public ArrayList<NhanVien> docTuBang() {
+		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
+			System.out.println(con);
 			String sql = "SELECT maNhanVien, chucVu, trinhDoVanHoa, luongCoban, maPhongBan, maCongNhanVien "
 					+ "FROM NhanVien";
 
@@ -53,7 +45,6 @@ public class DAO_NhanVien {
 	public boolean taoNV(NhanVien nv) {
 		Connection con = MyConnection.getInstance().getConnection();
 		if (con == null) {
-			// Xử lý lỗi kết nối
 			return false;
 		}
 
@@ -99,5 +90,62 @@ public class DAO_NhanVien {
 			e.printStackTrace();
 		}
 		return maNhanVien;
+	}
+
+	public ArrayList<NhanVien> getAllListNhanVien() {
+		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.trangThai = 1;";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				NhanVien nhanVien = new NhanVien();
+				nhanVien.setMaNhanVien(resultSet.getString(1));
+				nhanVien.setChucVu(resultSet.getString(2));
+				nhanVien.setTrinhDoVanHoa(resultSet.getString(3));
+				nhanVien.setLuongCoBan(resultSet.getFloat(4));
+				DAO_PhongBan dao_PB = new DAO_PhongBan();
+				PhongBan phongBan = dao_PB.getPhongBanTheoMa(resultSet.getString(5));
+				nhanVien.setPhongBan(phongBan);
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(6));
+				nhanVien.setCongNhanVien(congNhanVien);
+				dsNhanVien.add(nhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsNhanVien;
+	}
+
+	public NhanVien getNhanVienTheoMa(String maNhanVien) {
+		NhanVien nhanVien = new NhanVien();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n"
+					+ "WHERE maNhanVien = '" + maNhanVien + "'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				nhanVien.setMaNhanVien(resultSet.getString(1));
+				nhanVien.setChucVu(resultSet.getString(2));
+				nhanVien.setTrinhDoVanHoa(resultSet.getString(3));
+				nhanVien.setLuongCoBan(resultSet.getFloat(4));
+
+				DAO_PhongBan dao_PB = new DAO_PhongBan();
+				PhongBan phongBan = dao_PB.getPhongBanTheoMa(resultSet.getString(5));
+				nhanVien.setPhongBan(phongBan);
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(6));
+				nhanVien.setCongNhanVien(congNhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return nhanVien;
 	}
 }

@@ -115,12 +115,12 @@ public class CongNhanVien {
 		super();
 		this.maCongNhanVien = maCongNhanVien;
 	}
-	
-	public CongNhanVien( String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan,
-			String soDienThoai, String diaChi, boolean trangThai, Date ngayVaoLam) {
+
+	public CongNhanVien(String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan, String soDienThoai,
+			String diaChi, boolean trangThai, Date ngayVaoLam) {
 		// TODO Auto-generated constructor stub
 		super();
-		
+
 		this.hoTen = hoTen;
 		this.gioiTinh = gioiTinh;
 		this.ngaySinh = ngaySinh;
@@ -139,32 +139,36 @@ public class CongNhanVien {
 	}
 
 	public double tinhPhuCapThamNien(Date ngayVaoLam, double luongCoBan, double heSoLuong) {
-        int soNamLamViec = tinhSoNamLamViec(ngayVaoLam);
-        double tyLePhuCap = xacDinhTyLePhuCap(soNamLamViec);
-        double phuCapThamNien = luongCoBan * heSoLuong * (tyLePhuCap / 100);
-        return phuCapThamNien;
-    }
+		int soNamLamViec = tinhSoNamLamViec(ngayVaoLam);
+		double tyLePhuCap = xacDinhTyLePhuCap(soNamLamViec);
+		double phuCapThamNien = luongCoBan * heSoLuong * (tyLePhuCap / 100);
+		return phuCapThamNien;
+	}
 
-    private int tinhSoNamLamViec(Date ngayVaoLam) {
-        LocalDate ngayVaoLamLocal = ngayVaoLam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate ngayHienTai = LocalDate.now();
-        Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
-        int soNamLamViec = khoangThoiGian.getYears();
-        return soNamLamViec;
-    }
+	private int tinhSoNamLamViec(Date ngayVaoLam) {
+		LocalDate ngayVaoLamLocal = ngayVaoLam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate ngayHienTai = LocalDate.now();
+		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
+		int soNamLamViec = khoangThoiGian.getYears();
+		return soNamLamViec;
+	}
 
-    private double xacDinhTyLePhuCap(int soNamLamViec) {
-        if (soNamLamViec >= 5 && soNamLamViec < 10) {
-            return 5.0;
-        } else if (soNamLamViec >= 10 && soNamLamViec < 15) {
-            return 10.0;
-        } else if (soNamLamViec >= 15 && soNamLamViec < 20) {
-            return 15.0;
-        } else if (soNamLamViec >= 20) {
-            return 20.0;
-        } else {
-            return 0.0;
-        }
-    }
+	private double xacDinhTyLePhuCap(int soNamLamViec) {
+		if (soNamLamViec >= 5 && soNamLamViec < 10) {
+			return 5.0;
+		} else if (soNamLamViec >= 10 && soNamLamViec < 15) {
+			return 10.0;
+		} else if (soNamLamViec >= 15 && soNamLamViec < 20) {
+			return 15.0;
+		} else if (soNamLamViec >= 20) {
+			return 20.0;
+		} else {
+			return 0.0;
+		}
+	}
+
+	public CongNhanVien() {
+		super();
+	}
 
 }

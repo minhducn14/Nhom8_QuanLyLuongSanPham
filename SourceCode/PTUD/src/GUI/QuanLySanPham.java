@@ -21,7 +21,7 @@ public class QuanLySanPham extends JPanel {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 		
-		JLabel lblTieuDe = new JLabel("Nhân Viên");
+		JLabel lblTieuDe = new JLabel("Sản Phẩm");
 		lblTieuDe.setForeground(new Color(0, 27, 72));
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTieuDe.setFont(new Font("Tahoma", Font.BOLD, 40));
@@ -78,7 +78,7 @@ public class QuanLySanPham extends JPanel {
 	    add(panel);
 	    panel.setLayout(null);
 	    
-	    JLabel lblThongTinSanPham = new JLabel("Thông tin sảnn phẩm");
+	    JLabel lblThongTinSanPham = new JLabel("Thông tin sản phẩm");
 	    lblThongTinSanPham.setHorizontalAlignment(SwingConstants.CENTER);
 	    lblThongTinSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 	    lblThongTinSanPham.setBounds(54, 11, 256, 25);

@@ -35,6 +35,8 @@ public class ThoLamDan {
 		this.tayNghe = tayNghe;
 		this.congNhanVien = congNhanVien;
 	}
+	
+	
 
 	public ThoLamDan(String tayNghe, CongNhanVien congNhanVien) {
 		super();

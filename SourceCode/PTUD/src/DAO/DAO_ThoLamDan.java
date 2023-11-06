@@ -82,4 +82,47 @@ public class DAO_ThoLamDan {
 		}
 		return maThoLamDan;
 	}
+
+	public static ArrayList<ThoLamDan> getAlListThoLamDan() {
+
+		ArrayList<ThoLamDan> ds = new ArrayList<ThoLamDan>();
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("select * from ThoLamDan");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(rs.getString(1));
+				thoLamDan.setTayNghe(rs.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(rs.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				ds.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return ds;
+	}
+
+	public static ThoLamDan getTLDTheoMaThoLamDan(String maThoLamDan) {
+		ThoLamDan thoLamDan = new ThoLamDan();
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from ThoLamDan Where maThoLamDan ='" + maThoLamDan + "'");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				thoLamDan.setMaThoLamDan(rs.getString(1));
+				thoLamDan.setTayNghe(rs.getString(2));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return thoLamDan;
+	}
 }

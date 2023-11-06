@@ -38,6 +38,10 @@ public class BangPhanCong {
 		this.ngayPhanCong = ngayPhanCong;
 	}
 
+	public BangPhanCong() {
+		super();
+	}
+
 	@Override
 	public String toString() {
 		return "BangPhanCong [congDoan=" + congDoan + ", thoLamDan=" + thoLamDan + ", ngayPhanCong=" + ngayPhanCong

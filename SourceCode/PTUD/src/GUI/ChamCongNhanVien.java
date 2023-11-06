@@ -4,6 +4,13 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+<<<<<<< Updated upstream
+=======
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
+>>>>>>> Stashed changes
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -128,5 +135,78 @@ public class ChamCongNhanVien extends JPanel {
 		btnNewButton_1.setBounds(755, 630, 170, 50);
 		add(btnNewButton_1);
 
+<<<<<<< Updated upstream
+=======
+		btnChamCong = new JButton("Chấm Công");
+		btnChamCong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int check = 0;
+				for (int i = 0; i < modelChamCong.getRowCount(); i++) {
+					String trangThaiDiLam = (String) modelChamCong.getValueAt(i, 3);
+					if (trangThaiDiLam.equals("Chưa ghi nhận công")) {
+						check++;
+					}
+				}
+
+				if (check != 0) {
+					JOptionPane.showMessageDialog(null, "Chưa hoàn thành chấm công cho nhân viên");
+				} else {
+					int output = JOptionPane.showConfirmDialog(null, "Bạn xác nhận chấm công", "Thông báo xác nhận",
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					if (output == JOptionPane.YES_OPTION) {
+						for (int row = 0; row < modelChamCong.getRowCount(); row++) {
+							String maNhanVien = (String) modelChamCong.getValueAt(row, 1);
+							NhanVien nhanVien = dao_NhanVien.getNhanVienTheoMa(maNhanVien);
+							BangChamCongNhanVien bangChamCong = new BangChamCongNhanVien();
+							long currentTimeMillis = System.currentTimeMillis();
+							Date currentDate = new Date(currentTimeMillis);
+							bangChamCong.setNhanVien(nhanVien);
+							bangChamCong.setSoGioTangCa(Integer.parseInt((String) modelChamCong.getValueAt(row, 4)));
+							bangChamCong.setTrangThaiDiLam((String) modelChamCong.getValueAt(row, 3));
+							bangChamCong.setNgayChamCong(currentDate);
+
+							try {
+								if (dao_ChamCongNhanVien.KiemTraTrung(bangChamCong)) {
+									dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
+								} else {
+									SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+									String tb = "Đã Chấm Công Cho " + bangChamCong.getNhanVien().getMaNhanVien()
+											+ "ở ngày " + dateFormat.format(bangChamCong.getNgayChamCong());
+									JOptionPane.showMessageDialog(null, tb);
+								}
+
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
+							}
+						}
+
+					}
+				}
+			}
+		});
+		btnChamCong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnChamCong.setForeground(Color.WHITE);
+		btnChamCong.setBackground(new Color(2, 104, 156));
+		btnChamCong.setBounds(525, 630, 170, 50);
+		add(btnChamCong);
+
+		JButton btnMacDinh = new JButton("Tất cả");
+		btnMacDinh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int row = 0; row < modelChamCong.getRowCount(); row++) {
+					modelChamCong.setValueAt("Làm nguyên ca", row, 3);
+				}
+			}
+		});
+		btnMacDinh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnMacDinh.setForeground(Color.WHITE);
+		btnMacDinh.setBackground(new Color(120, 186, 219));
+		btnMacDinh.setBounds(755, 630, 170, 50);
+		add(btnMacDinh);
+
+		loadDataIntoTableChamCong();
+>>>>>>> Stashed changes
 	}
 }

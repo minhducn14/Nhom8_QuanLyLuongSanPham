@@ -100,10 +100,36 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		panel_1_1.add(scrollPane_1);
 
 		tbl_bangTen = new JTable();
+		
+		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
+        columnModel.setColumnSelectionAllowed(false);
+        columnModel.setColumnMargin(0);
+        tbl_bangTen.getTableHeader().setReorderingAllowed(false);
+        
+        
+        
 		scrollPane_1.setViewportView(tbl_bangTen);
 
+<<<<<<< HEAD
 		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
 		modelNhanVien = new DefaultTableModel(colHeader, 0);
+=======
+		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
+
+		modelNhanVien = new DefaultTableModel(colHeader, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = { false, false, false, false, false, false };
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		};
+
+>>>>>>> 72f4fe2b9d3d7482435ebf7d548835497304d3e3
 		tbl_bangTen.setModel(modelNhanVien);
 		
 		
@@ -115,7 +141,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		int rowMargin = 10;
 		tbl_bangTen.setRowHeight(rowHeight);
 		tbl_bangTen.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panel.setBackground(new Color(255, 255, 255));
@@ -205,7 +230,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		cbbPhongBan.setBounds(163, 143, 305, 28);
 		panel_1.add(cbbPhongBan);
 		cbbPhongBan.setEditable(false);
-		
+
 		cbbChucVu = new JComboBox<String>();
 		cbbChucVu.setEditable(true);
 		cbbChucVu.setBounds(163, 187, 305, 28);
@@ -262,7 +287,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		lblTrangThai.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblTrangThai.setBounds(20, 187, 133, 25);
 		panel_1_2.add(lblTrangThai);
-		
+
 		JLabel lblTrinhDo = new JLabel("Trình độ");
 		lblTrinhDo.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblTrinhDo.setBounds(20, 231, 133, 25);
@@ -427,6 +452,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		listnv = dao_nv.docTuBang();
 		listcnv = dao_cnv.docTuBang();
 		modelNhanVien.setRowCount(0);
+<<<<<<< HEAD
 		for (int i = 0; i < listnv.size(); i++) {
 	    NhanVien nv = listnv.get(i);
 	    if (i < listcnv.size()) {
@@ -442,6 +468,27 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	        }
 	    }
 		
+=======
+		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
+		List<NhanVien> listnv = dsNhanVien.docTuBang();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+		for (NhanVien nhanVien : listnv) {
+			Boolean gt = nhanVien.getCongNhanVien().isGioiTinh();
+			boolean kiemTraGT = true;
+			String gioiTinh;
+			if (gt == kiemTraGT) {
+				gioiTinh = "Nam";
+			} else {
+				gioiTinh = "Nam";
+			}
+			String[] rowData = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(), gioiTinh,
+					dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh()),
+					nhanVien.getCongNhanVien().getMaCanCuocCongDan(), nhanVien.getCongNhanVien().getSoDienThoai() };
+			modelNhanVien.addRow(rowData);
+		}
+
+>>>>>>> 72f4fe2b9d3d7482435ebf7d548835497304d3e3
 	}
 
 	public void autoGenIdNhanVien() {
@@ -508,8 +555,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			String trinhDo = (String) cbbTrinhDo.getSelectedItem();
 			double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
 
-			
-
 			String hoTen = txtHoTen.getText();
 			boolean phai = false;
 			if (G.getSelection() != null) {
@@ -525,9 +570,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			String sdt = txtSDT.getText();
 			String diaChi = txtDiaChi.getText();
 			boolean trangThai = true;
-			if (cbbTrangThai.equals("Đang Làm")) {
+			if (cbbTrangThai.toString().equals("Đang Làm")) {
 				trangThai = true;
-			} else if (cbbTrangThai.equals("Nghỉ Làm")) {
+			} else if (cbbTrangThai.toString().equals("Nghỉ Làm")) {
 				trangThai = false;
 			}
 			Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());
@@ -539,8 +584,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
 			NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
 			dao_nv.taoNV(nv);
-			
-			//updateTableDataNhanVien();
 
 			String maNVNew = dao_nv.getMaNhanVienMoiTao();
 			nv.setMaNhanVien(maNVNew);
@@ -553,12 +596,11 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			} else {
 				gioiTinh = "Nữ";
 			}
-			modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(),
-					gioiTinh, nv.getCongNhanVien().getNgaySinh(),
-					nv.getCongNhanVien().getMaCanCuocCongDan(), nv.getCongNhanVien().getSoDienThoai() });
+			modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
+					nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),
+					nv.getCongNhanVien().getSoDienThoai() });
 			xoaRong();
-			
-			
+
 		}
 
 	}

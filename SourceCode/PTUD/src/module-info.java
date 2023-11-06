@@ -10,4 +10,5 @@ module PTUD {
 	requires com.formdev.flatlaf;
 	requires java.sql;
 	requires jcalendar;
+	requires DateChooser;
 }

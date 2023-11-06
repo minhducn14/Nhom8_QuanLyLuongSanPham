@@ -266,7 +266,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 			pnCneter.add(form_NhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
-			ThoLamDan thoLamDan = new ThoLamDan();
+			QuanLyThoLamDan thoLamDan = new QuanLyThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(thoLamDan);
 			validate();

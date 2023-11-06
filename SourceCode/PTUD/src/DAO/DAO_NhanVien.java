@@ -17,24 +17,24 @@ public class DAO_NhanVien {
 		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			System.out.println(con);
-			String sql = "SELECT maNhanVien, chucVu, trinhDoVanHoa, luongCoban, maPhongBan, maCongNhanVien "
-					+ "FROM NhanVien";
+			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n";
 
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
-				String maNhanVien = rs.getString(1);
-				String chucVu = rs.getString(2);
-				String trinhDoVanHoa = rs.getString(3);
-				double luongCoban = rs.getDouble(4);
-				String maPhongBan = rs.getString(5);
-				PhongBan pb = new PhongBan(maPhongBan);
-				String maCongNhanVien = rs.getString(6);
-				CongNhanVien cnv = new CongNhanVien(maCongNhanVien);
-				NhanVien temp = new NhanVien(maNhanVien, chucVu, trinhDoVanHoa, luongCoban, pb, cnv);
-
-				dsNhanVien.add(temp);
+				NhanVien nhanVien = new NhanVien();
+				nhanVien.setMaNhanVien(rs.getString(1));
+				nhanVien.setChucVu(rs.getString(2));
+				nhanVien.setTrinhDoVanHoa(rs.getString(3));
+				nhanVien.setLuongCoBan(rs.getFloat(4));
+				DAO_PhongBan dao_PB = new DAO_PhongBan();
+				PhongBan phongBan = dao_PB.getPhongBanTheoMa(rs.getString(5));
+				nhanVien.setPhongBan(phongBan);
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(rs.getString(6));
+				nhanVien.setCongNhanVien(congNhanVien);
+				dsNhanVien.add(nhanVien);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

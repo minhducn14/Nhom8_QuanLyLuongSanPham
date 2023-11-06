@@ -91,13 +91,13 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		scrollPane_1.setViewportView(tbl_bangTen);
 
 		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
-		
+
 		modelNhanVien = new DefaultTableModel(colHeader, 0) {
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = { false, false, false, false,false, false };
+			boolean[] columnEditables = { false, false, false, false, false, false };
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -358,27 +358,23 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	private void updateTableDataNhanVien() {
 
 		modelNhanVien.setRowCount(0);
-
+		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
+		List<NhanVien> listnv = dsNhanVien.docTuBang();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
-		DAO_CongNhanVien dsCongNhanVien = new DAO_CongNhanVien();
-
-		List<NhanVien> listnv = dsNhanVien.docTuBang();
-		List<CongNhanVien> listcnv = dsCongNhanVien.docTuBang();
-		for (int i = 0; i < listnv.size(); i++) {
-			NhanVien nv = listnv.get(i);
-			if (i < listcnv.size()) {
-				CongNhanVien cnv = listcnv.get(i);
-				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
-				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
-				String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
-						cnv.getSoDienThoai() };
-				modelNhanVien.addRow(rowData);
+		for (NhanVien nhanVien : listnv) {
+			Boolean gt = nhanVien.getCongNhanVien().isGioiTinh();
+			boolean kiemTraGT = true;
+			String gioiTinh;
+			if (gt == kiemTraGT) {
+				gioiTinh = "Nam";
 			} else {
-				String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
-				modelNhanVien.addRow(rowData);
+				gioiTinh = "Nam";
 			}
+			String[] rowData = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(), gioiTinh,
+					dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh()),
+					nhanVien.getCongNhanVien().getMaCanCuocCongDan(), nhanVien.getCongNhanVien().getSoDienThoai() };
+			modelNhanVien.addRow(rowData);
 		}
 
 	}
@@ -476,8 +472,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
 			NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
 			dao_nv.taoNV(nv);
-
-			// updateTableDataNhanVien();
 
 			String maNVNew = dao_nv.getMaNhanVienMoiTao();
 			nv.setMaNhanVien(maNVNew);

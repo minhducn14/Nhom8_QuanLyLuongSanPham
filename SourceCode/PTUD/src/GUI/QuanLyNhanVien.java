@@ -97,7 +97,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		panel_1_1.add(scrollPane_1);
 
 		tbl_bangTen = new JTable();
-<<<<<<< Updated upstream
 
 		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
 		columnModel.setColumnSelectionAllowed(false);
@@ -120,13 +119,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			}
 		};
 
-=======
 		scrollPane_1.setViewportView(tbl_bangTen);
-
-		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
-		modelNhanVien = new DefaultTableModel(colHeader, 0);
->>>>>>> Stashed changes
-		tbl_bangTen.setModel(modelNhanVien);
 
 		JTableHeader tbBangLuong = tbl_bangTen.getTableHeader();
 		tbBangLuong.setBackground(new Color(151, 201, 219));
@@ -456,7 +449,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 				String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
 						cnv.getSoDienThoai() };
 				modelNhanVien.addRow(rowData);
-<<<<<<< Updated upstream
 			} else {
 
 				String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
@@ -474,13 +466,13 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			String gioiTinh;
 			if (gt == kiemTraGT) {
 				gioiTinh = "Nam";
-=======
->>>>>>> Stashed changes
 			} else {
-
-				String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
-				modelNhanVien.addRow(rowData);
+				gioiTinh = "Nam";
 			}
+			String[] rowData = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(), gioiTinh,
+					dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh()),
+					nhanVien.getCongNhanVien().getMaCanCuocCongDan(), nhanVien.getCongNhanVien().getSoDienThoai() };
+			modelNhanVien.addRow(rowData);
 		}
 
 	}

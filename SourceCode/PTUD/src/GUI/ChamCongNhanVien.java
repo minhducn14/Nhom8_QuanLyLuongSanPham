@@ -9,8 +9,6 @@ import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -152,7 +150,7 @@ public class ChamCongNhanVien extends JPanel {
 								JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
 							}
 						}
-					
+
 					}
 				}
 			}

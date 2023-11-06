@@ -1,5 +1,6 @@
-/GUI/
-/Connection/
-/Entity/
-/DAO/
 /icons/
+/Connection/
+/DAO/
+/Entity/
+/GUI/
+/module-info.class

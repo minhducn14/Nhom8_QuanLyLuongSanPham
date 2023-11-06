@@ -17,7 +17,6 @@ public class DAO_NhanVien {
 		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			System.out.println(con);
 			String sql = "SELECT maNhanVien, chucVu, trinhDoVanHoa, luongCoban, maPhongBan, maCongNhanVien "
 					+ "FROM NhanVien";
 

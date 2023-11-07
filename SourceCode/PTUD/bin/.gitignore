@@ -1,6 +1,7 @@
+/.metadata/
+/Connection/
+/DAO/
 /Entity/
 /GUI/
-<<<<<<< Updated upstream
-=======
-/DAO/
->>>>>>> Stashed changes
+/icons/
+/module-info.class

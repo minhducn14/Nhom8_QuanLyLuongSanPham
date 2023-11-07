@@ -118,23 +118,37 @@ public class LuongNhanVien extends JPanel {
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		textField_2.setBackground(Color.WHITE);
-		textField_2.setBounds(399, 10, 210, 30);
+		textField_2.setBounds(558, 10, 210, 30);
 		panel_1_1.add(textField_2);
 
-		JButton btnTnhTonB_1_1 = new JButton("");
-		btnTnhTonB_1_1.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
-		btnTnhTonB_1_1.setForeground(Color.WHITE);
-		btnTnhTonB_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_1.setBackground(new Color(2, 104, 156));
-		btnTnhTonB_1_1.setBounds(634, 10, 61, 30);
-		panel_1_1.add(btnTnhTonB_1_1);
+		JButton btnTen = new JButton("");
+		btnTen.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnTen.setForeground(Color.WHITE);
+		btnTen.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTen.setBackground(new Color(2, 104, 156));
+		btnTen.setBounds(793, 10, 61, 30);
+		panel_1_1.add(btnTen);
 
-		JButton btnTnhTonB_1_1_1 = new JButton("");
-		btnTnhTonB_1_1_1.setForeground(Color.WHITE);
-		btnTnhTonB_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_1_1.setBackground(new Color(2, 104, 156));
-		btnTnhTonB_1_1_1.setBounds(726, 10, 170, 30);
-		panel_1_1.add(btnTnhTonB_1_1_1);
+		JLabel lblTmKimTheo = new JLabel("Tìm kiếm theo tên");
+		lblTmKimTheo.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTmKimTheo.setBounds(366, 10, 176, 30);
+		panel_1_1.add(lblTmKimTheo);
+
+		JLabel lblTmKimTheo_2 = new JLabel("Tìm kiếm theo phòng ban");
+		lblTmKimTheo_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTmKimTheo_2.setBounds(898, 10, 219, 30);
+		panel_1_1.add(lblTmKimTheo_2);
+
+		JButton btnPhongBan = new JButton("");
+		btnPhongBan.setForeground(Color.WHITE);
+		btnPhongBan.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnPhongBan.setBackground(new Color(2, 104, 156));
+		btnPhongBan.setBounds(1293, 10, 61, 30);
+		panel_1_1.add(btnPhongBan);
+
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(1143, 10, 100, 30);
+		panel_1_1.add(comboBox);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -153,12 +167,12 @@ public class LuongNhanVien extends JPanel {
 		yearChooser.setSize(60, 30);
 		panel_1.add(yearChooser);
 
-		String[] thang = { "1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12" };
+		String[] thang = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
 		JComboBox<Object> cmbThang = new JComboBox<Object>(thang);
 		LocalDate currentDate = LocalDate.now();
 		Month currentMonth = currentDate.getMonth();
 		int monthValue = currentMonth.getValue();
-        cmbThang.setSelectedIndex(monthValue-1);
+		cmbThang.setSelectedIndex(monthValue - 1);
 		cmbThang.setBounds(110, 20, 56, 30);
 		panel_1.add(cmbThang);
 
@@ -166,8 +180,8 @@ public class LuongNhanVien extends JPanel {
 		lblNam.setBounds(190, 20, 80, 30);
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
-		JButton btnTnhTonB_1_2 = new JButton("");
-		btnTnhTonB_1_2.addActionListener(new ActionListener() {
+		JButton btnXemLuong = new JButton("");
+		btnXemLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int nam = yearChooser.getYear();
 				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
@@ -202,17 +216,19 @@ public class LuongNhanVien extends JPanel {
 					bl.setSoNgayThuongDiLam(soNgayThuongDiLam);
 					bl.setSoNgayNghiCoPhep(soNgayNghiCoPhep);
 					bl.setSoNgayNghiKhongPhep(soNgayNghiKhongPhep);
-					System.out.println(bl.toString());
+					String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
+					bl.setMaBangLuong(maBangLuong);
+					dao_LuongNhanVien.updateBangLuongNhanVien(bl);
 				}
 
 			}
 		});
-		btnTnhTonB_1_2.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
-		btnTnhTonB_1_2.setForeground(Color.WHITE);
-		btnTnhTonB_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnTnhTonB_1_2.setBackground(new Color(2, 104, 156));
-		btnTnhTonB_1_2.setBounds(340, 20, 61, 30);
-		panel_1.add(btnTnhTonB_1_2);
+		btnXemLuong.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnXemLuong.setForeground(Color.WHITE);
+		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnXemLuong.setBackground(new Color(2, 104, 156));
+		btnXemLuong.setBounds(340, 20, 61, 30);
+		panel_1.add(btnXemLuong);
 
 		tbl_BangLuong.addMouseListener(new MouseAdapter() {
 			@Override

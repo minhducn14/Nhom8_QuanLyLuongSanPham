@@ -56,6 +56,35 @@ public class DAO_LuongNhanVien {
 		return n > 0;
 	}
 
+	public boolean updateBangLuongNhanVien(BangLuongNhanVien bangLuong) {
+
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			String sql = "UPDATE [dbo].[BangLuongNhanVien] "
+					+ "SET [maBangLuong] = ?, [thang] = ?, [nam] = ?, [soNgayThuongDiLam] = ?, "
+					+ "[soNgayNghiKhongPhep] = ?, [soNgayNghiCoPhep] = ?, [soGioTangCaChuNhat] = ?, "
+					+ "[soGioTangCaNgayThuong] = ?, [soNgayLamChuNhat] = ? WHERE [maBangLuong] = ?";
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, bangLuong.getMaBangLuong());
+			statement.setInt(2, bangLuong.getThang());
+			statement.setInt(3, bangLuong.getNam());
+			statement.setFloat(4, bangLuong.getSoNgayThuongDiLam());
+			statement.setInt(5, bangLuong.getSoNgayNghiKhongPhep());
+			statement.setInt(6, bangLuong.getSoNgayNghiCoPhep());
+			statement.setInt(7, bangLuong.getSoGioTangCaChuNhat());
+			statement.setInt(8, bangLuong.getSoGioTangCaNgayThuong());
+			statement.setFloat(9, bangLuong.getSoNgayLamChuNhat());
+			statement.setString(10, bangLuong.getMaBangLuong());
+
+			int rowsAffected = statement.executeUpdate();
+			return rowsAffected > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
 	public int laySoNgayDiLamNguyenCaNgayThuong(String maNhanVien, int thang, int nam) {
 		int soNgay = 0;
 		try {

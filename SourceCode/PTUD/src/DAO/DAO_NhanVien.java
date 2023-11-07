@@ -148,4 +148,62 @@ public class DAO_NhanVien {
 		}
 		return nhanVien;
 	}
+
+	public ArrayList<NhanVien> getAllNhanVienTheoTen(String ten) {
+		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.trangThai = 1 and CongNhanVien.hoTen LIKE '%" + ten + "%'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				NhanVien nhanVien = new NhanVien();
+				nhanVien.setMaNhanVien(resultSet.getString(1));
+				nhanVien.setChucVu(resultSet.getString(2));
+				nhanVien.setTrinhDoVanHoa(resultSet.getString(3));
+				nhanVien.setLuongCoBan(resultSet.getFloat(4));
+				DAO_PhongBan dao_PB = new DAO_PhongBan();
+				PhongBan phongBan = dao_PB.getPhongBanTheoMa(resultSet.getString(5));
+				nhanVien.setPhongBan(phongBan);
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(6));
+				nhanVien.setCongNhanVien(congNhanVien);
+				dsNhanVien.add(nhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsNhanVien;
+	}
+
+	public ArrayList<NhanVien> getAllNhanVienTheoPhongBan(String maPhongBan) {
+		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.trangThai = 1 and maPhongBan = '" + maPhongBan + "'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				NhanVien nhanVien = new NhanVien();
+				nhanVien.setMaNhanVien(resultSet.getString(1));
+				nhanVien.setChucVu(resultSet.getString(2));
+				nhanVien.setTrinhDoVanHoa(resultSet.getString(3));
+				nhanVien.setLuongCoBan(resultSet.getFloat(4));
+				DAO_PhongBan dao_PB = new DAO_PhongBan();
+				PhongBan phongBan = dao_PB.getPhongBanTheoMa(resultSet.getString(5));
+				nhanVien.setPhongBan(phongBan);
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(6));
+				nhanVien.setCongNhanVien(congNhanVien);
+				dsNhanVien.add(nhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsNhanVien;
+	}
 }

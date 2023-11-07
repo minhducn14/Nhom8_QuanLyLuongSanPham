@@ -434,7 +434,6 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		layDataVoComboBox();
 		autoGenIdNhanVien();
 		updateTableDataNhanVien();
-
 	}
 
 	private void updateTableDataNhanVien() {

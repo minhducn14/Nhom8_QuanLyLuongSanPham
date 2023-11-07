@@ -12,6 +12,7 @@ import javax.swing.table.JTableHeader;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JDayChooser;
 
+import Connection.MyConnection;
 import DAO.DAO_BangPhanCong;
 import DAO.DAO_CongDoan;
 import DAO.DAO_ThoLamDan;
@@ -54,6 +55,8 @@ public class BangPhanCong extends JPanel implements ActionListener {
 	 * Create the panel.
 	 */
 	public BangPhanCong() {
+		MyConnection.getInstance().MyConnection();
+
 		congDoan_DAO = new DAO_CongDoan();
 		thoLamDan_DAO = new DAO_ThoLamDan();
 		bangPhanCong_DAO = new DAO_BangPhanCong();

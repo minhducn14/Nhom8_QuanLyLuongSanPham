@@ -22,6 +22,7 @@ import java.awt.Dimension;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 
 import Connection.MyConnection;
 import DAO.DAO_CongDoan;
@@ -158,17 +159,31 @@ public class CongDoan extends JPanel {
 		lblDSSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblDSSanPham.setText("Danh sách sản phẩm");
 
+
 		String[] cols = { "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Lo\u1EA1i s\u1EA3n ph\u1EA9m",
 				"Gi\u00E1 b\u00E1n" };
-		modelDSSanPham = new DefaultTableModel(cols, 0);
+		modelDSSanPham = new DefaultTableModel(cols, 0) {
+			boolean[] columnEditables = {false, false, false, false, false, false};
+			
+			public boolean isCellEditable(int row, int cols) {
+				return columnEditables[cols];
+			}
+		};
 
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 75, 860, 230);
 		panel_1.add(scrollPane);
 		int rowHeight = 30;
 		int rowMargin = 10;
-
 		tblDSSanPham = new JTable(modelDSSanPham);
+		
+		TableColumnModel columnModel = tblDSSanPham.getColumnModel();
+		columnModel.setColumnSelectionAllowed(false);
+		columnModel.setColumnMargin(0);
+		tblDSSanPham.getTableHeader().setReorderingAllowed(false);
+
+		
 		loadDataSP(dan_DAO.getAlListDan());
 
 		ListSelectionModel listSelectionModel = tblDSSanPham.getSelectionModel();
@@ -202,7 +217,16 @@ public class CongDoan extends JPanel {
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m",
 				"Gi\u00E1 C\u00F4ng \u0110o\u1EA1n" };
 		modelDSCongDoan = new DefaultTableModel(col, 0);
-		tblDSCongDoan = new JTable(modelDSCongDoan);
+		
+
+
+		tblDSCongDoan = new JTable(modelDSCongDoan) {
+			boolean[] columnEditables = {false, false, false, false, false, false};
+			
+			public boolean isCellEditable(int row, int col) {
+				return columnEditables[col];
+			}
+		};
 		tblDSCongDoan.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -221,6 +245,11 @@ public class CongDoan extends JPanel {
 
 		ListSelectionModel listSelectionModel1 = tblDSCongDoan.getSelectionModel();
 		listSelectionModel1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		TableColumnModel columnModel1 = tblDSCongDoan.getColumnModel();
+		columnModel1.setColumnSelectionAllowed(false);
+		columnModel1.setColumnMargin(0);
+		tblDSCongDoan.getTableHeader().setReorderingAllowed(false);
 
 		scrollPane_1.setViewportView(tblDSCongDoan);
 		JTableHeader tb1 = tblDSCongDoan.getTableHeader();

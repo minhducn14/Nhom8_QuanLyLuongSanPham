@@ -259,31 +259,33 @@ public class DAO_LuongNhanVien {
 		}
 		return ketQua;
 	}
-	
-//	public BangLuongNhanVien getMaBangLuongTheoMa(String maBangLuong) {
-//		BangLuongNhanVien bangLuongNhanVien = new BangLuongNhanVien();
-//		try {
-//			Connection con = MyConnection.getInstance().getConnection();
-//			String sql = "SELECT *  FROM BangLuongNhanVien where maBangLuong = '" + maBangLuong + "'";
-//			Statement statement = con.createStatement();
-//			ResultSet resultSet = statement.executeQuery(sql);
-//			while (resultSet.next()) {
-//				nhanVien.setMaNhanVien(resultSet.getString(1));
-//				nhanVien.setChucVu(resultSet.getString(2));
-//				nhanVien.setTrinhDoVanHoa(resultSet.getString(3));
-//				nhanVien.setLuongCoBan(resultSet.getFloat(4));
-//
-//				DAO_PhongBan dao_PB = new DAO_PhongBan();
-//				PhongBan phongBan = dao_PB.getPhongBanTheoMa(resultSet.getString(5));
-//				nhanVien.setPhongBan(phongBan);
-//				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
-//				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(6));
-//				nhanVien.setCongNhanVien(congNhanVien);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return nhanVien;
-//	}
+
+	public BangLuongNhanVien getMaBangLuongTheoMa(String maBangLuong) {
+		BangLuongNhanVien bangLuongNhanVien = new BangLuongNhanVien();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *  FROM BangLuongNhanVien where maBangLuong = '" + maBangLuong + "'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				bangLuongNhanVien.setMaBangLuong(resultSet.getString(1));
+				bangLuongNhanVien.setThang(resultSet.getInt(2));
+				bangLuongNhanVien.setNam(resultSet.getInt(3));
+
+				DAO_NhanVien dao_NV = new DAO_NhanVien();
+				NhanVien nhanVien = dao_NV.getNhanVienTheoMa(resultSet.getString(4));
+				bangLuongNhanVien.setNhanVien(nhanVien);
+				bangLuongNhanVien.setSoNgayThuongDiLam(resultSet.getFloat(5));
+				bangLuongNhanVien.setSoGioTangCaNgayThuong(resultSet.getInt(6));
+				bangLuongNhanVien.setSoNgayLamChuNhat(resultSet.getFloat(7));
+				bangLuongNhanVien.setSoGioTangCaChuNhat(resultSet.getInt(8));
+				bangLuongNhanVien.setSoNgayNghiKhongPhep(resultSet.getInt(9));
+				bangLuongNhanVien.setSoNgayNghiCoPhep(resultSet.getInt(10));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bangLuongNhanVien;
+	}
 
 }

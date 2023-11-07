@@ -20,7 +20,7 @@ public class DAO_ChamCongNhanVien {
 		try {
 			String sql = "INSERT INTO [dbo].[BangChamCongNhanVien] "
 					+ "([maBCCNhanVien], [maNhanVien], [ngayChamCong], [trangThaiDiLam], [soGioTangCa], [maBangLuong]) "
-					+ "VALUES ([dbo].[generate_IDBCCNV](?, ?),?, ?, ?, ?, NULL)";
+					+ "VALUES ([dbo].[generate_IDBCCNV](?, ?),?, ?, ?, ?, ?)";
 			stm = con.prepareStatement(sql);
 			stm.setString(1, bangChamCong.getNhanVien().getMaNhanVien());
 			stm.setDate(2, bangChamCong.getNgayChamCong());
@@ -28,6 +28,7 @@ public class DAO_ChamCongNhanVien {
 			stm.setDate(4, bangChamCong.getNgayChamCong());
 			stm.setString(5, bangChamCong.getTrangThaiDiLam());
 			stm.setInt(6, bangChamCong.getSoGioTangCa());
+			stm.setString(7, bangChamCong.getBangLuong().getMaBangLuong());
 			n = stm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,6 +68,7 @@ public class DAO_ChamCongNhanVien {
 		} else {
 			return true;
 		}
-
 	}
+	
+	
 }

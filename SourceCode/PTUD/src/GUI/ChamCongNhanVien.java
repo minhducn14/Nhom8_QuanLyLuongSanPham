@@ -44,7 +44,6 @@ public class ChamCongNhanVien extends JPanel {
 	private DAO_ChamCongNhanVien dao_ChamCongNhanVien = new DAO_ChamCongNhanVien();
 	private DAO_LuongNhanVien dao_LuongNhanVien = new DAO_LuongNhanVien();
 
-
 	/**
 	 * Create the panel.
 	 */
@@ -140,32 +139,34 @@ public class ChamCongNhanVien extends JPanel {
 							bangChamCong.setSoGioTangCa(Integer.parseInt((String) modelChamCong.getValueAt(row, 4)));
 							bangChamCong.setTrangThaiDiLam((String) modelChamCong.getValueAt(row, 3));
 							bangChamCong.setNgayChamCong(currentDate);
-							
+
 							LocalDate currentDate1 = LocalDate.now();
 							Month currentMonth = currentDate1.getMonth();
 							int thang = currentMonth.getValue();
 							int nam = currentDate1.getYear();
-							boolean KT =  dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
+							boolean KT = dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
 							if (!KT) {
 								themBangLuong(nhanVien);
 							}
-							bangChamCong.setBangLuong(null);
+
 							String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
-//							try {
-//								if (dao_ChamCongNhanVien.KiemTraTrung(bangChamCong)) {
-//									dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
-//								} else {
-//									SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//									String tb = "Đã Chấm Công Cho " + bangChamCong.getNhanVien().getMaNhanVien()
-//											+ " ở ngày " + dateFormat.format(bangChamCong.getNgayChamCong());
-//									JOptionPane.showMessageDialog(null, tb);
-//								}
-//
-//							} catch (SQLException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//								JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
-//							}
+							BangLuongNhanVien bangLuong = dao_LuongNhanVien.getMaBangLuongTheoMa(maBangLuong);
+							bangChamCong.setBangLuong(bangLuong);
+							try {
+								if (dao_ChamCongNhanVien.KiemTraTrung(bangChamCong)) {
+									dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
+								} else {
+									SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+									String tb = "Đã Chấm Công Cho " + bangChamCong.getNhanVien().getMaNhanVien()
+											+ " ở ngày " + dateFormat.format(bangChamCong.getNgayChamCong());
+									JOptionPane.showMessageDialog(null, tb);
+								}
+
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
+							}
 						}
 
 					}
@@ -207,7 +208,7 @@ public class ChamCongNhanVien extends JPanel {
 			modelChamCong.addRow(objects);
 		}
 	}
-	
+
 	private void themBangLuong(NhanVien nhanVien) {
 		LocalDate currentDate = LocalDate.now();
 		Month currentMonth = currentDate.getMonth();

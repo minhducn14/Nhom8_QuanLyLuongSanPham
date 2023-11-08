@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+/GUI/
+/DAO/
+/Entity/
+=======
 /.metadata/
 /Connection/
 /DAO/
@@ -5,3 +10,4 @@
 /GUI/
 /icons/
 /module-info.class
+>>>>>>> 0f402de10544e1a8973d95e330311b7c9d693808

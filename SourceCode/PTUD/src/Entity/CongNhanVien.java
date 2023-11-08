@@ -138,22 +138,18 @@ public class CongNhanVien {
 				+ ", diaChi=" + diaChi + ", trangThai=" + trangThai + ", ngayVaoLam=" + ngayVaoLam + "]";
 	}
 
-	public double tinhPhuCapThamNien(Date ngayVaoLam, double luongCoBan, double heSoLuong) {
-		int soNamLamViec = tinhSoNamLamViec(ngayVaoLam);
-		double tyLePhuCap = xacDinhTyLePhuCap(soNamLamViec);
+	public double tinhPhuCapThamNien(double luongCoBan, double heSoLuong) {
+		double tyLePhuCap = xacDinhTyLePhuCap();
 		double phuCapThamNien = luongCoBan * heSoLuong * (tyLePhuCap / 100);
 		return phuCapThamNien;
 	}
 
-	private int tinhSoNamLamViec(Date ngayVaoLam) {
+	private double xacDinhTyLePhuCap() {
 		LocalDate ngayVaoLamLocal = ngayVaoLam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate ngayHienTai = LocalDate.now();
 		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
 		int soNamLamViec = khoangThoiGian.getYears();
-		return soNamLamViec;
-	}
 
-	private double xacDinhTyLePhuCap(int soNamLamViec) {
 		if (soNamLamViec >= 5 && soNamLamViec < 10) {
 			return 5.0;
 		} else if (soNamLamViec >= 10 && soNamLamViec < 15) {

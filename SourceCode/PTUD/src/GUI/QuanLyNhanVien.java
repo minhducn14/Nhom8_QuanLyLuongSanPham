@@ -15,14 +15,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.sql.SQLException;
-
 
 import com.toedter.calendar.JDateChooser;
 
@@ -49,25 +49,20 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	private JComboBox<String> cbbPhongBan, cbbChucVu, cbbTrinhDo, cbbTrangThai;
 	private JDateChooser dateChooserNgayVaoLam, dateChooserNgaySinh;
 	private ButtonGroup G;
-	private SimpleDateFormat dateFormat;
-	private List<NhanVien> listnv;
-	private List<CongNhanVien> listcnv;
-	
+
 	private DAO_NhanVien dao_nv;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_PhongBan dao_pb;
-	
+
 	public QuanLyNhanVien() {
-		
+
 		dao_nv = new DAO_NhanVien();
 		dao_cnv = new DAO_CongNhanVien();
 		dao_pb = new DAO_PhongBan();
-		
 
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
-		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		JLabel lblTieuDe = new JLabel("Nhân Viên");
 		lblTieuDe.setForeground(new Color(0, 27, 72));
@@ -100,8 +95,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		panel_1_1.add(scrollPane_1);
 
 		tbl_bangTen = new JTable();
-		
+
 		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
+<<<<<<< HEAD
         columnModel.setColumnSelectionAllowed(false);
         columnModel.setColumnMargin(0);
         tbl_bangTen.getTableHeader().setReorderingAllowed(false);
@@ -110,6 +106,15 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 
 		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
 		
+=======
+		columnModel.setColumnSelectionAllowed(false);
+		columnModel.setColumnMargin(0);
+		tbl_bangTen.getTableHeader().setReorderingAllowed(false);
+
+		scrollPane_1.setViewportView(tbl_bangTen);
+
+		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
+>>>>>>> 0f402de10544e1a8973d95e330311b7c9d693808
 		modelNhanVien = new DefaultTableModel(colHeader, 0) {
 			/**
 			 * 
@@ -123,11 +128,12 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			}
 		};
 
+<<<<<<< HEAD
 
+=======
+		scrollPane_1.setViewportView(tbl_bangTen);
+>>>>>>> 0f402de10544e1a8973d95e330311b7c9d693808
 		tbl_bangTen.setModel(modelNhanVien);
-		
-		
-		
 		JTableHeader tbBangLuong = tbl_bangTen.getTableHeader();
 		tbBangLuong.setBackground(new Color(151, 201, 219));
 		tbBangLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -135,6 +141,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		int rowMargin = 10;
 		tbl_bangTen.setRowHeight(rowHeight);
 		tbl_bangTen.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panel.setBackground(new Color(255, 255, 255));
@@ -243,6 +250,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		dateChooserNgayVaoLam = new JDateChooser();
 		dateChooserNgayVaoLam.setBounds(163, 231, 305, 28);
 		dateChooserNgayVaoLam.setDateFormatString("dd-MM-yyyy");
+		java.util.Date currentDate = new java.util.Date();
+		dateChooserNgayVaoLam.setDate(currentDate);
 		panel_1.add(dateChooserNgayVaoLam);
 
 		JPanel panel_1_2 = new JPanel();
@@ -314,15 +323,12 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					String TrinhDoDuocChon = (String) cbbTrinhDo.getSelectedItem();
-					if ("Đại Học".equalsIgnoreCase(TrinhDoDuocChon)) {
+					NhanVien nv = new NhanVien();
+					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-						double heSoLuong = 2.41;
+					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-						txtHeSoLuong.setText(String.valueOf(heSoLuong));
-					} else {
-						double heSoLuong = 2.1;
-						txtHeSoLuong.setText(String.valueOf(heSoLuong));
-					}
+					txtHeSoLuong.setText(String.valueOf(heSoLuong));
 
 				}
 
@@ -370,82 +376,85 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		btnThem.addActionListener(this);
 
 		tbl_bangTen.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");			       
-				for (NhanVien nv : listnv) {
-					for (CongNhanVien cnv : listcnv) {
-				        txtDiaChi.setText(cnv.getDiaChi().toString());
-				}
-				}
 				int row = tbl_bangTen.getSelectedRow();
-				txtMaNhanVien.setText(modelNhanVien.getValueAt(row, 0).toString());
-				txtHoTen.setText(modelNhanVien.getValueAt(row, 1).toString());	 
-				txtSDT.setText(modelNhanVien.getValueAt(row, 5).toString());
+				NhanVien nv = dao_nv.getNhanVienTheoMa(modelNhanVien.getValueAt(row, 0).toString());
+				txtMaNhanVien.setText(nv.getMaNhanVien());
+				txtHoTen.setText(nv.getCongNhanVien().getHoTen());
+				txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
+				txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
 				String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
 				if ("Nữ".equals(gioiTinhValue)) {
-			        rbtNu.setSelected(true);
-			    } else {
-			        rbtNam.setSelected(true);
-			    }
-				try {			  
-				      java.sql.Date getNgaySinh = new java.sql.Date(dateFormat.parse(modelNhanVien.getValueAt(row, 3).toString()).getTime());
-				      dateChooserNgaySinh.setDate(getNgaySinh);
-				} catch (ParseException e1) {
-						
-					e1.printStackTrace();
-				} 
-				
-//				try {			  
-//				      java.sql.Date getNgayLam = new java.sql.Date(dateFormat.parse(modelNhanVien.getValueAt(row, 3).toString()).getTime());
-//				      dateChooserNgaySinh.setDate(getNgayLam);
-//				} catch (ParseException e1) {
-//						
-//					e1.printStackTrace();
-//				} 				
-				
-				
-				txtCMND.setText(modelNhanVien.getValueAt(row,4).toString());	
-					
+					rbtNu.setSelected(true);
+				} else {
+					rbtNam.setSelected(false);
+				}
+
+				java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
+				dateChooserNgaySinh.setDate(getNgaySinh);
+
+				cbbChucVu.setSelectedItem(nv.getChucVu());
+				cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
+				cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
+
+				java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
+				dateChooserNgayVaoLam.setDate(getNgayLam);
+
+				txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
+
 			}
 		});
-		
+		dateChooserNgayVaoLam.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if ("date".equals(evt.getPropertyName())) {
+					String TrinhDoDuocChon = (String) cbbTrinhDo.getSelectedItem();
+					NhanVien nv = new NhanVien();
+					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
+
+					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+
+					txtHeSoLuong.setText(String.valueOf(heSoLuong));
+				}
+			}
+		});
+
 		MyConnection.getInstance().MyConnection();
 		layDataVoComboBox();
 		autoGenIdNhanVien();
 		updateTableDataNhanVien();
-		
 	}
 
 	private void updateTableDataNhanVien() {
-		listnv = dao_nv.docTuBang();
-		listcnv = dao_cnv.docTuBang();
+
 		modelNhanVien.setRowCount(0);
+<<<<<<< HEAD
 
 		for (int i = 0; i < listnv.size(); i++) {
 	    NhanVien nv = listnv.get(i);
@@ -463,10 +472,11 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	    }
 		
 
+=======
+>>>>>>> 0f402de10544e1a8973d95e330311b7c9d693808
 		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
 		List<NhanVien> listnv = dsNhanVien.docTuBang();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
 		for (NhanVien nhanVien : listnv) {
 			Boolean gt = nhanVien.getCongNhanVien().isGioiTinh();
 			boolean kiemTraGT = true;
@@ -482,7 +492,10 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			modelNhanVien.addRow(rowData);
 		}
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0f402de10544e1a8973d95e330311b7c9d693808
 	}
 
 	public void autoGenIdNhanVien() {
@@ -564,9 +577,9 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			String sdt = txtSDT.getText();
 			String diaChi = txtDiaChi.getText();
 			boolean trangThai = true;
-			if (cbbTrangThai.toString().equals("Đang Làm")) {
+			if (cbbTrangThai.equals("Đang Làm")) {
 				trangThai = true;
-			} else if (cbbTrangThai.toString().equals("Nghỉ Làm")) {
+			} else if (cbbTrangThai.equals("Nghỉ Làm")) {
 				trangThai = false;
 			}
 			Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());
@@ -578,6 +591,8 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
 			NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
 			dao_nv.taoNV(nv);
+
+			// updateTableDataNhanVien();
 
 			String maNVNew = dao_nv.getMaNhanVienMoiTao();
 			nv.setMaNhanVien(maNVNew);

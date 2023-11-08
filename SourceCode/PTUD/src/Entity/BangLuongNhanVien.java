@@ -4,12 +4,29 @@ public class BangLuongNhanVien {
 	private String maBangLuong;
 	private int thang;
 	private int nam;
-	private int soNgayDiLam;
+	private float soNgayThuongDiLam;
 	private int soNgayNghiKhongPhep;
 	private int soNgayNghiCoPhep;
-	private int soGioTangCa;
-	private int soNgayLamChuNhat;
+	private int soGioTangCaChuNhat;
+	private int soGioTangCaNgayThuong;
+	private float soNgayLamChuNhat;
 	private NhanVien nhanVien;
+
+	public int getSoGioTangCaChuNhat() {
+		return soGioTangCaChuNhat;
+	}
+
+	public void setSoGioTangCaChuNhat(int soGioTangCaChuNhat) {
+		this.soGioTangCaChuNhat = soGioTangCaChuNhat;
+	}
+
+	public int getSoGioTangCaNgayThuong() {
+		return soGioTangCaNgayThuong;
+	}
+
+	public void setSoGioTangCaNgayThuong(int soGioTangCaNgayThuong) {
+		this.soGioTangCaNgayThuong = soGioTangCaNgayThuong;
+	}
 
 	public String getMaBangLuong() {
 		return maBangLuong;
@@ -35,14 +52,6 @@ public class BangLuongNhanVien {
 		this.nam = nam;
 	}
 
-	public int getSoNgayDiLam() {
-		return soNgayDiLam;
-	}
-
-	public void setSoNgayDiLam(int soNgayDiLam) {
-		this.soNgayDiLam = soNgayDiLam;
-	}
-
 	public int getSoNgayNghiKhongPhep() {
 		return soNgayNghiKhongPhep;
 	}
@@ -59,19 +68,19 @@ public class BangLuongNhanVien {
 		this.soNgayNghiCoPhep = soNgayNghiCoPhep;
 	}
 
-	public int getSoGioTangCa() {
-		return soGioTangCa;
+	public float getSoNgayThuongDiLam() {
+		return soNgayThuongDiLam;
 	}
 
-	public void setSoGioTangCa(int soGioTangCa) {
-		this.soGioTangCa = soGioTangCa;
+	public void setSoNgayThuongDiLam(float soNgayThuongDiLam) {
+		this.soNgayThuongDiLam = soNgayThuongDiLam;
 	}
 
-	public int getSoNgayLamChuNhat() {
+	public float getSoNgayLamChuNhat() {
 		return soNgayLamChuNhat;
 	}
 
-	public void setSoNgayLamChuNhat(int soNgayLamChuNhat) {
+	public void setSoNgayLamChuNhat(float soNgayLamChuNhat) {
 		this.soNgayLamChuNhat = soNgayLamChuNhat;
 	}
 
@@ -83,32 +92,40 @@ public class BangLuongNhanVien {
 		this.nhanVien = nhanVien;
 	}
 
-	public BangLuongNhanVien(String maBangLuong, int thang, int nam, int soNgayDiLam, int soNgayNghiKhongPhep,
-			int soNgayNghiCoPhep, int soGioTangCa, int soNgayLamChuNhat, NhanVien nhanVien) {
+	public BangLuongNhanVien() {
+		super();
+	}
+
+	public BangLuongNhanVien(String maBangLuong, int thang, int nam, int soNgayThuongDiLam, int soNgayNghiKhongPhep,
+			int soNgayNghiCoPhep, int soGioTangCaChuNhat, int soGioTangCaNgayThuong, int soNgayLamChuNhat,
+			NhanVien nhanVien) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.thang = thang;
 		this.nam = nam;
-		this.soNgayDiLam = soNgayDiLam;
+		this.soNgayThuongDiLam = soNgayThuongDiLam;
 		this.soNgayNghiKhongPhep = soNgayNghiKhongPhep;
 		this.soNgayNghiCoPhep = soNgayNghiCoPhep;
-		this.soGioTangCa = soGioTangCa;
+		this.soGioTangCaChuNhat = soGioTangCaChuNhat;
+		this.soGioTangCaNgayThuong = soGioTangCaNgayThuong;
 		this.soNgayLamChuNhat = soNgayLamChuNhat;
 		this.nhanVien = nhanVien;
 	}
 
 	@Override
 	public String toString() {
-		return "LuongNhanVien [maBangLuong=" + maBangLuong + ", thang=" + thang + ", nam=" + nam + ", soNgayDiLam="
-				+ soNgayDiLam + ", soNgayNghiKhongPhep=" + soNgayNghiKhongPhep + ", soNgayNghiCoPhep="
-				+ soNgayNghiCoPhep + ", soGioTangCa=" + soGioTangCa + ", soNgayLamChuNhat=" + soNgayLamChuNhat
+		return "BangLuongNhanVien [maBangLuong=" + maBangLuong + ", thang=" + thang + ", nam=" + nam
+				+ ", soNgayThuongDiLam=" + soNgayThuongDiLam + ", soNgayNghiKhongPhep=" + soNgayNghiKhongPhep
+				+ ", soNgayNghiCoPhep=" + soNgayNghiCoPhep + ", soGioTangCaChuNhat=" + soGioTangCaChuNhat
+				+ ", soGioTangCaNgayThuong=" + soGioTangCaNgayThuong + ", soNgayLamChuNhat=" + soNgayLamChuNhat
 				+ ", nhanVien=" + nhanVien + "]";
 	}
 
-	public double tinhLuongThucTe(int soNgayDiLam, double luongCoBan, double heSoLuong, int soGioTangCa,
-			int soNgayLamChuNhat, double phuCapThamNien) {
-		double luongThucTe = (soNgayDiLam * luongCoBan * heSoLuong) / 26 + (soGioTangCa * 25000)
-				+ (soNgayLamChuNhat * (1.5 * luongCoBan * heSoLuong) / 26) + phuCapThamNien;
+	public double tinhLuongThucTe(int soNgayThuongDiLam, int soNgayNghiKhongPhep, int soNgayNghiCoPhep,
+			int soGioTangCaChuNhat, int soGioTangCaNgayThuong, int soNgayLamChuNhat, double luongCoBan,
+			double heSoLuong, double phuCapThamNien) {
+		double luongThucTe = (soNgayThuongDiLam * luongCoBan * heSoLuong) / 26 + soGioTangCaNgayThuong * 25000
+				+ soNgayLamChuNhat * 1.5 * (luongCoBan * heSoLuong) / 26 + soGioTangCaChuNhat * 25000 * 1.5;
 		return luongThucTe;
 	}
 

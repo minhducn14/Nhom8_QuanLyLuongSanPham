@@ -1,6 +1,10 @@
 package Entity;
 
 import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 
 public class NhanVien {
 	private String maNhanVien;
@@ -9,16 +13,11 @@ public class NhanVien {
 	private double luongCoBan;
 	private PhongBan phongBan;
 	private CongNhanVien congNhanVien;
-	
-	
-	
 
 	public NhanVien() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 	public NhanVien(String maNhanVien, String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
 			CongNhanVien congNhanVien) {
@@ -30,25 +29,23 @@ public class NhanVien {
 		this.phongBan = phongBan;
 		this.congNhanVien = congNhanVien;
 	}
-	
+
 	public NhanVien(String maNhanVien) {
 		super();
 		this.maNhanVien = maNhanVien;
 	}
 
-	public NhanVien( String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
+	public NhanVien(String chucVu, String trinhDoVanHoa, double luongCoBan, PhongBan phongBan,
 			CongNhanVien congNhanVien) {
 		// TODO Auto-generated constructor stub
 		super();
-		
+
 		this.chucVu = chucVu;
 		this.trinhDoVanHoa = trinhDoVanHoa;
 		this.luongCoBan = luongCoBan;
 		this.phongBan = phongBan;
 		this.congNhanVien = congNhanVien;
 	}
-
-
 
 	@Override
 	public String toString() {
@@ -104,29 +101,61 @@ public class NhanVien {
 		this.congNhanVien = congNhanVien;
 	}
 
-	public double xacDinhHeSoLuongBanDau() {
-		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
-			return 2.1;
-		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
-			return 2.41;
-		} else {
-			return 1.0;
-		}
-	}
+	public double tinhHeSoLuong(Date ngayVaoLam, String trinhDo) {
+		Instant ngayVaoLamInstant = new java.util.Date(ngayVaoLam.getTime()).toInstant();
+		LocalDate ngayVaoLamLocal = ngayVaoLamInstant.atZone(ZoneId.systemDefault()).toLocalDate();
 
-	private double tinhHeSoTienTrien(int soNamLamViec) {
+		LocalDate ngayHienTai = LocalDate.now();
+		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
+		int soNamLamViec = khoangThoiGian.getYears();
 		int soBacTangLuong = soNamLamViec / 3;
 
-		double heSoTienTrienCaoDang = 0.15; 
-		double heSoTienTrienDaiHoc = 0.17; 
+		double heSoTienTrienCaoDang = 0.31;
+		double heSoTienTrienDaiHoc = 0.20;
 
-		double heSoTienTrien = 0.0;
-		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
-			heSoTienTrien = soBacTangLuong * heSoTienTrienCaoDang;
-		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
-			heSoTienTrien = soBacTangLuong * heSoTienTrienDaiHoc;
+		double heSoLuong = 0.0;
+
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDo)) {
+			heSoLuong = 2.1;
+		} else if ("Đại Học".equalsIgnoreCase(trinhDo)) {
+			heSoLuong = 2.41;
 		}
 
-		return heSoTienTrien;
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDo)) {
+			heSoLuong += soBacTangLuong * heSoTienTrienCaoDang;
+		} else if ("Đại Học".equalsIgnoreCase(trinhDo)) {
+			heSoLuong += soBacTangLuong * heSoTienTrienDaiHoc;
+		}
+
+		return heSoLuong;
+	}
+
+	public double tinhHeSoLuong() {
+		Instant ngayVaoLamInstant = new java.util.Date(congNhanVien.getNgayVaoLam().getTime()).toInstant();
+		LocalDate ngayVaoLamLocal = ngayVaoLamInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+		LocalDate ngayHienTai = LocalDate.now();
+		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
+		int soNamLamViec = khoangThoiGian.getYears();
+		int soBacTangLuong = soNamLamViec / 3;
+
+		double heSoTienTrienCaoDang = 0.31;
+		double heSoTienTrienDaiHoc = 0.20;
+
+		double heSoLuong = 0.0;
+
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
+			heSoLuong = 2.1;
+		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
+			heSoLuong = 2.41;
+		}
+
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
+			heSoLuong += soBacTangLuong * heSoTienTrienCaoDang;
+		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
+			heSoLuong += soBacTangLuong * heSoTienTrienDaiHoc;
+		}
+
+		return heSoLuong;
 	}
 }

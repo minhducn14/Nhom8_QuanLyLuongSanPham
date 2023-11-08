@@ -141,6 +141,11 @@ public class Dan {
 		super();
 	}
 
+	public Dan(String tenSP, String loaiSP, String mota2, double giaBan2, String matDan2, String eoLung2, String can2,
+			String matPhim2, String day2, String khoa2, String ngua, boolean trangThai2) {
+		super();
+	}
+
 	@Override
 	public String toString() {
 		return "Dan [maSanPham=" + maSanPham + ", tenSanPham=" + tenSanPham + ", loaiSanPham=" + loaiSanPham + ", moTa="

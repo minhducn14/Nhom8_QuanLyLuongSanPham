@@ -105,17 +105,11 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
         columnModel.setColumnSelectionAllowed(false);
         columnModel.setColumnMargin(0);
         tbl_bangTen.getTableHeader().setReorderingAllowed(false);
-        
-        
-        
 		scrollPane_1.setViewportView(tbl_bangTen);
 
-<<<<<<< HEAD
-		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
-		modelNhanVien = new DefaultTableModel(colHeader, 0);
-=======
-		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
 
+		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
+		
 		modelNhanVien = new DefaultTableModel(colHeader, 0) {
 			/**
 			 * 
@@ -129,7 +123,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			}
 		};
 
->>>>>>> 72f4fe2b9d3d7482435ebf7d548835497304d3e3
+
 		tbl_bangTen.setModel(modelNhanVien);
 		
 		
@@ -452,7 +446,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		listnv = dao_nv.docTuBang();
 		listcnv = dao_cnv.docTuBang();
 		modelNhanVien.setRowCount(0);
-<<<<<<< HEAD
+
 		for (int i = 0; i < listnv.size(); i++) {
 	    NhanVien nv = listnv.get(i);
 	    if (i < listcnv.size()) {
@@ -468,7 +462,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	        }
 	    }
 		
-=======
+
 		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
 		List<NhanVien> listnv = dsNhanVien.docTuBang();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -480,7 +474,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			if (gt == kiemTraGT) {
 				gioiTinh = "Nam";
 			} else {
-				gioiTinh = "Nam";
+				gioiTinh = "Nữ";
 			}
 			String[] rowData = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(), gioiTinh,
 					dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh()),
@@ -488,7 +482,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 			modelNhanVien.addRow(rowData);
 		}
 
->>>>>>> 72f4fe2b9d3d7482435ebf7d548835497304d3e3
+
 	}
 
 	public void autoGenIdNhanVien() {

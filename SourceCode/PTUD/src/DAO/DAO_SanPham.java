@@ -12,33 +12,35 @@ import Entity.Dan;
 
 public class DAO_SanPham {
 	public ArrayList<Dan> docTuBang() {
-		ArrayList<Dan> dsDan = new ArrayList<Dan>();
+		ArrayList<Dan> ds = new ArrayList<Dan>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT * FROM Dan";
+			String sql = "select * from Dan";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				Dan dan = new Dan();
-				dan.setMaSanPham(rs.getString(0));
-				dan.setTenSanPham(rs.getString(1));
-				dan.setLoaiSanPham(rs.getString(2));
-				dan.setMoTa(rs.getString(3));
-				dan.setGiaBan(rs.getDouble(4));
-				dan.setMatDan(rs.getString(5));
-				dan.setEoLung(rs.getString(6));
-				dan.setCan(rs.getString(7));
-				dan.setMatPhim(rs.getString(8));
-				dan.setDay(rs.getString(9));
-				dan.setKhoa(rs.getString(10));
-				dan.setCauNgua(rs.getString(11));
-				dan.setTrangThai(rs.getBoolean(12));
-				dsDan.add(dan);
+				dan.setMaSanPham(rs.getString(1));
+				dan.setTenSanPham(rs.getString(2));
+				dan.setLoaiSanPham(rs.getString(3));
+				dan.setMoTa(rs.getString(4));
+				dan.setGiaBan(rs.getFloat(5));
+				dan.setMatDan(rs.getString(6));
+				dan.setEoLung(rs.getString(7));
+				dan.setCan(rs.getString(8));
+				dan.setMatPhim(rs.getString(9));
+				dan.setDay(rs.getString(10));
+				dan.setKhoa(rs.getString(11));
+				dan.setCauNgua(rs.getString(12));
+				dan.setTrangThai(rs.getBoolean(13));
+				ds.add(dan);
 			}
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
+
 		}
-		return dsDan;
+		return ds;
 	}
 
 	public boolean taoSP(Dan dan) {

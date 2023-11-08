@@ -145,10 +145,9 @@ public class CongNhanVien {
 	}
 
 	private double xacDinhTyLePhuCap() {
-		LocalDate ngayVaoLamLocal = ngayVaoLam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate ngayVaoLamLocal = ngayVaoLam.toLocalDate();
 		LocalDate ngayHienTai = LocalDate.now();
-		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
-		int soNamLamViec = khoangThoiGian.getYears();
+		int soNamLamViec = ngayVaoLamLocal.until(ngayHienTai).getYears();
 
 		if (soNamLamViec >= 5 && soNamLamViec < 10) {
 			return 5.0;

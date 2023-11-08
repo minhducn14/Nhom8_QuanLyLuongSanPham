@@ -181,7 +181,7 @@ public class ChamCongNhanVien extends JPanel {
 									}
 									String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam,
 											nhanVien.getMaNhanVien());
-									BangLuongNhanVien bangLuong = dao_LuongNhanVien.getMaBangLuongTheoMa(maBangLuong);
+									BangLuongNhanVien bangLuong = dao_LuongNhanVien.getBangLuongTheoMa(maBangLuong);
 									bangChamCong.setBangLuong(bangLuong);
 									try {
 										dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
@@ -257,7 +257,6 @@ public class ChamCongNhanVien extends JPanel {
 						modelChamCong.setValueAt("Làm nguyên ca", row, 2);
 						modelChamCong.setValueAt("0", row, 3);
 					}
-
 				}
 			}
 		});
@@ -310,7 +309,6 @@ public class ChamCongNhanVien extends JPanel {
 						DAO_PhongBan dao_PhongBan = new DAO_PhongBan();
 						PhongBan pb = dao_PhongBan.getPhongBanTheoTen(selectedValue);
 						loadDataIntoTableChamCongTheoPhongBan(pb.getMaPhongBan());
-						;
 						modelChamCong.fireTableDataChanged();
 					}
 				}
@@ -362,7 +360,6 @@ public class ChamCongNhanVien extends JPanel {
 	}
 
 	private void loadDataIntoTableChamCongTheoTen(String ten) {
-		modelChamCong.setRowCount(0);
 		java.util.Date utilDate = new java.util.Date();
 		Date date = new Date(utilDate.getTime());
 		try {
@@ -371,6 +368,7 @@ public class ChamCongNhanVien extends JPanel {
 				modelChamCong.setRowCount(0);
 				JOptionPane.showMessageDialog(null, "Không có tên nhân viên tìm kiếm");
 			} else {
+				modelChamCong.setRowCount(0);
 				ArrayList<BangChamCongNhanVien> listBCC = dao_ChamCongNhanVien.layDanhSachChamCongTheoTen(date, ten);
 				ArrayList<String> listNV = new ArrayList<>();
 				for (BangChamCongNhanVien bangChamCongNhanVien : listBCC) {

@@ -121,17 +121,16 @@ public class BangLuongNhanVien {
 				+ ", nhanVien=" + nhanVien + "]";
 	}
 
-	public double tinhLuongThucTe(int soNgayThuongDiLam, int soNgayNghiKhongPhep, int soNgayNghiCoPhep,
-			int soGioTangCaChuNhat, int soGioTangCaNgayThuong, int soNgayLamChuNhat, double luongCoBan,
-			double heSoLuong, double phuCapThamNien) {
+	public double tinhLuongThucTe(double luongCoBan, double heSoLuong, double phuCapThamNien) {
 		double luongThucTe = (soNgayThuongDiLam * luongCoBan * heSoLuong) / 26 + soGioTangCaNgayThuong * 25000
 				+ soNgayLamChuNhat * 1.5 * (luongCoBan * heSoLuong) / 26 + soGioTangCaChuNhat * 25000 * 1.5;
 		return luongThucTe;
 	}
 
 	public double tinhLuongThucLinh(double luongThucTe, double luongCoBan, double heSoLuong) {
-		double luongThucLinh = luongThucTe
-				- (luongCoBan * heSoLuong * 0.08 + luongCoBan * heSoLuong * 0.015 + luongCoBan * heSoLuong * 0.01);
+		double luongThucLinh = luongThucTe - (luongThucTe * 0.08 + luongThucTe * 0.015 + luongThucTe * 0.01)
+				+ nhanVien.getCongNhanVien().tinhPhuCapThamNien(luongCoBan, nhanVien.tinhHeSoLuong())
+				+ (soNgayLamChuNhat + soNgayThuongDiLam) * 30000;
 		return luongThucLinh;
 	}
 

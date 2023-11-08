@@ -11,4 +11,6 @@ module PTUD {
 	requires java.sql;
 	requires jcalendar;
 	requires DateChooser;
+	requires poi;
+
 }

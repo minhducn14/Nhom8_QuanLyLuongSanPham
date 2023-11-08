@@ -6,12 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import Connection.MyConnection;
 import Entity.BangLuongNhanVien;
-import Entity.CongNhanVien;
 import Entity.NhanVien;
-import Entity.PhongBan;
 
 public class DAO_LuongNhanVien {
 	public boolean themBangLuongNhanVien(BangLuongNhanVien bangLuong) {
@@ -83,7 +82,6 @@ public class DAO_LuongNhanVien {
 			return false;
 		}
 	}
-
 
 	public int laySoNgayDiLamNguyenCaNgayThuong(String maNhanVien, int thang, int nam) {
 		int soNgay = 0;
@@ -289,7 +287,7 @@ public class DAO_LuongNhanVien {
 		return ketQua;
 	}
 
-	public BangLuongNhanVien getMaBangLuongTheoMa(String maBangLuong) {
+	public BangLuongNhanVien getBangLuongTheoMa(String maBangLuong) {
 		BangLuongNhanVien bangLuongNhanVien = new BangLuongNhanVien();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
@@ -317,4 +315,85 @@ public class DAO_LuongNhanVien {
 		return bangLuongNhanVien;
 	}
 
+	public int kiemTraTimKiemTheoTen(String ten) throws SQLException {
+		int n = 0;
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT COUNT(NhanVien.maCongNhanVien)\r\n" + "FROM NhanVien\r\n"
+					+ "INNER JOIN CongNhanVien ON NhanVien.maCongNhanVien = CongNhanVien.maCongNhanVien\r\n"
+					+ "where CongNhanVien.hoTen LIKE '%" + ten + "%';" + "";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return n;
+	}
+
+	public ArrayList<BangLuongNhanVien> getBangLuongTheoTen(String tenNhanVien) {
+		ArrayList<BangLuongNhanVien> list = new ArrayList<>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT BangLuongNhanVien.*, CongNhanVien.hoTen  FROM BangLuongNhanVien \r\n"
+					+ "join NhanVien on BangLuongNhanVien.maNhanVien= NhanVien.maNhanVien\r\n"
+					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where CongNhanVien.hoTen LIKE '%"
+					+ tenNhanVien + "%'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				BangLuongNhanVien bangLuongNhanVien = new BangLuongNhanVien();
+				bangLuongNhanVien.setMaBangLuong(resultSet.getString(1));
+				bangLuongNhanVien.setThang(resultSet.getInt(2));
+				bangLuongNhanVien.setNam(resultSet.getInt(3));
+				DAO_NhanVien dao_NV = new DAO_NhanVien();
+				NhanVien nhanVien = dao_NV.getNhanVienTheoMa(resultSet.getString(4));
+				bangLuongNhanVien.setNhanVien(nhanVien);
+				bangLuongNhanVien.setSoNgayThuongDiLam(resultSet.getFloat(5));
+				bangLuongNhanVien.setSoGioTangCaNgayThuong(resultSet.getInt(6));
+				bangLuongNhanVien.setSoNgayLamChuNhat(resultSet.getFloat(7));
+				bangLuongNhanVien.setSoGioTangCaChuNhat(resultSet.getInt(8));
+				bangLuongNhanVien.setSoNgayNghiKhongPhep(resultSet.getInt(9));
+				bangLuongNhanVien.setSoNgayNghiCoPhep(resultSet.getInt(10));
+				list.add(bangLuongNhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	public ArrayList<BangLuongNhanVien> getBangLuongTheoPhongBan(String maPhongBan) {
+		ArrayList<BangLuongNhanVien> list = new ArrayList<>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT BangLuongNhanVien.*, CongNhanVien.hoTen  FROM BangLuongNhanVien \r\n"
+					+ "join NhanVien on BangLuongNhanVien.maNhanVien= NhanVien.maNhanVien\r\n"
+					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where maPhongBan = '"
+					+ maPhongBan + "'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				BangLuongNhanVien bangLuongNhanVien = new BangLuongNhanVien();
+				bangLuongNhanVien.setMaBangLuong(resultSet.getString(1));
+				bangLuongNhanVien.setThang(resultSet.getInt(2));
+				bangLuongNhanVien.setNam(resultSet.getInt(3));
+				DAO_NhanVien dao_NV = new DAO_NhanVien();
+				NhanVien nhanVien = dao_NV.getNhanVienTheoMa(resultSet.getString(4));
+				bangLuongNhanVien.setNhanVien(nhanVien);
+				bangLuongNhanVien.setSoNgayThuongDiLam(resultSet.getFloat(5));
+				bangLuongNhanVien.setSoGioTangCaNgayThuong(resultSet.getInt(6));
+				bangLuongNhanVien.setSoNgayLamChuNhat(resultSet.getFloat(7));
+				bangLuongNhanVien.setSoGioTangCaChuNhat(resultSet.getInt(8));
+				bangLuongNhanVien.setSoNgayNghiKhongPhep(resultSet.getInt(9));
+				bangLuongNhanVien.setSoNgayNghiCoPhep(resultSet.getInt(10));
+				list.add(bangLuongNhanVien);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

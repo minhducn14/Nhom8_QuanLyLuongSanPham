@@ -19,7 +19,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ChiTietBangLuong extends JFrame {
+public class ChiTietBangLuongNhanVien extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -49,7 +49,7 @@ public class ChiTietBangLuong extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ChiTietBangLuong(BangLuongNhanVien bangLuongNhanVien) {
+	public ChiTietBangLuongNhanVien(BangLuongNhanVien bangLuongNhanVien) {
 		setType(Type.POPUP);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

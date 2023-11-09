@@ -490,9 +490,15 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 		txtDiaChi.setText("");
 		txtLuongCoBan.setText("");
 		dateChooserNgaySinh.setDate(null);
-		dateChooserNgayVaoLam.setDate(null);
-		rbtNam.isSelected();
+		java.util.Date currentDate = new java.util.Date();
+		dateChooserNgayVaoLam.setDate(currentDate);
+		rbtNam.setSelected(true);
 		txtMaNhanVien.requestFocus();
+		cbbChucVu.setSelectedIndex(0);
+		cbbPhongBan.setSelectedIndex(0);
+		cbbTrangThai.setSelectedIndex(0);
+		cbbTrinhDo.setSelectedIndex(0);
+		tbl_bangTen.clearSelection();
 		autoGenIdNhanVien();
 	}
 

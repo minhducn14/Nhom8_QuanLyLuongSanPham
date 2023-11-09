@@ -37,22 +37,15 @@ import Connection.MyConnection;
 import DAO.DAO_LuongNhanVien;
 import DAO.DAO_NhanVien;
 import DAO.DAO_PhongBan;
-import Entity.BangChamCongNhanVien;
 import Entity.BangLuongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
-
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -130,12 +123,6 @@ public class LuongNhanVien extends JPanel {
 		columnModel.setColumnSelectionAllowed(false);
 		columnModel.setColumnMargin(0);
 		tbl_BangLuong.getTableHeader().setReorderingAllowed(false);
-
-		tbl_BangLuong.getColumnModel().getColumn(0).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(1).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(2).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(3).setResizable(false);
-		tbl_BangLuong.getColumnModel().getColumn(4).setResizable(false);
 
 		JTableHeader tbBangLuong = tbl_BangLuong.getTableHeader();
 		tbBangLuong.setBackground(new Color(151, 201, 219));
@@ -352,7 +339,7 @@ public class LuongNhanVien extends JPanel {
 				String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam,
 						(String) modelDanhSachLuong.getValueAt(row, 0));
 				BangLuongNhanVien bangLuongNhanVien = dao_LuongNhanVien.getBangLuongTheoMa(maBangLuong);
-				ChiTietBangLuong bangLuong = new ChiTietBangLuong(bangLuongNhanVien);
+				ChiTietBangLuongNhanVien bangLuong = new ChiTietBangLuongNhanVien(bangLuongNhanVien);
 				bangLuong.setVisible(true);
 			}
 		});

@@ -66,7 +66,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Quản Lý Lương Sản Phẩm");
 		setBackground(new Color(221, 242, 251));
-
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GiaoDienChinh.class.getResource("/icons/Icon.png")));
 		Container cp = getContentPane();
 		cp.setLayout(new BorderLayout());
 

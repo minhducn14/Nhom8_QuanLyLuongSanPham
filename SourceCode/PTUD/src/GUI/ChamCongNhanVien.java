@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -105,6 +106,10 @@ public class ChamCongNhanVien extends JPanel {
 						{ null, null, null, null }, { null, null, null, null }, },
 				new String[] { "M\u00E3 Nh\u00E2n Vi\u00EAn", "T\u00EAn Nh\u00E2n Vi\u00EAn", "Tr\u1EA1ng Th\u00E1i",
 						"S\u1ED1 gi\u1EDD t\u0103ng ca" }));
+		TableColumnModel columnModel = tableChamCong.getColumnModel();
+		columnModel.setColumnSelectionAllowed(false);
+		columnModel.setColumnMargin(0);
+		tableChamCong.getTableHeader().setReorderingAllowed(false);
 		String[] gioTangCaLuaChon = { "0", "1", "2", "3", "4" };
 		JComboBox<String> gioTangCaComboBox = new JComboBox<>(gioTangCaLuaChon);
 		DefaultCellEditor editorGioTangCa = new DefaultCellEditor(gioTangCaComboBox);

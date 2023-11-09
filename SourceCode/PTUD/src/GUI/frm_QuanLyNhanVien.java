@@ -34,7 +34,7 @@ import Entity.CongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
 
-public class QuanLyNhanVien extends JPanel implements ActionListener {
+public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private DefaultTableModel modelNhanVien;
 	private JTable tbl_bangTen;
@@ -54,7 +54,7 @@ public class QuanLyNhanVien extends JPanel implements ActionListener {
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_PhongBan dao_pb;
 
-	public QuanLyNhanVien() {
+	public frm_QuanLyNhanVien() {
 
 		dao_nv = new DAO_NhanVien();
 		dao_cnv = new DAO_CongNhanVien();

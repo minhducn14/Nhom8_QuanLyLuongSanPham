@@ -32,7 +32,7 @@ import Entity.Dan;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
-public class CongDoan extends JPanel {
+public class frm_CongDoan extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtMaCongDoan;
@@ -61,7 +61,7 @@ public class CongDoan extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CongDoan() {
+	public frm_CongDoan() {
 		MyConnection.getInstance().MyConnection();
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);

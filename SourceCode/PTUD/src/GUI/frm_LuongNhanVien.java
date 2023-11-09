@@ -52,7 +52,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 
-public class LuongNhanVien extends JPanel {
+public class frm_LuongNhanVien extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tbl_BangLuong;
@@ -67,7 +67,7 @@ public class LuongNhanVien extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LuongNhanVien() {
+	public frm_LuongNhanVien() {
 		MyConnection.getInstance().MyConnection();
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
@@ -165,7 +165,7 @@ public class LuongNhanVien extends JPanel {
 
 			}
 		});
-		btnTimTheoTen.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnTimTheoTen.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
 		btnTimTheoTen.setForeground(Color.WHITE);
 		btnTimTheoTen.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTimTheoTen.setBackground(new Color(2, 104, 156));
@@ -318,7 +318,7 @@ public class LuongNhanVien extends JPanel {
 
 			}
 		});
-		btnXemLuong.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));
@@ -339,7 +339,7 @@ public class LuongNhanVien extends JPanel {
 				String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam,
 						(String) modelDanhSachLuong.getValueAt(row, 0));
 				BangLuongNhanVien bangLuongNhanVien = dao_LuongNhanVien.getBangLuongTheoMa(maBangLuong);
-				ChiTietBangLuongNhanVien bangLuong = new ChiTietBangLuongNhanVien(bangLuongNhanVien);
+				frm_ChiTietBangLuongNhanVien bangLuong = new frm_ChiTietBangLuongNhanVien(bangLuongNhanVien);
 				bangLuong.setVisible(true);
 			}
 		});

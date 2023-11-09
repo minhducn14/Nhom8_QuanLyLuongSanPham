@@ -18,7 +18,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 
-public class TimKiemThongTinSanPham extends JPanel {
+public class frm_TimKiemThongTinSanPham extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -28,7 +28,7 @@ public class TimKiemThongTinSanPham extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public TimKiemThongTinSanPham() {
+	public frm_TimKiemThongTinSanPham() {
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
 	    

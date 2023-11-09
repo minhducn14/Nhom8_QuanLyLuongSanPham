@@ -9,14 +9,14 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 
-public class TrangChu extends JPanel {
+public class frm_TrangChu extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	public TrangChu() {
+	public frm_TrangChu() {
 		setLayout(null);
 		
 		JLabel lblNewLabel_3 = new JLabel("Harmonious Guitars");
@@ -41,7 +41,7 @@ public class TrangChu extends JPanel {
 		add(lblNewLabel_1);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(TrangChu.class.getResource("/icons/BG.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(frm_TrangChu.class.getResource("/icons/BG.jpg")));
 		lblNewLabel.setBounds(0, 0, 1450, 733);
 		add(lblNewLabel);
 

@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class GiaoDienChinh extends JFrame implements MouseListener, ActionListener {
+public class frm_GiaoDienChinh extends JFrame implements MouseListener, ActionListener {
 	/**
 	 *
 	 */
@@ -43,7 +43,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 					System.err.println("Failed to initialize LaF");
 				}
 				try {
-					GiaoDienChinh frame = new GiaoDienChinh();
+					frm_GiaoDienChinh frame = new frm_GiaoDienChinh();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +52,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		});
 	}
 
-	public GiaoDienChinh() {
+	public frm_GiaoDienChinh() {
 		getContentPane().setBackground(new Color(221, 242, 251));
 		doShow();
 	}
@@ -66,7 +66,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Quản Lý Lương Sản Phẩm");
 		setBackground(new Color(221, 242, 251));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GiaoDienChinh.class.getResource("/icons/Icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(frm_GiaoDienChinh.class.getResource("/icons/Icon.png")));
 		Container cp = getContentPane();
 		cp.setLayout(new BorderLayout());
 
@@ -106,7 +106,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		mnCongDoan.setPreferredSize(new Dimension(150, 30));
 
 		JMenu mnQuanLy = new JMenu("Quản Lý");
-		mnQuanLy.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/management.png")));
+		mnQuanLy.setIcon(new ImageIcon(frm_GiaoDienChinh.class.getResource("/icons/management.png")));
 		mnQuanLy.setFont(ftmn);
 		mnQuanLy.add(mnCapNhatNV = new JMenuItem("Nhân Viên"));
 		mnQuanLy.add(mnCapNhatTLD = new JMenuItem("Thợ làm đàn"));
@@ -134,7 +134,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		menuBar.add(mnTimKiem);
 
 		mnTroGiup = new JMenu("Trợ giúp");
-		mnTroGiup.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/HoTro.png")));
+		mnTroGiup.setIcon(new ImageIcon(frm_GiaoDienChinh.class.getResource("/icons/HoTro.png")));
 		mnTroGiup.setFont(new Font("Arial", Font.BOLD, 20));
 		menuBar.add(mnTroGiup);
 
@@ -168,7 +168,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		pnCenterC.add(lblNewLabel_2);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/BG.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(frm_GiaoDienChinh.class.getResource("/icons/BG.jpg")));
 		lblNewLabel.setBounds(0, 0, 1450, 733);
 		pnCenterC.add(lblNewLabel);
 
@@ -177,7 +177,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 		menuBar.setBackground(Color.decode("#B2EBF2"));
 
 		mnThngK = new JMenu("Thống kê");
-		mnThngK.setIcon(new ImageIcon(GiaoDienChinh.class.getResource("/icons/analytis_icon.png")));
+		mnThngK.setIcon(new ImageIcon(frm_GiaoDienChinh.class.getResource("/icons/analytis_icon.png")));
 		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
 		menuBar.add(mnThngK);
 
@@ -210,7 +210,7 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getSource().equals(mnTrangChu)) {
-			TrangChu form_trangChu = new TrangChu();
+			frm_TrangChu form_trangChu = new frm_TrangChu();
 			pnCneter.removeAll();
 			pnCneter.add(form_trangChu);
 			validate();
@@ -242,65 +242,65 @@ public class GiaoDienChinh extends JFrame implements MouseListener, ActionListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource().equals(mnChamCong)) {
-			ChamCongNhanVien form_chamCongNhanVien = new ChamCongNhanVien();
+			frm_ChamCongNhanVien form_chamCongNhanVien = new frm_ChamCongNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_chamCongNhanVien);
 			validate();
 		} else if (e.getSource().equals(mnTinhLuong)) {
-			LuongNhanVien form_luongNhanVien = new LuongNhanVien();
+			frm_LuongNhanVien form_luongNhanVien = new frm_LuongNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_luongNhanVien);
 			validate();
 
 		} else if (e.getSource().equals(mnCapNhatNV)) {
-			QuanLyNhanVien form_NhanVien = new QuanLyNhanVien();
+			frm_QuanLyNhanVien form_NhanVien = new frm_QuanLyNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_NhanVien);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatTLD)) {
-			QuanLyThoLamDan thoLamDan = new QuanLyThoLamDan();
+			frm_QuanLyThoLamDan thoLamDan = new frm_QuanLyThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(thoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnCapNhatSP)) {
-			QuanLySanPham form_SanPham = new QuanLySanPham();
+			frm_QuanLySanPham form_SanPham = new frm_QuanLySanPham();
 			pnCneter.removeAll();
 			pnCneter.add(form_SanPham);
 			validate();
 		} else if (e.getSource().equals(mnCongDoan)) {
-			CongDoan form_CongDoan = new CongDoan();
+			frm_CongDoan form_CongDoan = new frm_CongDoan();
 			pnCneter.removeAll();
 			pnCneter.add(form_CongDoan);
 			validate();
 
 		} else if (e.getSource().equals(mnPhanCong)) {
-			BangPhanCong form_bangPhanCong = new BangPhanCong();
+			frm_PhanCong form_bangPhanCong = new frm_PhanCong();
 			pnCneter.removeAll();
 			pnCneter.add(form_bangPhanCong);
 			validate();
 
 		} else if (e.getSource().equals(mnChamCongTLD)) {
-			ChamCongThoLamDan form_chamCongThoLamDan = new ChamCongThoLamDan();
+			frm_ChamCongThoLamDan form_chamCongThoLamDan = new frm_ChamCongThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_chamCongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTinhLuongTLD)) {
-			LuongThoLamDan form_luongThoLamDan = new LuongThoLamDan();
+			frm_LuongThoLamDan form_luongThoLamDan = new frm_LuongThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_luongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimNhanVien)) {
-			TimKiemNhanVien form_TimKiemNhanVien = new TimKiemNhanVien();
+			frm_TimKiemNhanVien form_TimKiemNhanVien = new frm_TimKiemNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemNhanVien);
 			validate();
 		} else if (e.getSource().equals(mnTimCongNhan)) {
-			TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new TimKiemThongTinThoLamDan();
+			frm_TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new frm_TimKiemThongTinThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimSanPham)) {
-			TimKiemThongTinSanPham form_TimKiemSanPham = new TimKiemThongTinSanPham();
+			frm_TimKiemThongTinSanPham form_TimKiemSanPham = new frm_TimKiemThongTinSanPham();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemSanPham);
 			validate();

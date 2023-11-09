@@ -76,6 +76,7 @@ public class DAO_BangPhanCong {
 				bangPhanCong.setCongDoan(congDoan);
 				bangPhanCong.setThoLamDan(thoLamDan);
 				bangPhanCong.setNgayPhanCong(rs.getDate(3));
+				bangPhanCong.setSoLuongSanPham(rs.getInt(4));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

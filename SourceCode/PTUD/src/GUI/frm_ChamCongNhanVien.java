@@ -46,7 +46,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 
-public class ChamCongNhanVien extends JPanel {
+public class frm_ChamCongNhanVien extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tableChamCong;
@@ -62,7 +62,7 @@ public class ChamCongNhanVien extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ChamCongNhanVien() {
+	public frm_ChamCongNhanVien() {
 		MyConnection.getInstance().MyConnection();
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
@@ -248,7 +248,7 @@ public class ChamCongNhanVien extends JPanel {
 				}
 			}
 		});
-		btnTimKiemTen.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnTimKiemTen.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
 		btnTimKiemTen.setForeground(Color.WHITE);
 		btnTimKiemTen.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTimKiemTen.setBackground(new Color(2, 104, 156));

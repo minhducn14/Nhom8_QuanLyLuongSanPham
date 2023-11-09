@@ -6,12 +6,12 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class BangThongKeLuong extends JPanel {
+public class frm_BangThongKeLuong extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public BangThongKeLuong() {
+	public frm_BangThongKeLuong() {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 		

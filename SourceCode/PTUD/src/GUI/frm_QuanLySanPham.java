@@ -25,7 +25,7 @@ import Entity.CongNhanVien;
 import Entity.Dan;
 import Entity.NhanVien;
 
-public class QuanLySanPham extends JPanel implements ActionListener {
+public class frm_QuanLySanPham extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private DefaultTableModel modelSanPham;
 	private JTable tbl_BangSanPham;
@@ -38,7 +38,7 @@ public class QuanLySanPham extends JPanel implements ActionListener {
 	private List<Dan> listsp;
 	private DAO_SanPham dao_sp;
 
-	public QuanLySanPham() {
+	public frm_QuanLySanPham() {
 
 		dao_sp = new DAO_SanPham();
 		setBackground(new Color(221, 242, 251));

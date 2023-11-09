@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -22,22 +23,33 @@ import javax.swing.table.TableColumnModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import Connection.MyConnection;
+import DAO.DAO_ChamCongThoLamDan;
+import Entity.BangChamCongNhanVien;
+import Entity.BangPhanCong;
+import Entity.NhanVien;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.JSeparator;
 
-public class ChamCongThoLamDan extends JPanel implements ActionListener {
+public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tbl_BangChamCong;
 	private JTextField txtTen;
 	private JDateChooser ngayPhanCong;
 
+	private DefaultTableModel model_BagPhanCong;
+	private DAO_ChamCongThoLamDan dao_ChamCongThoLamDan = new DAO_ChamCongThoLamDan();
+
 	/**
 	 * Create the panel.
 	 */
-	public ChamCongThoLamDan() {
+	public frm_ChamCongThoLamDan() {
+		MyConnection.getInstance().MyConnection();
+
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 
@@ -78,7 +90,7 @@ public class ChamCongThoLamDan extends JPanel implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(23, 128, 1365, 376);
 		panel_1_2.add(scrollPane);
-		DefaultTableModel model_BagPhanCong = new DefaultTableModel(
+		model_BagPhanCong = new DefaultTableModel(
 				new Object[][] { { null, null, null, null, null, null }, { null, null, null, null, null, null },
 						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
 						{ null, null, null, null, null, null }, { null, null, null, null, null, null },
@@ -128,7 +140,7 @@ public class ChamCongThoLamDan extends JPanel implements ActionListener {
 		tbl_BangChamCong.setRowHeight(rowHeight);
 		tbl_BangChamCong.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
 
-		btnTimKiemTen.setIcon(new ImageIcon(ChamCongThoLamDan.class.getResource("/icons/search_icon.png")));
+		btnTimKiemTen.setIcon(new ImageIcon(frm_ChamCongThoLamDan.class.getResource("/icons/search_icon.png")));
 		btnTimKiemTen.setForeground(Color.WHITE);
 		btnTimKiemTen.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTimKiemTen.setBackground(new Color(2, 104, 156));
@@ -167,24 +179,44 @@ public class ChamCongThoLamDan extends JPanel implements ActionListener {
 		lblThongTin_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblThongTin_1_1_1_1.setBounds(1144, 20, 116, 25);
 		panel_1_2.add(lblThongTin_1_1_1_1);
-		
+
 		JLabel lblThongTin_1_1_2 = new JLabel("Ngày Chấm Công");
 		lblThongTin_1_1_2.setForeground(new Color(0, 27, 72));
 		lblThongTin_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblThongTin_1_1_2.setBounds(20, 20, 270, 25);
 		panel_1_2.add(lblThongTin_1_1_2);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 128, 128));
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBounds(366, 20, 5, 25);
 		panel_1_2.add(separator);
-
+		loadDataIntoTableChamCong();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+
+	private void loadDataIntoTableChamCong() {
+		model_BagPhanCong.setRowCount(0);
+		try {
+			ArrayList<BangPhanCong> listBangPhanCong = dao_ChamCongThoLamDan.listAllBangPhanCong();
+
+			for (BangPhanCong bangPhanCong : listBangPhanCong) {
+				Object[] objects = { bangPhanCong.getThoLamDan().getMaThoLamDan(),
+						bangPhanCong.getThoLamDan().getCongNhanVien().getHoTen(),
+						bangPhanCong.getCongDoan().getDan().getMaSanPham(), bangPhanCong.getCongDoan().getTenCongDoan(),
+						bangPhanCong.getSoLuongSanPham(), bangPhanCong.getSoLuongSanPham() };
+				model_BagPhanCong.addRow(objects);
+			}
+
+		} catch (Exception e2) {
+			// TODO: handle exception
+			e2.printStackTrace();
+		}
 
 	}
 }

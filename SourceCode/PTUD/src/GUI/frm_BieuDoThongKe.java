@@ -7,14 +7,14 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-public class BieuDoThongKe extends JPanel {
+public class frm_BieuDoThongKe extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Create the panel.
 	 */
-	public BieuDoThongKe() {
+	public frm_BieuDoThongKe() {
 		setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("BIỂU ĐỒ THỐNG KÊ LƯƠNG\r\n");

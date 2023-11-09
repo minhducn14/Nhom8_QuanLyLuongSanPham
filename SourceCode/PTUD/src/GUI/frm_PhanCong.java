@@ -36,14 +36,13 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class BangPhanCong extends JPanel {
+public class frm_PhanCong extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tblDSCD;
 	private JTable tblDSTLD;
 	private JDateChooser ngayPhanCong;
-	private JButton btnThem;
-	private JButton btnXoaRongs;
+
 	private JTextField txtSoLuongSanPham;
 	private DefaultTableModel modelDSCD;
 	private DAO_CongDoan congDoan_DAO;
@@ -55,14 +54,13 @@ public class BangPhanCong extends JPanel {
 	private JTextField txtTenCongDoan;
 	private JTextField txtTenThoLamDan;
 	private JTextField txtMaThoLamDan;
-	private int editedRow = -1;
 	private int selectedRowInDSCD = -1;
 	private int selectedRowInDSTLD = -1;
 
 	/**
 	 * Create the panel.
 	 */
-	public BangPhanCong() {
+	public frm_PhanCong() {
 		MyConnection.getInstance().MyConnection();
 		congDoan_DAO = new DAO_CongDoan();
 		thoLamDan_DAO = new DAO_ThoLamDan();
@@ -189,6 +187,10 @@ public class BangPhanCong extends JPanel {
 
 		String[] cols = { "M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n" };
 		modelDSTLD = new DefaultTableModel(cols, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false };
 
 			public boolean isCellEditable(int row, int cols) {
@@ -236,6 +238,10 @@ public class BangPhanCong extends JPanel {
 				"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n",
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Ng\u00E0y Ph\u00E2n C\u00F4ng" };
 		modelDSPC = new DefaultTableModel(col, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int col) {
@@ -279,6 +285,10 @@ public class BangPhanCong extends JPanel {
 
 		String[] column = { "M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n" };
 		modelDSCD = new DefaultTableModel(column, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false };
 
 			public boolean isCellEditable(int row, int column) {
@@ -318,6 +328,12 @@ public class BangPhanCong extends JPanel {
 		ngayPhanCong_1.setEnabled(false);
 		ngayPhanCong_1.setDateFormatString("dd-MM-yyyy");
 		ngayPhanCong_1.setBounds(1235, 443, 200, 25);
+		try {
+			Date date = Date.valueOf(LocalDate.now());
+			ngayPhanCong_1.setDate(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		add(ngayPhanCong_1);
 
 		tblDSCD.addMouseListener(new MouseAdapter() {
@@ -391,6 +407,8 @@ public class BangPhanCong extends JPanel {
 										.getTLDTheoMaThoLamDan(modelDSTLD.getValueAt(selectedRowInDSTLD, 0).toString());
 								bangPhanCong.setThoLamDan(thoLamDan);
 								bangPhanCong.setSoLuongSanPham(soLuongSanPham);
+								Date date = Date.valueOf(LocalDate.now());
+								bangPhanCong.setNgayPhanCong(date);
 								bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
 								bangPhanCong_DAO.getBangPhanCongMoiTao();
 								Entity.BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();

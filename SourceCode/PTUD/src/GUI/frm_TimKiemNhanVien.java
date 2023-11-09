@@ -2,9 +2,11 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -12,25 +14,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.SwingConstants;
 
-public class TimKiemThongTinThoLamDan extends JPanel {
-
-	/**
-	 * Create the panel.
-	 */
+public class frm_TimKiemNhanVien extends JPanel  {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	public TimKiemThongTinThoLamDan() {
+	public frm_TimKiemNhanVien() {
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
 		
-		JLabel lblNewLabel = new JLabel("TÌM KIẾM THÔNG TIN THỢ LÀM ĐÀN");
+		JLabel lblNewLabel = new JLabel("TÌM KIẾM THÔNG TIN NHÂN VIÊN");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
 		lblNewLabel.setForeground(new Color(0, 27, 72));
@@ -73,7 +71,7 @@ public class TimKiemThongTinThoLamDan extends JPanel {
 	    		{null, null, null, null, null, null},
 	    	},
 	    	new String[] {
-	    		"Mã thợ làm đàn","Họ tên thợ làm đàn","Giới tính","Ngày sinh","CMND","Số điện thoại"
+	    		"Mã Nhân Viên ","Họ tên Nhân Viên","Giới tính","Ngày sinh","CMND","SDT"
 	    	}
 	    ));
 	    
@@ -120,7 +118,7 @@ public class TimKiemThongTinThoLamDan extends JPanel {
 	    rdbtnNewRadioButton.setBackground(new Color(255, 255, 255));
 	    panel_1.add(rdbtnNewRadioButton);
 	    
-	    JLabel lblNewLabel_1 = new JLabel("Mã thợ làm đàn:");
+	    JLabel lblNewLabel_1 = new JLabel("Mã Nhân Viênn");
 	    lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 	    lblNewLabel_1.setBounds(31, 0, 140, 25);
 	    panel_1.add(lblNewLabel_1);
@@ -273,4 +271,5 @@ public class TimKiemThongTinThoLamDan extends JPanel {
 	    panel_1_4.add(rdbtnNewRadioButton_6_1);
 	    rdbtnNewRadioButton_4.setBounds(395, 0, 25, 25);
 	}
+
 }

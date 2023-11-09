@@ -28,7 +28,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-public class LuongThoLamDan extends JPanel {
+public class frm_LuongThoLamDan extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTable tbl_BangLuong;
@@ -39,7 +39,7 @@ public class LuongThoLamDan extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LuongThoLamDan() {
+	public frm_LuongThoLamDan() {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 
@@ -118,7 +118,7 @@ public class LuongThoLamDan extends JPanel {
 		panel_1_1.add(lblTmKimTheo);
 
 		JButton btnTnhTonB_1_1 = new JButton("");
-		btnTnhTonB_1_1.setIcon(new ImageIcon(LuongThoLamDan.class.getResource("/icons/search_icon.png")));
+		btnTnhTonB_1_1.setIcon(new ImageIcon(frm_LuongThoLamDan.class.getResource("/icons/search_icon.png")));
 		btnTnhTonB_1_1.setForeground(Color.WHITE);
 		btnTnhTonB_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnTnhTonB_1_1.setBackground(new Color(2, 104, 156));
@@ -171,7 +171,7 @@ public class LuongThoLamDan extends JPanel {
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		JButton btnXemLuong = new JButton("");
-		btnXemLuong.setIcon(new ImageIcon(LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));

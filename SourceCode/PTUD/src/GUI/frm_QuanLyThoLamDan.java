@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QuanLyThoLamDan extends JPanel implements ActionListener {
+public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 
 	/**
 	 * Create the panel.
@@ -59,7 +59,7 @@ public class QuanLyThoLamDan extends JPanel implements ActionListener {
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_ThoLamDan dao_tld;
 
-	public QuanLyThoLamDan() {
+	public frm_QuanLyThoLamDan() {
 
 		dao_cnv = new DAO_CongNhanVien();
 		dao_tld = new DAO_ThoLamDan();

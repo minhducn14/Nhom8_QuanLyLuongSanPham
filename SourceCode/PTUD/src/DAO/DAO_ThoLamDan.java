@@ -117,6 +117,9 @@ public class DAO_ThoLamDan {
 			while (rs.next()) {
 				thoLamDan.setMaThoLamDan(rs.getString(1));
 				thoLamDan.setTayNghe(rs.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(rs.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

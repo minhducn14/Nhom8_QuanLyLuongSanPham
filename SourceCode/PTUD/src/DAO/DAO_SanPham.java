@@ -12,10 +12,10 @@ import Entity.Dan;
 
 public class DAO_SanPham {
 	public ArrayList<Dan> docTuBang() {
-		ArrayList<Dan> dsDan = new ArrayList<Dan>();
+		ArrayList<Dan> ds = new ArrayList<Dan>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT * FROM Dan";
+			String sql = "select * from Dan";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -24,7 +24,7 @@ public class DAO_SanPham {
 				dan.setTenSanPham(rs.getString(2));
 				dan.setLoaiSanPham(rs.getString(3));
 				dan.setMoTa(rs.getString(4));
-				dan.setGiaBan(rs.getDouble(5));
+				dan.setGiaBan(rs.getFloat(5));
 				dan.setMatDan(rs.getString(6));
 				dan.setEoLung(rs.getString(7));
 				dan.setCan(rs.getString(8));
@@ -33,12 +33,16 @@ public class DAO_SanPham {
 				dan.setKhoa(rs.getString(11));
 				dan.setCauNgua(rs.getString(12));
 				dan.setTrangThai(rs.getBoolean(13));
-				dsDan.add(dan);
+
+				ds.add(dan);
+
 			}
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
+
 		}
-		return dsDan;
+		return ds;
 	}
 
 	public boolean taoSP(Dan dan) {

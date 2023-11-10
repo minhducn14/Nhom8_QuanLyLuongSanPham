@@ -424,19 +424,8 @@ public class frm_CongDoan extends JPanel {
 			}
 		});
 
-		// TODO Auto-generated method stub
-
 	};
 
-	protected static Object getTenCongDoan() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected static Object getMaCongDoan() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	private void loadDataCD(ArrayList<Entity.CongDoan> dsCD) {
 		modelDSCongDoan.setRowCount(0);

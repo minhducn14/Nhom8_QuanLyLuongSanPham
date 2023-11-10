@@ -402,19 +402,16 @@ public class frm_PhanCong extends JPanel {
 							} else {
 
 								boolean duplicate = false;
+								int row = tblDSTLD.getSelectedRow();
+								String maThoLamDanInTable = modelDSTLD.getValueAt(row, 1).toString();
 
 								for (int i = 0; i < modelDSPC.getRowCount(); i++) {
-									String maThoLamDanInTable = modelDSPC.getValueAt(i, 3).toString();
 
-									for (int a = 0; i < modelDSPC.getRowCount(); a++) {
-										String maThoLamDanString = modelDSTLD.getValueAt(tblDSTLD.getSelectedRow(), 1)
-												.toString();
+									String maThoLamDanString = modelDSPC.getValueAt(i, 3).toString();
 
-										if (maThoLamDanString.equals(maThoLamDanInTable)) {
-											duplicate = true;
-											break;
-										}
-
+									if (maThoLamDanString.equals(maThoLamDanInTable)) {
+										duplicate = true;
+										break;
 									}
 								}
 								if (duplicate) {

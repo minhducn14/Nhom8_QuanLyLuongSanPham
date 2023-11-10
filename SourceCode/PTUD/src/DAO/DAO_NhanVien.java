@@ -155,7 +155,7 @@ public class DAO_NhanVien {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT *\r\n" + "FROM NhanVien\r\n"
 					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = NhanVien.maCongNhanVien\r\n"
-					+ "WHERE CongNhanVien.trangThai = 1 and CongNhanVien.hoTen LIKE '%" + ten + "%'";
+					+ "WHERE CongNhanVien.trangThai = 1 and CongNhanVien.hoTen LIKE N'%" + ten + "%'";
 			Statement statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {

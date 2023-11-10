@@ -34,6 +34,7 @@ public class DAO_BangPhanCong {
 				bangPhanCong.setNgayPhanCong(rs.getDate(3));
 				bangPhanCong.setCongDoan(congDoan);
 				bangPhanCong.setThoLamDan(thoLamDan);
+				bangPhanCong.setSoLuongSanPham(rs.getInt(4));
 				ds.add(bangPhanCong);
 			}
 		} catch (Exception e) {
@@ -107,6 +108,7 @@ public class DAO_BangPhanCong {
 				bangPhanCong.setNgayPhanCong(rs.getDate(3));
 				bangPhanCong.setCongDoan(congDoan);
 				bangPhanCong.setThoLamDan(thoLamDan);
+				bangPhanCong.setSoLuongSanPham(rs.getInt(4));
 				ds.add(bangPhanCong);
 			}
 		} catch (Exception e) {
@@ -115,6 +117,62 @@ public class DAO_BangPhanCong {
 
 		}
 		return ds;
+	}
+
+	public BangPhanCong getBangPhanCongTheoNgayTLDSP(Date ngay, String maTLD, String maCongDoan) {
+		BangPhanCong bangPhanCong = new BangPhanCong();
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from BangPhanCong Where ngayPhanCong ='" + ngay + "'"
+							+ "and maThoLamDan ='" + maTLD + "'" + "and maCongDoan='" + maCongDoan + "'");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				DAO_CongDoan congDoan_DAO = new DAO_CongDoan();
+				DAO_ThoLamDan thoLamDan_DAO = new DAO_ThoLamDan();
+				String maThoLamDan = rs.getString(1);
+				String maCD = rs.getString(2);
+				CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCD);
+				ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(maThoLamDan);
+				bangPhanCong.setNgayPhanCong(rs.getDate(3));
+				bangPhanCong.setCongDoan(congDoan);
+				bangPhanCong.setThoLamDan(thoLamDan);
+				bangPhanCong.setSoLuongSanPham(rs.getInt(4));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return bangPhanCong;
+	}
+
+	public BangPhanCong getBangPhanCongTheoNgayTLD(Date ngay, String maTLD) {
+		BangPhanCong bpc = new BangPhanCong();
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from BangPhanCong Where ngayPhanCong ='" + ngay + "'"
+							+ "and maThoLamDan ='" + maTLD + "'");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				DAO_CongDoan congDoan_DAO = new DAO_CongDoan();
+				DAO_ThoLamDan thoLamDan_DAO = new DAO_ThoLamDan();
+				String maThoLamDan = rs.getString(1);
+				String maCD = rs.getString(2);
+				CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCD);
+				ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(maThoLamDan);
+				bpc.setNgayPhanCong(rs.getDate(3));
+				bpc.setCongDoan(congDoan);
+				bpc.setThoLamDan(thoLamDan);
+				bpc.setSoLuongSanPham(rs.getInt(4));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return bpc;
 	}
 
 }

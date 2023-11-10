@@ -154,7 +154,7 @@ public class DAO_ChamCongNhanVien {
 					+ "JOIN BangChamCongNhanVien ON NhanVien.maNhanVien = BangChamCongNhanVien.maNhanVien\r\n"
 					+ "JOIN CongNhanVien ON NhanVien.maCongNhanVien = CongNhanVien.maCongNhanVien "
 					+ "where DAY(BangChamCongNhanVien.ngayChamCong) =" + day + " \r\n" + "and month(ngayChamCong) ="
-					+ month + " \r\n" + "and YEAR(ngayChamCong) =" + year + " \r\n" + "and CongNhanVien.hoTen LIKE '%"
+					+ month + " \r\n" + "and YEAR(ngayChamCong) =" + year + " \r\n" + "and CongNhanVien.hoTen LIKE N'%"
 					+ ten + "%'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

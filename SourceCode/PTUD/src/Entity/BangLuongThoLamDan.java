@@ -57,4 +57,8 @@ public class BangLuongThoLamDan {
 		return luongThucLinh;
 	}
 
+	public BangLuongThoLamDan() {
+		super();
+	}
+
 }

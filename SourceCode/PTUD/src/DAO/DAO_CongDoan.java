@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -121,4 +122,29 @@ public class DAO_CongDoan {
 		return maxMaCongDoan;
 	}
 
+	public CongDoan getCongDoanTheoCDSP(String tenCongDoan, String maSanPham) {
+
+		CongDoan congDoan = new CongDoan();
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			String sql = "SELECT [maCongDoan]\r\n" + "      ,[tenCongDoan]\r\n" + "      ,[maSanPham]\r\n"
+					+ "      ,[giaCongDoan]\r\n" + "FROM [dbo].[CongDoan]\r\n" + "WHERE [maSanPham] = '" + maSanPham
+					+ "'\r\n" + "  AND [tenCongDoan] = N'" + tenCongDoan + "'" + "";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				congDoan.setMaCongDoan(rs.getString(1));
+				congDoan.setTenCongDoan(rs.getString(2));
+				DAO_Dan dan_DAO = new DAO_Dan();
+				Dan dan = dan_DAO.getDanTheoMaSanPham(rs.getString(3));
+				congDoan.setDan(dan);
+				congDoan.setGiaCongDoan(rs.getFloat(4));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return congDoan;
+	}
 }

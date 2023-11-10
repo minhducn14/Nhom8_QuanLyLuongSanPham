@@ -164,6 +164,9 @@ public class frm_ChamCongNhanVien extends JPanel {
 
 							for (int row = 0; row < modelChamCong.getRowCount(); row++) {
 								if (listNV.contains((String) modelChamCong.getValueAt(row, 0))) {
+									String tb = "Đã chấm công cho nhân viên"
+											+ (String) modelChamCong.getValueAt(row, 1);
+									JOptionPane.showMessageDialog(null, tb);
 								} else {
 									String maNhanVien = (String) modelChamCong.getValueAt(row, 0);
 									NhanVien nhanVien = dao_NhanVien.getNhanVienTheoMa(maNhanVien);

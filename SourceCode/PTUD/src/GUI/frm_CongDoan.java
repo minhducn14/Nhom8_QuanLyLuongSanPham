@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,10 +28,12 @@ import javax.swing.table.TableColumnModel;
 import Connection.MyConnection;
 import DAO.DAO_CongDoan;
 import DAO.DAO_Dan;
+import Entity.CongDoan;
 import Entity.Dan;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JComboBox;
 
 public class frm_CongDoan extends JPanel {
 
@@ -38,7 +41,6 @@ public class frm_CongDoan extends JPanel {
 	private JTextField txtMaCongDoan;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JTextField txtTenCongDoan;
 	private JLabel lblNewLabel_3;
 	private JTextField txtGiaCongDoan;
 	private JLabel lblNewLabel_4;
@@ -120,17 +122,10 @@ public class frm_CongDoan extends JPanel {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_2.setText("Tên công đoạn");
 
-		txtTenCongDoan = new JTextField();
-		txtTenCongDoan.setBounds(160, 135, 250, 25);
-		panel.add(txtTenCongDoan);
-		txtTenCongDoan.setColumns(10);
-		lblNewLabel_2.setLabelFor(txtTenCongDoan);
-		txtTenCongDoan.setEnabled(false);
-
 		txtMaCongDoan = new JTextField();
 		txtMaCongDoan.setBounds(160, 65, 250, 25);
 		panel.add(txtMaCongDoan);
-		txtMaCongDoan.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//		txtMaCongDoan.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaCongDoan.setColumns(10);
 		txtMaCongDoan.setEnabled(false);
 
@@ -147,6 +142,19 @@ public class frm_CongDoan extends JPanel {
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_4.setText("Thông tin công đoạn");
 
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(160, 135, 250, 25);
+		panel.add(comboBox);
+
+		String[] tenCongDoan = { "Lựa chọn chất liệu gỗ", "Xử lý độ ẩm", "Chế tác mặt đàn", "Chế tác eo lưng",
+				"Chế tác cần đàn", "Chế tác mặt phím", "Chế tác dây đàn", "Chế tác khóa đàn", "Chế tác cầu ngựa",
+				"Cảm âm", "Thiết kế lỗ thoát âm", "Kiểm tra và điều chỉnh", "Tinh chỉnh âm thanh",
+				"Hoàn thiện và làm đẹp" };
+		for (String congDoan : tenCongDoan) {
+			comboBox.addItem(congDoan);
+		}
+		comboBox.setSelectedIndex(-1);
+		comboBox.setEnabled(false);
 		panel_1 = new JPanel();
 		panel_1.setBounds(15, 90, 900, 315);
 		panel_1.setBackground(Color.WHITE);
@@ -159,31 +167,28 @@ public class frm_CongDoan extends JPanel {
 		lblDSSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblDSSanPham.setText("Danh sách sản phẩm");
 
-
 		String[] cols = { "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Lo\u1EA1i s\u1EA3n ph\u1EA9m",
 				"Gi\u00E1 b\u00E1n" };
 		modelDSSanPham = new DefaultTableModel(cols, 0) {
-			boolean[] columnEditables = {false, false, false, false, false, false};
-			
+			boolean[] columnEditables = { false, false, false, false, false, false };
+
 			public boolean isCellEditable(int row, int cols) {
 				return columnEditables[cols];
 			}
 		};
 
-		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 75, 860, 230);
 		panel_1.add(scrollPane);
 		int rowHeight = 30;
 		int rowMargin = 10;
 		tblDSSanPham = new JTable(modelDSSanPham);
-		
+
 		TableColumnModel columnModel = tblDSSanPham.getColumnModel();
 		columnModel.setColumnSelectionAllowed(false);
 		columnModel.setColumnMargin(0);
 		tblDSSanPham.getTableHeader().setReorderingAllowed(false);
 
-		
 		loadDataSP(dan_DAO.getAlListDan());
 
 		ListSelectionModel listSelectionModel = tblDSSanPham.getSelectionModel();
@@ -217,12 +222,10 @@ public class frm_CongDoan extends JPanel {
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m",
 				"Gi\u00E1 C\u00F4ng \u0110o\u1EA1n" };
 		modelDSCongDoan = new DefaultTableModel(col, 0);
-		
-
 
 		tblDSCongDoan = new JTable(modelDSCongDoan) {
-			boolean[] columnEditables = {false, false, false, false, false, false};
-			
+			boolean[] columnEditables = { false, false, false, false, false, false };
+
 			public boolean isCellEditable(int row, int col) {
 				return columnEditables[col];
 			}
@@ -234,7 +237,7 @@ public class frm_CongDoan extends JPanel {
 					int row = tblDSCongDoan.getSelectedRow();
 					if (row >= 0) {
 						txtMaCongDoan.setText(modelDSCongDoan.getValueAt(row, 0).toString());
-						txtTenCongDoan.setText(modelDSCongDoan.getValueAt(row, 1).toString());
+						comboBox.setSelectedItem(modelDSCongDoan.getValueAt(row, 1).toString());
 						txtGiaCongDoan.setText(modelDSCongDoan.getValueAt(row, 5).toString());
 					}
 				}
@@ -245,7 +248,7 @@ public class frm_CongDoan extends JPanel {
 
 		ListSelectionModel listSelectionModel1 = tblDSCongDoan.getSelectionModel();
 		listSelectionModel1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		TableColumnModel columnModel1 = tblDSCongDoan.getColumnModel();
 		columnModel1.setColumnSelectionAllowed(false);
 		columnModel1.setColumnMargin(0);
@@ -268,12 +271,16 @@ public class frm_CongDoan extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				txtMaCongDoan.setText("");
 				txtGiaCongDoan.setText("");
-				txtTenCongDoan.setText("");
+				comboBox.setSelectedIndex(-1);
 			}
 		});
 
 		tblDSSanPham.addMouseListener((MouseListener) new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				tblDSCongDoan.clearSelection();
+				txtMaCongDoan.setText("");
+				txtGiaCongDoan.setText("");
+				comboBox.setSelectedIndex(-1);
 
 			}
 		});
@@ -286,23 +293,23 @@ public class frm_CongDoan extends JPanel {
 					btnThem.setText("Lưu");
 					btnSua.setText("Huỷ");
 					txtGiaCongDoan.setEnabled(true);
-					txtTenCongDoan.setEnabled(true);
+					comboBox.setEnabled(true);
 				} else {
 					editedRow = tblDSCongDoan.getSelectedRow();
 					if (editedRow >= 0) {
-						modelDSCongDoan.setValueAt(txtTenCongDoan.getText(), editedRow, 1);
+						modelDSCongDoan.setValueAt((String) comboBox.getSelectedItem(), editedRow, 1);
 						editedRow = -1;
 						txtMaCongDoan.setText("");
 						txtGiaCongDoan.setText("");
-						txtTenCongDoan.setText("");
+						comboBox.setSelectedIndex(-1);
 						txtGiaCongDoan.setEnabled(false);
-						txtTenCongDoan.setEnabled(false);
+						comboBox.setEnabled(false);
 						btnThem.setText("Thêm");
 						btnSua.setText("Sửa thông tin");
 					} else {
 						editedRow = -1;
 						try {
-							String tenCongDoan = txtTenCongDoan.getText();
+							String tenCongDoan = (String) comboBox.getSelectedItem();
 							String giaCongDoanStr = txtGiaCongDoan.getText();
 
 							if (tenCongDoan.equals("") || giaCongDoanStr.equals("")) {
@@ -322,16 +329,27 @@ public class frm_CongDoan extends JPanel {
 
 									for (int i = 0; i < modelDSCongDoan.getRowCount(); i++) {
 										String tenCongDoanInTable = modelDSCongDoan.getValueAt(i, 1).toString();
-
-										if (tenCongDoan.equals(tenCongDoanInTable)) {
+										String maSanPham = modelDSCongDoan.getValueAt(i, 2).toString();
+										int row = tblDSSanPham.getSelectedRow();
+										String maSanPhamKT = (String) modelDSSanPham.getValueAt(row, 0);
+										if (tenCongDoan.equals(tenCongDoanInTable) && maSanPham.equals(maSanPhamKT)) {
 											duplicate = true;
 											break;
 										}
 									}
 
 									if (duplicate) {
+										txtMaCongDoan.setText("");
+										txtGiaCongDoan.setText("");
+										comboBox.setSelectedIndex(-1);
+										txtGiaCongDoan.setEnabled(false);
+										comboBox.setEnabled(false);
+										btnThem.setText("Thêm");
+										btnSua.setText("Sửa thông tin");
+										tblDSSanPham.clearSelection();
 										JOptionPane.showMessageDialog(null, " Công đoạn đã tồn tại.", "Lỗi",
 												JOptionPane.ERROR_MESSAGE);
+
 									} else {
 										int row = tblDSSanPham.getSelectedRow();
 										if (row >= 0) {
@@ -340,26 +358,26 @@ public class frm_CongDoan extends JPanel {
 
 											Dan dan = dan_DAO.getDanTheoMaSanPham(maSanPham);
 											congDoan.setDan(dan);
-											congDoan.setTenCongDoan(txtTenCongDoan.getText());
+											congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
 											congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
-											System.out.println(congDoan_DAO.insertCongDoan(congDoan));
+											congDoan_DAO.insertCongDoan(congDoan);
 
-											Entity.CongDoan newCongDoan = congDoan_DAO.getCongDoanMoiTao();
-											System.out.println(newCongDoan);
-											Object[] rowData = new Object[] { newCongDoan.getMaCongDoan(),
-													newCongDoan.getTenCongDoan(), newCongDoan.getDan().getMaSanPham(),
+											String maCongDoan = congDoan_DAO.getMaCongDoan(maSanPham);
+											CongDoan newCongDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
+											Object[] rowData = new Object[] { maCongDoan, newCongDoan.getTenCongDoan(),
+													newCongDoan.getDan().getMaSanPham(),
 													newCongDoan.getDan().getTenSanPham(),
 													newCongDoan.getDan().getLoaiSanPham(),
 													newCongDoan.getGiaCongDoan() };
 											modelDSCongDoan.addRow(rowData);
 											txtMaCongDoan.setText("");
 											txtGiaCongDoan.setText("");
-											txtTenCongDoan.setText("");
+											comboBox.setSelectedIndex(-1);
 											txtGiaCongDoan.setEnabled(false);
-											txtTenCongDoan.setEnabled(false);
-											tblDSSanPham.clearSelection();
+											comboBox.setEnabled(false);
 											btnThem.setText("Thêm");
 											btnSua.setText("Sửa thông tin");
+											tblDSSanPham.clearSelection();
 										} else {
 											JOptionPane.showMessageDialog(null,
 													"Vui lòng chọn sản phẩm từ danh sách sản phẩm.", "Lỗi",
@@ -386,7 +404,7 @@ public class frm_CongDoan extends JPanel {
 						btnThem.setText("Lưu");
 						btnSua.setText("Huỷ");
 						txtGiaCongDoan.setEnabled(true);
-						txtTenCongDoan.setEnabled(true);
+						comboBox.setEnabled(true);
 						editedRow = selectedRow;
 					} else {
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn công đoạn cần sửa từ bảng.", "Lỗi",
@@ -396,9 +414,9 @@ public class frm_CongDoan extends JPanel {
 					btnSua.setText("Sửa thông tin");
 					btnThem.setText("Thêm");
 					txtGiaCongDoan.setEnabled(false);
-					txtTenCongDoan.setEnabled(false);
+					comboBox.setEnabled(false);
 					txtGiaCongDoan.setText("");
-					txtTenCongDoan.setText("");
+					comboBox.setSelectedIndex(-1);
 					txtMaCongDoan.setText("");
 					tblDSCongDoan.clearSelection();
 					tblDSSanPham.clearSelection();
@@ -437,5 +455,4 @@ public class frm_CongDoan extends JPanel {
 			modelDSSanPham.addRow(objects);
 		}
 	}
-
 }

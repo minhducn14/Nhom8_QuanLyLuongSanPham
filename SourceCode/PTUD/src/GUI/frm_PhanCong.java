@@ -237,7 +237,7 @@ public class frm_PhanCong extends JPanel {
 
 		String[] col = { "M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n",
 				"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n",
-				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m"};
+				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m" };
 		modelDSPC = new DefaultTableModel(col, 0) {
 			/**
 			 * 
@@ -400,42 +400,40 @@ public class frm_PhanCong extends JPanel {
 								JOptionPane.showMessageDialog(null, "Số lượng sản phẩm phải lớn hơn 50.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
 							} else {
-								Entity.BangPhanCong bangPhanCong = new Entity.BangPhanCong();
-								CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(
-										modelDSCD.getValueAt(selectedRowInDSCD, 0).toString());
-								bangPhanCong.setCongDoan(congDoan);
-								ThoLamDan thoLamDan = thoLamDan_DAO
-										.getTLDTheoMaThoLamDan(modelDSTLD.getValueAt(selectedRowInDSTLD, 0).toString());
-								bangPhanCong.setThoLamDan(thoLamDan);
-								bangPhanCong.setSoLuongSanPham(soLuongSanPham);
-								Date date = Date.valueOf(LocalDate.now());
-								bangPhanCong.setNgayPhanCong(date);
-								bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
-								bangPhanCong_DAO.getBangPhanCongMoiTao();
-								Entity.BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
-								
+
 								boolean duplicate = false;
 
-								
 								for (int i = 0; i < modelDSPC.getRowCount(); i++) {
 									String maThoLamDanInTable = modelDSPC.getValueAt(i, 3).toString();
-															
-									
+
 									for (int a = 0; i < modelDSPC.getRowCount(); a++) {
-									String maThoLamDanString = modelDSTLD.getValueAt(tblDSTLD.getSelectedRow(), 1).toString();
-										
-									if (maThoLamDanString.equals(maThoLamDanInTable)) {
-										duplicate = true;
-										break;
+										String maThoLamDanString = modelDSTLD.getValueAt(tblDSTLD.getSelectedRow(), 1)
+												.toString();
+
+										if (maThoLamDanString.equals(maThoLamDanInTable)) {
+											duplicate = true;
+											break;
+										}
+
 									}
-									
-									}
-								
 								}
-								if(duplicate) {
-									JOptionPane.showMessageDialog(null, "Thợ làm đàn này đã được phân công","Lỗi",JOptionPane.ERROR_MESSAGE);
-								}
-								else {
+								if (duplicate) {
+									JOptionPane.showMessageDialog(null, "Thợ làm đàn này đã được phân công", "Lỗi",
+											JOptionPane.ERROR_MESSAGE);
+								} else {
+									Entity.BangPhanCong bangPhanCong = new Entity.BangPhanCong();
+									CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(
+											modelDSCD.getValueAt(selectedRowInDSCD, 0).toString());
+									bangPhanCong.setCongDoan(congDoan);
+									ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(
+											modelDSTLD.getValueAt(selectedRowInDSTLD, 0).toString());
+									bangPhanCong.setThoLamDan(thoLamDan);
+									bangPhanCong.setSoLuongSanPham(soLuongSanPham);
+									Date date = Date.valueOf(LocalDate.now());
+									bangPhanCong.setNgayPhanCong(date);
+									bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
+									bangPhanCong_DAO.getBangPhanCongMoiTao();
+									Entity.BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
 									Object[] rowData = new Object[] { newBangPhanCong.getCongDoan().getMaCongDoan(),
 											newBangPhanCong.getCongDoan().getTenCongDoan(),
 											newBangPhanCong.getThoLamDan().getMaThoLamDan(),
@@ -445,9 +443,8 @@ public class frm_PhanCong extends JPanel {
 											newBangPhanCong.getNgayPhanCong() };
 									modelDSPC.addRow(rowData);
 								}
-								
-								txtSoLuongSanPham.setText("");
 
+								txtSoLuongSanPham.setText("");
 								txtSoLuongSanPham.setEnabled(false);
 								txtMaThoLamDan.setText("");
 								txtTenThoLamDan.setText("");

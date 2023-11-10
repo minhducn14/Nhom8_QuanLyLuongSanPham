@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDate;
+
 import Connection.MyConnection;
 import Entity.BangChamCongNhanVien;
 import Entity.BangPhanCong;
@@ -16,13 +18,16 @@ import Entity.ThoLamDan;
 
 public class DAO_ChamCongThoLamDan {
 
-	public ArrayList<BangPhanCong> listAllBangPhanCong() throws SQLException {
+	public ArrayList<BangPhanCong> listAllBangPhanCongTheoNgayHienTai() throws SQLException {
+		LocalDate currentDate = LocalDate.now();
+
+		java.sql.Date sqlDate = java.sql.Date.valueOf(currentDate);
 		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BPC.* FROM BangPhanCong BPC \r\n" + "LEFT JOIN BangChamCongThoLamDan BCC \r\n"
 					+ "ON BPC.maThoLamDan = BCC.maThoLamDan AND BPC.maCongDoan = BCC.maCongDoan \r\n"
-					+ "WHERE BCC.maThoLamDan IS NULL AND BCC.maCongDoan IS NULL;";
+					+ "WHERE BCC.maThoLamDan IS NULL AND BCC.maCongDoan IS NULL and ngayPhanCong ='" + sqlDate + "'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {

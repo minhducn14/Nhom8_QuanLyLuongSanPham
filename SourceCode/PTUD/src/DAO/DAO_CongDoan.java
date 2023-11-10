@@ -1,5 +1,6 @@
 package DAO;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,12 +75,13 @@ public class DAO_CongDoan {
 		return false;
 	}
 
-	public static CongDoan getCongDoanTheoMaCongDoan(String maCongDoan) {
+	public CongDoan getCongDoanTheoMaCongDoan(String maCongDoan) {
+
 		CongDoan congDoan = new CongDoan();
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select * from CongDoan Where maCongDoan ='" + maCongDoan + "'");
+			String sql = "select * from CongDoan Where maCongDoan ='" + maCongDoan + "'";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				congDoan.setMaCongDoan(rs.getString(1));
@@ -97,26 +99,26 @@ public class DAO_CongDoan {
 		return congDoan;
 	}
 
-	public static CongDoan getCongDoanMoiTao() {
-		CongDoan congDoan = new CongDoan();
+	public String getMaCongDoan(String maSanPham) {
+		String maxMaCongDoan = null;
+
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select TOP 1 * from CongDoan order by maCongDoan DESC");
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				congDoan.setMaCongDoan(rs.getString(1));
-				congDoan.setTenCongDoan(rs.getString(2));
-				DAO_Dan dan_DAO = new DAO_Dan();
-				Dan dan = dan_DAO.getDanTheoMaSanPham(rs.getString(3));
-				congDoan.setDan(dan);
-				congDoan.setGiaCongDoan(rs.getFloat(4));
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+			String sql = "SELECT MAX(maCongDoan) AS MaxMaCongDoan FROM CongDoan WHERE maSanPham = ?";
+			try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+				preparedStatement.setString(1, maSanPham);
 
+				try (ResultSet resultSet = preparedStatement.executeQuery()) {
+					if (resultSet.next()) {
+						maxMaCongDoan = resultSet.getString("MaxMaCongDoan");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return congDoan;
+
+		return maxMaCongDoan;
 	}
+
 }

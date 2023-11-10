@@ -107,7 +107,7 @@ public class DAO_ThoLamDan {
 		return ds;
 	}
 
-	public static ThoLamDan getTLDTheoMaThoLamDan(String maThoLamDan) {
+	public ThoLamDan getTLDTheoMaThoLamDan(String maThoLamDan) {
 		ThoLamDan thoLamDan = new ThoLamDan();
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();

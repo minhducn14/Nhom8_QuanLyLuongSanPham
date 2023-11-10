@@ -5,16 +5,23 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -25,9 +32,15 @@ import com.toedter.calendar.JDateChooser;
 
 import Connection.MyConnection;
 import DAO.DAO_ChamCongThoLamDan;
+import DAO.DAO_CongDoan;
+import DAO.DAO_ThoLamDan;
 import Entity.BangChamCongNhanVien;
+import Entity.BangChamCongThoLamDan;
+import Entity.BangLuongNhanVien;
 import Entity.BangPhanCong;
+import Entity.CongDoan;
 import Entity.NhanVien;
+import Entity.ThoLamDan;
 
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -43,6 +56,8 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 
 	private DefaultTableModel model_BagPhanCong;
 	private DAO_ChamCongThoLamDan dao_ChamCongThoLamDan = new DAO_ChamCongThoLamDan();
+	private DAO_ThoLamDan dao_ThoLamDan = new DAO_ThoLamDan();
+	private DAO_CongDoan dao_congDoan = new DAO_CongDoan();
 
 	/**
 	 * Create the panel.
@@ -67,7 +82,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		panel_1_2.setBackground(Color.WHITE);
 		panel_1_2.setLayout(null);
 		panel_1_2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panel_1_2.setBounds(15, 90, 1413, 579);
+		panel_1_2.setBounds(27, 85, 1413, 579);
 		add(panel_1_2);
 
 		JLabel lblThongTin_1 = new JLabel("Danh Sách Chấm Công");
@@ -134,6 +149,34 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 			}
 		});
 
+		model_BagPhanCong.addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getType() == TableModelEvent.UPDATE) {
+					int row = e.getFirstRow();
+					int column = e.getColumn();
+					Object oldValue = model_BagPhanCong.getValueAt(row, column - 1);
+					int soLuongPC = (int) oldValue;
+					if (column == 5) {
+						String newValue = model_BagPhanCong.getValueAt(row, column).toString();
+						try {
+							int slHT = Integer.parseInt(newValue);
+							if (slHT > soLuongPC) {
+								JOptionPane.showMessageDialog(null,
+										"Số lượng hoàn thành phải nhỏ hơn số lượng được phân công");
+							}
+						} catch (Exception e2) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Số lượng hoàn thành phải là số");
+						}
+
+					}
+				}
+			}
+		});
+
 		JTableHeader tbNhanVien = tbl_BangChamCong.getTableHeader();
 		tbNhanVien.setBackground(new Color(151, 201, 219));
 		tbNhanVien.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -148,6 +191,32 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		panel_1_2.add(btnTimKiemTen);
 
 		JButton btnChamCong = new JButton("Chấm Công");
+		btnChamCong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int output = JOptionPane.showConfirmDialog(null, "Bạn xác nhận chấm công", "Thông báo xác nhận",
+						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if (output == JOptionPane.YES_OPTION) {
+					try {
+						for (int row = 0; row < model_BagPhanCong.getRowCount(); row++) {
+							String maThoLamDan = (String) model_BagPhanCong.getValueAt(row, 0);
+							ThoLamDan thoLamDan = dao_ThoLamDan.getTLDTheoMaThoLamDan(maThoLamDan);
+							BangChamCongThoLamDan bccThoLamDan = new BangChamCongThoLamDan();
+							bccThoLamDan.setThoLamDan(thoLamDan);
+							long currentTimeMillis = System.currentTimeMillis();
+							Date currentDate = new Date(currentTimeMillis);
+							bccThoLamDan.setNgayChamCong(currentDate);
+							String maCongDoan = (String) model_BagPhanCong.getValueAt(row, 1);
+							CongDoan congdoan = dao_congDoan.getCongDoanTheoMaCongDoan(maCongDoan);
+
+						}
+					} catch (Exception e2) {
+						// TODO: handle exception
+					}
+				}
+			}
+		}
+
+		);
 		btnChamCong.setForeground(Color.WHITE);
 		btnChamCong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnChamCong.setBackground(new Color(2, 104, 156));
@@ -203,7 +272,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 	private void loadDataIntoTableChamCong() {
 		model_BagPhanCong.setRowCount(0);
 		try {
-			ArrayList<BangPhanCong> listBangPhanCong = dao_ChamCongThoLamDan.listAllBangPhanCong();
+			ArrayList<BangPhanCong> listBangPhanCong = dao_ChamCongThoLamDan.listAllBangPhanCongTheoNgayHienTai();
 
 			for (BangPhanCong bangPhanCong : listBangPhanCong) {
 				Object[] objects = { bangPhanCong.getThoLamDan().getMaThoLamDan(),

@@ -203,10 +203,6 @@ public class frm_ChamCongNhanVien extends JPanel {
 							e2.printStackTrace();
 						}
 
-						for (int row = 0; row < modelChamCong.getRowCount(); row++) {
-
-						}
-
 					}
 				}
 			}

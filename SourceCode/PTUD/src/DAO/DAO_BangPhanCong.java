@@ -29,7 +29,7 @@ public class DAO_BangPhanCong {
 				DAO_ThoLamDan thoLamDan_DAO = new DAO_ThoLamDan();
 				String maThoLamDan = rs.getString(1);
 				String maCongDoan = rs.getString(2);
-				CongDoan congDoan = DAO_CongDoan.getCongDoanTheoMaCongDoan(maCongDoan);
+				CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
 				ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(maThoLamDan);
 				bangPhanCong.setNgayPhanCong(rs.getDate(3));
 				bangPhanCong.setCongDoan(congDoan);
@@ -44,21 +44,18 @@ public class DAO_BangPhanCong {
 		return ds;
 	}
 
-	public boolean insertBangPhanCong(BangPhanCong bangPhanCong) {
-		try {
-			Connection connection = MyConnection.getInstance().getConnection();
-			String query = "INSERT INTO BangPhanCong (maThoLamDan, MaCongDoan, ngayPhanCong, soLuongSanPham)"
-					+ "VALUES(?,?,?,?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
+	public void insertBangPhanCong(BangPhanCong bangPhanCong) {
+		String sql = "INSERT INTO [dbo].[BangPhanCong] ([maThoLamDan], [maCongDoan], [ngayPhanCong], [soLuongSanPham])"
+				+ "VALUES (?, ?, ?, ?)";
+		Connection connection = MyConnection.getInstance().getConnection();
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, bangPhanCong.getThoLamDan().getMaThoLamDan());
 			preparedStatement.setString(2, bangPhanCong.getCongDoan().getMaCongDoan());
 			preparedStatement.setDate(3, bangPhanCong.getNgayPhanCong());
 			preparedStatement.setInt(4, bangPhanCong.getSoLuongSanPham());
 			preparedStatement.executeUpdate();
-			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
 		}
 	}
 
@@ -74,7 +71,7 @@ public class DAO_BangPhanCong {
 				DAO_ThoLamDan thoLamDan_DAO = new DAO_ThoLamDan();
 				String maThoLamDan = rs.getString(1);
 				String maCongDoan = rs.getString(2);
-				CongDoan congDoan = DAO_CongDoan.getCongDoanTheoMaCongDoan(maCongDoan);
+				CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
 				ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(maThoLamDan);
 				bangPhanCong.setCongDoan(congDoan);
 				bangPhanCong.setThoLamDan(thoLamDan);
@@ -88,13 +85,16 @@ public class DAO_BangPhanCong {
 		}
 		return bangPhanCong;
 	}
-	
+
 	public static ArrayList<BangPhanCong> getBangPhanCongTheoNgayPhanCong(JDateChooser ngayPhanCong) {
+		java.util.Date selectedDateUtil = ngayPhanCong.getDate();
+		java.sql.Date selectedDateSql = new java.sql.Date(selectedDateUtil.getTime());
 
 		ArrayList<BangPhanCong> ds = new ArrayList<BangPhanCong>();
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("select * from BangPhanCong Where ngayPhanCong ='" + ngayPhanCong + "'");
+			PreparedStatement preparedStatement = connection
+					.prepareStatement("select * from BangPhanCong Where ngayPhanCong ='" + selectedDateSql + "'");
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				BangPhanCong bangPhanCong = new BangPhanCong();
@@ -102,7 +102,7 @@ public class DAO_BangPhanCong {
 				DAO_ThoLamDan thoLamDan_DAO = new DAO_ThoLamDan();
 				String maThoLamDan = rs.getString(1);
 				String maCongDoan = rs.getString(2);
-				CongDoan congDoan = DAO_CongDoan.getCongDoanTheoMaCongDoan(maCongDoan);
+				CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
 				ThoLamDan thoLamDan = thoLamDan_DAO.getTLDTheoMaThoLamDan(maThoLamDan);
 				bangPhanCong.setNgayPhanCong(rs.getDate(3));
 				bangPhanCong.setCongDoan(congDoan);
@@ -116,5 +116,5 @@ public class DAO_BangPhanCong {
 		}
 		return ds;
 	}
-	
+
 }

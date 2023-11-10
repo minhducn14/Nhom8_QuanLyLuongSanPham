@@ -401,31 +401,41 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int row = tbl_bangTen.getSelectedRow();
-				NhanVien nv = dao_nv.getNhanVienTheoMa(modelNhanVien.getValueAt(row, 0).toString());
-				txtMaNhanVien.setText(nv.getMaNhanVien());
-				txtHoTen.setText(nv.getCongNhanVien().getHoTen());
-				txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
-				txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
-				String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
-				if ("Nữ".equals(gioiTinhValue)) {
-					rbtNu.setSelected(true);
-				} else {
-					rbtNam.setSelected(true);
-				}
+//				int row = tbl_bangTen.getSelectedRow();
+//				NhanVien nv = dao_nv.getNhanVienTheoMa(modelNhanVien.getValueAt(row, 0).toString());
+//				txtMaNhanVien.setText(nv.getMaNhanVien());
+				
+				 int row = tbl_bangTen.getSelectedRow();
 
-				java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
-				dateChooserNgaySinh.setDate(getNgaySinh);
+				    if (row >= 0 && row < listnv.size()) {
+				        NhanVien nv = listnv.get(row);
 
-				cbbChucVu.setSelectedItem(nv.getChucVu());
-				cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
-				cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
+				        CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
+				        txtMaNhanVien.setText(nv.getMaNhanVien());
+				        txtHoTen.setText(nv.getCongNhanVien().getHoTen());
+						txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
+						txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
+						String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
+						if ("Nữ".equals(gioiTinhValue)) {
+							rbtNu.setSelected(true);
+						} else {
+							rbtNam.setSelected(true);
+						}
 
-				java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
-				dateChooserNgayVaoLam.setDate(getNgayLam);
+						java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
+						dateChooserNgaySinh.setDate(getNgaySinh);
 
-				txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
+						cbbChucVu.setSelectedItem(nv.getChucVu());
+						cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
+						cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
 
+						java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
+						dateChooserNgayVaoLam.setDate(getNgayLam);
+
+						txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
+						cbbTrangThai.setSelectedItem(nv.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Làm");
+						txtLuongCoBan.setText(nv.getLuongCoBan() + "");
+				    }
 			}
 		});
 		dateChooserNgayVaoLam.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
@@ -595,11 +605,13 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				String sdt = txtSDT.getText();
 				String diaChi = txtDiaChi.getText();
 				boolean trangThai = true;
-				if (cbbTrangThai.equals("Đang Làm")) {
+				if (cbbTrangThai.getSelectedItem().equals("Đang Làm")) {
 					trangThai = true;
-				} else if (cbbTrangThai.equals("Nghỉ Làm")) {
+				} else if (cbbTrangThai.getSelectedItem().equals("Nghỉ Làm")) {
 					trangThai = false;
 				}
+				System.out.println(trangThai);
+				System.out.println(cbbTrangThai.getSelectedItem());
 				java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 				String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
 				PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);

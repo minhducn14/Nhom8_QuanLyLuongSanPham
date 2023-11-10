@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
+
 import javax.swing.table.TableColumnModel;
 
 import java.awt.*;
@@ -13,17 +13,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import com.toedter.calendar.JDateChooser;
+
 
 import Connection.MyConnection;
-import DAO.DAO_NhanVien;
 import DAO.DAO_SanPham;
-import Entity.CongNhanVien;
 import Entity.Dan;
-import Entity.NhanVien;
+
 
 public class QuanLySanPham extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
@@ -34,7 +31,7 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 	private JTextField txtTenSanPham;
 	private JTextField txtMoTa;
 	private JButton btnThem,btnSua,btnXoaRong;
-	private JComboBox cbbLoaiSanPham,cbbEoLung,cbbMatPhim,cbbKhoa,cbbNgua,cbbDay,cbbTrangThai,cbbMatDan,cbbCau;
+	private JComboBox<String> cbbLoaiSanPham,cbbEoLung,cbbMatPhim,cbbKhoa,cbbNgua,cbbDay,cbbTrangThai,cbbMatDan,cbbCau;
 	private List<Dan> listsp;
 	private DAO_SanPham dao_sp;
 	public QuanLySanPham() {
@@ -326,22 +323,17 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 	
 	private void updateTableDataSanPham() {
 		listsp = dao_sp.docTuBang();
-		
 		modelSanPham.setRowCount(0);
-		DAO_SanPham dsSanPham = new DAO_SanPham();
-		listsp = dsSanPham.docTuBang();
 		for (Dan dan : listsp) {
 			Boolean tt = dan.isTrangThai();
-			boolean ktraTT = true;
+
 			String trangThai;
-			if (tt == ktraTT) {
+			if (tt == true) {
 				trangThai = "Đang làm";
 			}
 			else {
 				trangThai = "Chưa làm";
-			}
-			
-			
+			}	
 			String[] rowData = { dan.getMaSanPham(), dan.getTenSanPham(),dan.getLoaiSanPham(),trangThai, String.valueOf(dan.getGiaBan())};
 			modelSanPham.addRow(rowData);
 		}
@@ -386,7 +378,28 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-
+	public boolean checkregex() {
+		String tensp = txtTenSanPham.getText().trim();
+		String moTa = txtMoTa.getText().trim();
+		double giaBan = Double.parseDouble(txtGiaBan.getText().trim());
+		
+		if(!(tensp.length() > 0 && tensp.matches("^[A-Za-z ]$")))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Tên sản phẩm phải là ký tự");
+			return false;
+		}
+		if(!(giaBan > 0 ))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Giá Bán phải lớn hơn 0 ");
+			return false;
+		}
+		if(!(moTa.length() > 0 && moTa.matches("^[A-Za-z ]$")))
+		{
+			JOptionPane.showMessageDialog(this, "Mô tả phải là ký tự");
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -394,28 +407,47 @@ public class QuanLySanPham extends JPanel implements ActionListener{
 		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		} else if (o.equals(btnThem)) {
-			String tenSP = txtTenSanPham.getText();
-			String mota = txtMoTa.getText();
-			double giaBan = Double.parseDouble(txtGiaBan.getText());
-			String loaiSP = (String) cbbLoaiSanPham.getSelectedItem();
-			String matDan = (String) cbbMatDan.getSelectedItem();
-			String eoLung = (String) cbbEoLung.getSelectedItem();
-			String can = (String) cbbCau.getSelectedItem();
-			String matPhim = (String) cbbMatPhim.getSelectedItem();		
-			String day = (String) cbbDay.getSelectedItem();
-			String khoa = (String) cbbKhoa.getSelectedItem();
-			String ngua = (String) cbbNgua.getSelectedItem();
-			boolean trangThai = true;
-			if (cbbTrangThai.toString().equals("Đang Làm")) {
-				trangThai = true;
-			} else if (cbbTrangThai.toString().equals("Chưa Làm")) {
-				trangThai = false;
+			if(checkregex()) {
+				String tenSP = txtTenSanPham.getText();
+				
+				String mota = txtMoTa.getText();
+				double giaBan = Double.parseDouble(txtGiaBan.getText());
+				String loaiSP = (String) cbbLoaiSanPham.getSelectedItem();
+				String matDan = (String) cbbMatDan.getSelectedItem();
+				String eoLung = (String) cbbEoLung.getSelectedItem();
+				String can = (String) cbbCau.getSelectedItem();
+				String matPhim = (String) cbbMatPhim.getSelectedItem();		
+				String day = (String) cbbDay.getSelectedItem();
+				String khoa = (String) cbbKhoa.getSelectedItem();
+				String ngua = (String) cbbNgua.getSelectedItem();
+				boolean trangThai = true;
+				if (cbbTrangThai.getSelectedItem().toString().equals("Đang Làm")) {
+				    trangThai = true;
+				} else if (cbbTrangThai.getSelectedItem().toString().equals("Chưa Làm")) {
+				    trangThai = false;
+				}
+
+				Dan dan = new Dan(tenSP,loaiSP,mota,giaBan,matDan,eoLung,can,matPhim,day,khoa,ngua,trangThai);
+				dao_sp.taoSP(dan);
+				
+				String maspNew = dao_sp.getMaSanPhamMoiTao();
+				dan.setMaSanPham(can);
+				
+				String trangthai;
+				Boolean tt = dan.isTrangThai();
+				boolean kiemTraGT = true;
+
+				if (tt == kiemTraGT) {
+					trangthai = "Đang Làm";
+				} else {
+					trangthai = "Chưa Làm";
+				}
+				
+				modelSanPham.addRow(new Object[] {dan.getMaSanPham(),dan.getTenSanPham(),
+						dan.getLoaiSanPham(),trangthai,dan.getGiaBan()});
+				xoaRong();
 			}
-			Dan dan = new Dan(tenSP,loaiSP,mota,giaBan,matDan,eoLung,can,matPhim,day,khoa,ngua,trangThai);
-			dao_sp.taoSP(dan);
-			modelSanPham.addRow(new Object[] {dan.getMaSanPham(),dan.getTenSanPham(),
-					dan.getLoaiSanPham(),dan.isTrangThai(),dan.getGiaBan()});
-			xoaRong();
+			
 			
 		}
 		

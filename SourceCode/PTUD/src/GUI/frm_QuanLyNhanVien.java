@@ -49,7 +49,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private JComboBox<String> cbbPhongBan, cbbChucVu, cbbTrinhDo, cbbTrangThai;
 	private JDateChooser dateChooserNgayVaoLam, dateChooserNgaySinh;
 	private ButtonGroup G;
-	private SimpleDateFormat dateFormat ;
+	private SimpleDateFormat dateFormat;
 	private List<NhanVien> listnv;
 	private List<CongNhanVien> listcnv;
 	private DAO_NhanVien dao_nv;
@@ -64,7 +64,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
-		
+
 		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		JLabel lblTieuDe = new JLabel("Nhân Viên");
 		lblTieuDe.setForeground(new Color(0, 27, 72));
@@ -100,20 +100,17 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
 
-        columnModel.setColumnSelectionAllowed(false);
-        columnModel.setColumnMargin(0);
-        tbl_bangTen.getTableHeader().setReorderingAllowed(false);
-		scrollPane_1.setViewportView(tbl_bangTen);
-
-
-		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
-		
-
 		columnModel.setColumnSelectionAllowed(false);
 		columnModel.setColumnMargin(0);
 		tbl_bangTen.getTableHeader().setReorderingAllowed(false);
 		scrollPane_1.setViewportView(tbl_bangTen);
 
+		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
+
+		columnModel.setColumnSelectionAllowed(false);
+		columnModel.setColumnMargin(0);
+		tbl_bangTen.getTableHeader().setReorderingAllowed(false);
+		scrollPane_1.setViewportView(tbl_bangTen);
 
 		modelNhanVien = new DefaultTableModel(colHeader, 0) {
 			/**
@@ -127,7 +124,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				return columnEditables[column];
 			}
 		};
-
 
 		scrollPane_1.setViewportView(tbl_bangTen);
 
@@ -324,9 +320,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					NhanVien nv = new NhanVien();
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-					//double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					// double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-					//txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					// txtHeSoLuong.setText(String.valueOf(heSoLuong));
 
 				}
 
@@ -404,38 +400,38 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 //				int row = tbl_bangTen.getSelectedRow();
 //				NhanVien nv = dao_nv.getNhanVienTheoMa(modelNhanVien.getValueAt(row, 0).toString());
 //				txtMaNhanVien.setText(nv.getMaNhanVien());
-				
-				 int row = tbl_bangTen.getSelectedRow();
 
-				    if (row >= 0 && row < listnv.size()) {
-				        NhanVien nv = listnv.get(row);
+				int row = tbl_bangTen.getSelectedRow();
 
-				        CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
-				        txtMaNhanVien.setText(nv.getMaNhanVien());
-				        txtHoTen.setText(nv.getCongNhanVien().getHoTen());
-						txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
-						txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
-						String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
-						if ("Nữ".equals(gioiTinhValue)) {
-							rbtNu.setSelected(true);
-						} else {
-							rbtNam.setSelected(true);
-						}
+				if (row >= 0 && row < listnv.size()) {
+					NhanVien nv = listnv.get(row);
 
-						java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
-						dateChooserNgaySinh.setDate(getNgaySinh);
+					CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
+					txtMaNhanVien.setText(nv.getMaNhanVien());
+					txtHoTen.setText(nv.getCongNhanVien().getHoTen());
+					txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
+					txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
+					String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
+					if ("Nữ".equals(gioiTinhValue)) {
+						rbtNu.setSelected(true);
+					} else {
+						rbtNam.setSelected(true);
+					}
 
-						cbbChucVu.setSelectedItem(nv.getChucVu());
-						cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
-						cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
+					java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
+					dateChooserNgaySinh.setDate(getNgaySinh);
 
-						java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
-						dateChooserNgayVaoLam.setDate(getNgayLam);
+					cbbChucVu.setSelectedItem(nv.getChucVu());
+					cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
+					cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
 
-						txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
-						cbbTrangThai.setSelectedItem(nv.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Làm");
-						txtLuongCoBan.setText(nv.getLuongCoBan() + "");
-				    }
+					java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
+					dateChooserNgayVaoLam.setDate(getNgayLam);
+
+					txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
+					cbbTrangThai.setSelectedItem(nv.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Làm");
+					txtLuongCoBan.setText(nv.getLuongCoBan() + "");
+				}
 			}
 		});
 		dateChooserNgayVaoLam.getDateEditor().addPropertyChangeListener(new PropertyChangeListener() {
@@ -446,9 +442,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					NhanVien nv = new NhanVien();
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-					//double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-					//txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					txtHeSoLuong.setText(String.valueOf(heSoLuong));
 				}
 			}
 		});
@@ -460,28 +456,26 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	}
 
 	private void updateTableDataNhanVien() {
-		
+
 		listnv = dao_nv.docTuBang();
 		listcnv = dao_cnv.docTuBang();
 		modelNhanVien.setRowCount(0);
 
-		
 		for (int i = 0; i < listnv.size(); i++) {
-	    NhanVien nv = listnv.get(i);
-	    if (i < listcnv.size()) {
-	            CongNhanVien cnv = listcnv.get(i);
-	            String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
-	            String ngaySinh = dateFormat.format(cnv.getNgaySinh());
-	            String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai() };
-	            modelNhanVien.addRow(rowData);
-	        } else {
-	           
-	            String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
-	            modelNhanVien.addRow(rowData);
-	        }
-	    }
-		
+			NhanVien nv = listnv.get(i);
+			if (i < listcnv.size()) {
+				CongNhanVien cnv = listcnv.get(i);
+				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
+				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
+				String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
+						cnv.getSoDienThoai() };
+				modelNhanVien.addRow(rowData);
+			} else {
 
+				String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
+				modelNhanVien.addRow(rowData);
+			}
+		}
 
 	}
 
@@ -508,7 +502,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	}
 
 	public void xoaRong() {
-		
+
 		txtCMND.setText("");
 		txtHoTen.setText("");
 		txtSDT.setText("");
@@ -542,42 +536,37 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		}
 
 	}
-	
+
 	public boolean checkregex() {
 		String cmnd = txtCMND.getText().trim();
 		String hoTen = txtHoTen.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String diaChi = txtDiaChi.getText().trim();
 		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
-		
-		if(!(cmnd.length() > 0 || cmnd.matches("^[0-9]{12}$")))
-		{
+
+		if (!(cmnd.length() > 0 || cmnd.matches("^[0-9]{12}$"))) {
 			JOptionPane.showMessageDialog(this, "Error : CMND phải có 12 số");
 			return false;
 		}
-		if(!(luong > 0 ))
-		{
-			JOptionPane.showMessageDialog(this, "Error : Lương phải lớn hơn 0 ");
+		if (!(luong >= 3000000)) {
+			JOptionPane.showMessageDialog(this, "Error : Lương phải lớn hơn 3000000 ");
 			return false;
 		}
-		if(!(sdt.length() > 0 || sdt.matches("^0[0-9]{9}$")))
-		{
+		if (!(sdt.length() > 0 || sdt.matches("^0[0-9]{9}$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Số điện thoại bắt đầu từ số 0");
 			return false;
 		}
-		if(!(hoTen.length() > 0 || hoTen.matches("^[A-Za-z ]+$")))
-		{
+		if (!(hoTen.length() > 0 || hoTen.matches("^[A-Za-z ]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
 			return false;
 		}
-		if(!(diaChi.length() > 0 || diaChi.matches("^[A-Za-z ]+$")))
-		{
+		if (!(diaChi.length() > 0 || diaChi.matches("^[A-Za-z ]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -585,7 +574,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		} else if (o.equals(btnThem)) {
-			if(checkregex()) {
+			if (checkregex()) {
 				String chucVu = (String) cbbChucVu.getSelectedItem();
 				String trinhDo = (String) cbbTrinhDo.getSelectedItem();
 				double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
@@ -622,8 +611,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
 				dao_nv.taoNV(nv);
 
-				
-
 				String maNVNew = dao_nv.getMaNhanVienMoiTao();
 				nv.setMaNhanVien(maNVNew);
 				String gioiTinh;
@@ -640,7 +627,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 						nv.getCongNhanVien().getSoDienThoai() });
 				xoaRong();
 			}
-			
 
 		}
 

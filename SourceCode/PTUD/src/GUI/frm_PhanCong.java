@@ -35,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class frm_PhanCong extends JPanel {
 
@@ -236,7 +237,7 @@ public class frm_PhanCong extends JPanel {
 
 		String[] col = { "M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n",
 				"M\u00E3 Th\u1EE3 L\u00E0m \u0110\u00E0n", "T\u00EAn Th\u1EE3 L\u00E0m \u0110\u00E0n",
-				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Ng\u00E0y Ph\u00E2n C\u00F4ng" };
+				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m"};
 		modelDSPC = new DefaultTableModel(col, 0) {
 			/**
 			 * 
@@ -255,7 +256,7 @@ public class frm_PhanCong extends JPanel {
 		columnModel2.setColumnMargin(0);
 		tblDSPC.getTableHeader().setReorderingAllowed(false);
 
-		loadDataPC(DAO_BangPhanCong.getAlListBangPhanCong());
+		loadDataPC(DAO_BangPhanCong.getBangPhanCongTheoNgayPhanCong(ngayPhanCong));
 
 		scrollPane_1.setViewportView(tblDSPC);
 		JTableHeader tb1 = tblDSPC.getTableHeader();
@@ -412,15 +413,39 @@ public class frm_PhanCong extends JPanel {
 								bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
 								bangPhanCong_DAO.getBangPhanCongMoiTao();
 								Entity.BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
+								
+								boolean duplicate = false;
 
-								Object[] rowData = new Object[] { newBangPhanCong.getCongDoan().getMaCongDoan(),
-										newBangPhanCong.getCongDoan().getTenCongDoan(),
-										newBangPhanCong.getThoLamDan().getMaThoLamDan(),
-										newBangPhanCong.getThoLamDan().getCongNhanVien().getHoTen(),
-										newBangPhanCong.getCongDoan().getDan().getMaSanPham(),
-										newBangPhanCong.getCongDoan().getDan().getTenSanPham(),
-										newBangPhanCong.getNgayPhanCong() };
-								modelDSPC.addRow(rowData);
+								
+								for (int i = 0; i < modelDSPC.getRowCount(); i++) {
+									String maThoLamDanInTable = modelDSPC.getValueAt(i, 3).toString();
+															
+									
+									for (int a = 0; i < modelDSPC.getRowCount(); a++) {
+									String maThoLamDanString = modelDSTLD.getValueAt(tblDSTLD.getSelectedRow(), 1).toString();
+										
+									if (maThoLamDanString.equals(maThoLamDanInTable)) {
+										duplicate = true;
+										break;
+									}
+									
+									}
+								
+								}
+								if(duplicate) {
+									JOptionPane.showMessageDialog(null, "Thợ làm đàn này đã được phân công","Lỗi",JOptionPane.ERROR_MESSAGE);
+								}
+								else {
+									Object[] rowData = new Object[] { newBangPhanCong.getCongDoan().getMaCongDoan(),
+											newBangPhanCong.getCongDoan().getTenCongDoan(),
+											newBangPhanCong.getThoLamDan().getMaThoLamDan(),
+											newBangPhanCong.getThoLamDan().getCongNhanVien().getHoTen(),
+											newBangPhanCong.getCongDoan().getDan().getMaSanPham(),
+											newBangPhanCong.getCongDoan().getDan().getTenSanPham(),
+											newBangPhanCong.getNgayPhanCong() };
+									modelDSPC.addRow(rowData);
+								}
+								
 								txtSoLuongSanPham.setText("");
 
 								txtSoLuongSanPham.setEnabled(false);

@@ -141,8 +141,10 @@ public class Dan {
 		super();
 	}
 
+
 	public Dan(String tenSanPham, String loaiSanPham, String moTa, double giaBan, String matDan, String eoLung,
 			String can, String matPhim, String day, String khoa, String cauNgua, boolean trangThai) {
+
 		super();
 		this.tenSanPham = tenSanPham;
 		this.loaiSanPham = loaiSanPham;

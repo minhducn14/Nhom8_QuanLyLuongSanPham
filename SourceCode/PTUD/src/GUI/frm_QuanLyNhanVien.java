@@ -49,7 +49,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private JComboBox<String> cbbPhongBan, cbbChucVu, cbbTrinhDo, cbbTrangThai;
 	private JDateChooser dateChooserNgayVaoLam, dateChooserNgaySinh;
 	private ButtonGroup G;
-
+	private SimpleDateFormat dateFormat ;
+	private List<NhanVien> listnv;
+	private List<CongNhanVien> listcnv;
 	private DAO_NhanVien dao_nv;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_PhongBan dao_pb;
@@ -62,8 +64,8 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
+		
+		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		JLabel lblTieuDe = new JLabel("Nhân Viên");
 		lblTieuDe.setForeground(new Color(0, 27, 72));
 		lblTieuDe.setHorizontalAlignment(SwingConstants.CENTER);
@@ -97,13 +99,21 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		tbl_bangTen = new JTable();
 
 		TableColumnModel columnModel = tbl_bangTen.getColumnModel();
+
+        columnModel.setColumnSelectionAllowed(false);
+        columnModel.setColumnMargin(0);
+        tbl_bangTen.getTableHeader().setReorderingAllowed(false);
+		scrollPane_1.setViewportView(tbl_bangTen);
+
+
+		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT"  };
+		
+
 		columnModel.setColumnSelectionAllowed(false);
 		columnModel.setColumnMargin(0);
 		tbl_bangTen.getTableHeader().setReorderingAllowed(false);
 		scrollPane_1.setViewportView(tbl_bangTen);
 
-		String[] colHeader = { "Mã Nhân Viên", "Họ tên nhân viên", "Giới Tính", "Ngày Sinh", "CMND", "SDT" };
-		scrollPane_1.setViewportView(tbl_bangTen);
 
 		modelNhanVien = new DefaultTableModel(colHeader, 0) {
 			/**
@@ -118,7 +128,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 			}
 		};
 
+
 		scrollPane_1.setViewportView(tbl_bangTen);
+
 		tbl_bangTen.setModel(modelNhanVien);
 		JTableHeader tbBangLuong = tbl_bangTen.getTableHeader();
 		tbBangLuong.setBackground(new Color(151, 201, 219));
@@ -312,9 +324,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					NhanVien nv = new NhanVien();
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					//double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-					txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					//txtHeSoLuong.setText(String.valueOf(heSoLuong));
 
 				}
 
@@ -424,9 +436,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					NhanVien nv = new NhanVien();
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					//double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-					txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					//txtHeSoLuong.setText(String.valueOf(heSoLuong));
 				}
 			}
 		});
@@ -438,25 +450,28 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	}
 
 	private void updateTableDataNhanVien() {
-
+		
+		listnv = dao_nv.docTuBang();
+		listcnv = dao_cnv.docTuBang();
 		modelNhanVien.setRowCount(0);
-		DAO_NhanVien dsNhanVien = new DAO_NhanVien();
-		List<NhanVien> listnv = dsNhanVien.docTuBang();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		for (NhanVien nhanVien : listnv) {
-			Boolean gt = nhanVien.getCongNhanVien().isGioiTinh();
-			boolean kiemTraGT = true;
-			String gioiTinh;
-			if (gt == kiemTraGT) {
-				gioiTinh = "Nam";
-			} else {
-				gioiTinh = "Nữ";
-			}
-			String[] rowData = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(), gioiTinh,
-					dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh()),
-					nhanVien.getCongNhanVien().getMaCanCuocCongDan(), nhanVien.getCongNhanVien().getSoDienThoai() };
-			modelNhanVien.addRow(rowData);
-		}
+
+		
+		for (int i = 0; i < listnv.size(); i++) {
+	    NhanVien nv = listnv.get(i);
+	    if (i < listcnv.size()) {
+	            CongNhanVien cnv = listcnv.get(i);
+	            String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
+	            String ngaySinh = dateFormat.format(cnv.getNgaySinh());
+	            String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai() };
+	            modelNhanVien.addRow(rowData);
+	        } else {
+	           
+	            String[] rowData = { nv.getMaNhanVien(), "", "", "", "", "" };
+	            modelNhanVien.addRow(rowData);
+	        }
+	    }
+		
+
 
 	}
 
@@ -483,7 +498,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	}
 
 	public void xoaRong() {
-		txtMaNhanVien.setText("");
+		
 		txtCMND.setText("");
 		txtHoTen.setText("");
 		txtSDT.setText("");
@@ -517,7 +532,42 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		}
 
 	}
-
+	
+	public boolean checkregex() {
+		String cmnd = txtCMND.getText().trim();
+		String hoTen = txtHoTen.getText().trim();
+		String sdt = txtSDT.getText().trim();
+		String diaChi = txtDiaChi.getText().trim();
+		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
+		
+		if(!(cmnd.length() > 0 || cmnd.matches("^[0-9]{12}$")))
+		{
+			JOptionPane.showMessageDialog(this, "Error : CMND phải có 12 số");
+			return false;
+		}
+		if(!(luong > 0 ))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Lương phải lớn hơn 0 ");
+			return false;
+		}
+		if(!(sdt.length() > 0 || sdt.matches("^0[0-9]{9}$")))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Số điện thoại bắt đầu từ số 0");
+			return false;
+		}
+		if(!(hoTen.length() > 0 || hoTen.matches("^[A-Za-z ]+$")))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
+			return false;
+		}
+		if(!(diaChi.length() > 0 || diaChi.matches("^[A-Za-z ]+$")))
+		{
+			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -525,58 +575,60 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		} else if (o.equals(btnThem)) {
+			if(checkregex()) {
+				String chucVu = (String) cbbChucVu.getSelectedItem();
+				String trinhDo = (String) cbbTrinhDo.getSelectedItem();
+				double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
 
-			String chucVu = (String) cbbChucVu.getSelectedItem();
-			String trinhDo = (String) cbbTrinhDo.getSelectedItem();
-			double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
-
-			String hoTen = txtHoTen.getText();
-			boolean phai = false;
-			if (G.getSelection() != null) {
-				if (G.getSelection().equals(rbtNam.getModel())) {
-					phai = true;
-				} else if (G.getSelection().equals(rbtNu.getModel())) {
-					phai = false;
+				String hoTen = txtHoTen.getText();
+				boolean phai = false;
+				if (G.getSelection() != null) {
+					if (G.getSelection().equals(rbtNam.getModel())) {
+						phai = true;
+					} else if (G.getSelection().equals(rbtNu.getModel())) {
+						phai = false;
+					}
 				}
+				java.sql.Date ngaySinh = new java.sql.Date(dateChooserNgaySinh.getDate().getTime());
+
+				String cmnd = txtCMND.getText();
+				String sdt = txtSDT.getText();
+				String diaChi = txtDiaChi.getText();
+				boolean trangThai = true;
+				if (cbbTrangThai.equals("Đang Làm")) {
+					trangThai = true;
+				} else if (cbbTrangThai.equals("Nghỉ Làm")) {
+					trangThai = false;
+				}
+				java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
+				String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
+				PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
+
+				CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
+				dao_cnv.taoCNV(cnv);
+				CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+				NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
+				dao_nv.taoNV(nv);
+
+				
+
+				String maNVNew = dao_nv.getMaNhanVienMoiTao();
+				nv.setMaNhanVien(maNVNew);
+				String gioiTinh;
+				Boolean gt = nv.getCongNhanVien().isGioiTinh();
+				boolean kiemTraGT = true;
+
+				if (gt == kiemTraGT) {
+					gioiTinh = "Nam";
+				} else {
+					gioiTinh = "Nữ";
+				}
+				modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
+						nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),
+						nv.getCongNhanVien().getSoDienThoai() });
+				xoaRong();
 			}
-			Date ngaySinh = new Date(dateChooserNgaySinh.getDate().getTime());
-
-			String cmnd = txtCMND.getText();
-			String sdt = txtSDT.getText();
-			String diaChi = txtDiaChi.getText();
-			boolean trangThai = true;
-			if (cbbTrangThai.equals("Đang Làm")) {
-				trangThai = true;
-			} else if (cbbTrangThai.equals("Nghỉ Làm")) {
-				trangThai = false;
-			}
-			Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());
-			String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
-			PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
-
-			CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
-			dao_cnv.taoCNV(cnv);
-			CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
-			NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
-			dao_nv.taoNV(nv);
-
-			// updateTableDataNhanVien();
-
-			String maNVNew = dao_nv.getMaNhanVienMoiTao();
-			nv.setMaNhanVien(maNVNew);
-			String gioiTinh;
-			Boolean gt = nv.getCongNhanVien().isGioiTinh();
-			boolean kiemTraGT = true;
-
-			if (gt == kiemTraGT) {
-				gioiTinh = "Nam";
-			} else {
-				gioiTinh = "Nữ";
-			}
-			modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
-					nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),
-					nv.getCongNhanVien().getSoDienThoai() });
-			xoaRong();
+			
 
 		}
 

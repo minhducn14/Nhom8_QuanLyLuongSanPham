@@ -33,7 +33,9 @@ public class DAO_SanPham {
 				dan.setKhoa(rs.getString(11));
 				dan.setCauNgua(rs.getString(12));
 				dan.setTrangThai(rs.getBoolean(13));
+
 				ds.add(dan);
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -54,7 +56,6 @@ public class DAO_SanPham {
 		try {
 			String sql = "insert into Dan(tenSanPham,loaiSanPham,moTa,giaBan,matDan,eoLung,can,matPhim,day,khoa,cauNgua,trangThai) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 			stm = con.prepareStatement(sql);
-
 			stm.setString(1, dan.getTenSanPham());
 			stm.setString(2, dan.getLoaiSanPham());
 			stm.setString(3, dan.getMoTa());
@@ -83,5 +84,19 @@ public class DAO_SanPham {
 
 		return n > 0;
 	}
-
+	public String getMaSanPhamMoiTao() {
+		String maSanPham = null;
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT TOP 1 maSanPham\r\n" + "FROM Dan\r\n" + "ORDER BY maSanPham DESC;";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				maSanPham = rs.getString(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return maSanPham;
+	}
 }

@@ -321,7 +321,7 @@ public class DAO_LuongNhanVien {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT COUNT(NhanVien.maCongNhanVien)\r\n" + "FROM NhanVien\r\n"
 					+ "INNER JOIN CongNhanVien ON NhanVien.maCongNhanVien = CongNhanVien.maCongNhanVien\r\n"
-					+ "where CongNhanVien.hoTen LIKE '%" + ten + "%';" + "";
+					+ "where CongNhanVien.hoTen LIKE N'%" + ten + "%';" + "";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -339,7 +339,7 @@ public class DAO_LuongNhanVien {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BangLuongNhanVien.*, CongNhanVien.hoTen  FROM BangLuongNhanVien \r\n"
 					+ "join NhanVien on BangLuongNhanVien.maNhanVien= NhanVien.maNhanVien\r\n"
-					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where CongNhanVien.hoTen LIKE '%"
+					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where CongNhanVien.hoTen LIKE N'%"
 					+ tenNhanVien + "%'";
 			Statement statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);

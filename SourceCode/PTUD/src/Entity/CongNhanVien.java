@@ -144,6 +144,12 @@ public class CongNhanVien {
 		return phuCapThamNien;
 	}
 
+	public double tinhPhuCapThamNien(double heSo) {
+		double tyLePhuCap = xacDinhTyLePhuCap();
+		double phuCapThamNien = 3000000 * heSo * (tyLePhuCap / 100);
+		return phuCapThamNien;
+	}
+
 	private double xacDinhTyLePhuCap() {
 		LocalDate ngayVaoLamLocal = ngayVaoLam.toLocalDate();
 		LocalDate ngayHienTai = LocalDate.now();

@@ -100,7 +100,7 @@ public class DAO_ChamCongNhanVien {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT COUNT(NhanVien.maCongNhanVien)\r\n" + "FROM NhanVien\r\n"
 					+ "INNER JOIN CongNhanVien ON NhanVien.maCongNhanVien = CongNhanVien.maCongNhanVien\r\n"
-					+ "where CongNhanVien.hoTen LIKE '%" + ten + "%';" + "";
+					+ "where CongNhanVien.hoTen LIKE N'%" + ten + "%';" + "";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {

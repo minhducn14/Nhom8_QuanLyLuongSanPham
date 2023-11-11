@@ -17,6 +17,7 @@ import Connection.MyConnection;
 import DAO.DAO_BangPhanCong;
 import DAO.DAO_CongDoan;
 import DAO.DAO_ThoLamDan;
+import Entity.BangPhanCong;
 import Entity.CongDoan;
 import Entity.Dan;
 import Entity.ThoLamDan;
@@ -57,6 +58,8 @@ public class frm_PhanCong extends JPanel {
 	private JTextField txtMaThoLamDan;
 	private int selectedRowInDSCD = -1;
 	private int selectedRowInDSTLD = -1;
+	private DAO_ThoLamDan dao_ThoLamDan = new DAO_ThoLamDan();
+	private DAO_BangPhanCong dao_BangPhanCong = new DAO_BangPhanCong();
 
 	/**
 	 * Create the panel.
@@ -205,7 +208,7 @@ public class frm_PhanCong extends JPanel {
 		columnModel.setColumnMargin(0);
 		tblDSTLD.getTableHeader().setReorderingAllowed(false);
 
-		loadDataTLD(DAO_ThoLamDan.getAlListThoLamDan());
+		loadDataTLD(dao_ThoLamDan.getAlListThoLamDan());
 
 		scrollPane.setViewportView(tblDSTLD);
 		JTableHeader tb = tblDSTLD.getTableHeader();
@@ -256,7 +259,7 @@ public class frm_PhanCong extends JPanel {
 		columnModel2.setColumnMargin(0);
 		tblDSPC.getTableHeader().setReorderingAllowed(false);
 
-		loadDataPC(DAO_BangPhanCong.getBangPhanCongTheoNgayPhanCong(ngayPhanCong));
+		loadDataPC(dao_BangPhanCong.getBangPhanCongTheoNgayPhanCong(ngayPhanCong));
 
 		scrollPane_1.setViewportView(tblDSPC);
 		JTableHeader tb1 = tblDSPC.getTableHeader();
@@ -418,7 +421,7 @@ public class frm_PhanCong extends JPanel {
 									JOptionPane.showMessageDialog(null, "Thợ làm đàn này đã được phân công", "Lỗi",
 											JOptionPane.ERROR_MESSAGE);
 								} else {
-									Entity.BangPhanCong bangPhanCong = new Entity.BangPhanCong();
+									BangPhanCong bangPhanCong = new BangPhanCong();
 									CongDoan congDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(
 											modelDSCD.getValueAt(selectedRowInDSCD, 0).toString());
 									bangPhanCong.setCongDoan(congDoan);
@@ -430,7 +433,7 @@ public class frm_PhanCong extends JPanel {
 									bangPhanCong.setNgayPhanCong(date);
 									bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
 									bangPhanCong_DAO.getBangPhanCongMoiTao();
-									Entity.BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
+									BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
 									Object[] rowData = new Object[] { newBangPhanCong.getCongDoan().getMaCongDoan(),
 											newBangPhanCong.getCongDoan().getTenCongDoan(),
 											newBangPhanCong.getThoLamDan().getMaThoLamDan(),

@@ -83,13 +83,16 @@ public class DAO_ThoLamDan {
 		return maThoLamDan;
 	}
 
-	public static ArrayList<ThoLamDan> getAlListThoLamDan() {
+	public ArrayList<ThoLamDan> getAlListThoLamDan() {
 
 		ArrayList<ThoLamDan> ds = new ArrayList<ThoLamDan>();
 		try {
-			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("select * from ThoLamDan");
-			ResultSet rs = preparedStatement.executeQuery();
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT * FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.trangThai = 1";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				ThoLamDan thoLamDan = new ThoLamDan();
 				thoLamDan.setMaThoLamDan(rs.getString(1));
@@ -154,5 +157,4 @@ public class DAO_ThoLamDan {
 		}
 		return ds;
 	}
-
 }

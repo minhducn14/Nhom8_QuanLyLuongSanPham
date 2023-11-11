@@ -614,6 +614,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		bl.setThoLamDan(thoLamDan);
 		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
 		bl.setMaBangLuong(maBangLuong);
+		bl.setSoLuongSanPham(0);
 		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
 		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
 	}

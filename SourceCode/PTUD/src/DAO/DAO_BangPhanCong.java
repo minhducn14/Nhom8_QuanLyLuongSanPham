@@ -87,7 +87,7 @@ public class DAO_BangPhanCong {
 		return bangPhanCong;
 	}
 
-	public static ArrayList<BangPhanCong> getBangPhanCongTheoNgayPhanCong(JDateChooser ngayPhanCong) {
+	public ArrayList<BangPhanCong> getBangPhanCongTheoNgayPhanCong(JDateChooser ngayPhanCong) {
 		java.util.Date selectedDateUtil = ngayPhanCong.getDate();
 		java.sql.Date selectedDateSql = new java.sql.Date(selectedDateUtil.getTime());
 

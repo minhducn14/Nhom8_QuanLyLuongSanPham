@@ -400,8 +400,8 @@ public class frm_LuongNhanVien extends JPanel {
 				JOptionPane.showMessageDialog(null, "Không có tên nhân viên tìm kiếm");
 			} else {
 				modelDanhSachLuong.setRowCount(0);
-				ArrayList<BangLuongNhanVien> listBCC = dao_LuongNhanVien.getBangLuongTheoTen(tenNhanVien);
-				for (BangLuongNhanVien bangLuongNhanVien : listBCC) {
+				ArrayList<BangLuongNhanVien> listBL = dao_LuongNhanVien.getBangLuongTheoTen(tenNhanVien);
+				for (BangLuongNhanVien bangLuongNhanVien : listBL) {
 					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 					double luongThucTe = bangLuongNhanVien.tinhLuongThucTe(
 							bangLuongNhanVien.getNhanVien().getLuongCoBan(),

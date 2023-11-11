@@ -306,16 +306,5 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		lblTongPC.setBounds(262, 321, 169, 20);
 		contentPane.add(lblTongPC);
 
-		JButton btnCreatePdf = new JButton("Tạo PDF");
-		btnCreatePdf.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		btnCreatePdf.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnCreatePdf.setBounds(400, 600, 200, 30);
-		contentPane.add(btnCreatePdf);
-
 	}
 }

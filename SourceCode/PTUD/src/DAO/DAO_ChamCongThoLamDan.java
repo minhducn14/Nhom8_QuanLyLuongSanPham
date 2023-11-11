@@ -304,4 +304,32 @@ public class DAO_ChamCongThoLamDan {
 		}
 		return n;
 	}
+
+	public ArrayList<BangChamCongThoLamDan> laySoLuongLamDuocCuaThang(String maThoLamDan, int thang, int nam) {
+		ArrayList<BangChamCongThoLamDan> ds = new ArrayList<BangChamCongThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT\r\n" + "    TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan,\r\n"
+					+ "    SUM(BCCTLD.soLuongSanPham) AS SoLuongLamDuoc\r\n" + "FROM\r\n"
+					+ "    BangChamCongThoLamDan BCCTLD\r\n" + "JOIN\r\n"
+					+ "    ThoLamDan TLD ON BCCTLD.maThoLamDan = TLD.maThoLamDan\r\n" + "JOIN\r\n"
+					+ "    BangPhanCong BPC ON BCCTLD.maThoLamDan = BPC.maThoLamDan AND BCCTLD.maCongDoan = BPC.maCongDoan\r\n"
+					+ "JOIN\r\n" + "    CongDoan CD ON BPC.maCongDoan = CD.maCongDoan\r\n" + "WHERE\r\n"
+					+ "    TLD.maThoLamDan ='" + maThoLamDan + "'\r\n" + "    AND MONTH(BCCTLD.ngayChamCong) = '"
+					+ thang + "'\r\n" + "    AND YEAR(BCCTLD.ngayChamCong) = '" + nam + "'\r\n" + "GROUP BY\r\n"
+					+ "TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan\r\n" + "";
+
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				BangChamCongThoLamDan bcc = new BangChamCongThoLamDan();
+				int soLuong = rs.getInt(4);
+				bcc.setSoLuongSanPham(soLuong);
+				ds.add(bcc);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
 }

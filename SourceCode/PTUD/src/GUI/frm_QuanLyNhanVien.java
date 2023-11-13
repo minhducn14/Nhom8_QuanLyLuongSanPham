@@ -320,9 +320,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					NhanVien nv = new NhanVien();
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
-					// double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
 
-					// txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					txtHeSoLuong.setText(String.valueOf(heSoLuong));
 
 				}
 
@@ -544,7 +544,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		String diaChi = txtDiaChi.getText().trim();
 		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
 
-		if (!(cmnd.length() > 0 || cmnd.matches("^[0-9]{12}$"))) {
+		if (!(cmnd.length() > 0 && cmnd.matches("^[0-9]{12}$"))) {
 			JOptionPane.showMessageDialog(this, "Error : CMND phải có 12 số");
 			return false;
 		}
@@ -552,15 +552,15 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Error : Lương phải lớn hơn 3000000 ");
 			return false;
 		}
-		if (!(sdt.length() > 0 || sdt.matches("^0[0-9]{9}$"))) {
+		if (!(sdt.length() > 0 && sdt.matches("^0[0-9]{9}$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Số điện thoại bắt đầu từ số 0");
 			return false;
 		}
-		if (!(hoTen.length() > 0 || hoTen.matches("^[A-Za-z ]+$"))) {
+		if (!(hoTen.length() > 0 && hoTen.matches("^[A-Za-z ]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
 			return false;
 		}
-		if (!(diaChi.length() > 0 || diaChi.matches("^[A-Za-z ]+$"))) {
+		if (!(diaChi.length() > 0 && diaChi.matches("^[A-Za-z ]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
 			return false;
 		}

@@ -49,7 +49,6 @@ public class FormLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtpwd;
-	private boolean isHidden = true;
 
 	/**
 	 * Launch the application.
@@ -96,8 +95,6 @@ public class FormLogin extends JFrame {
 		lblNewLabel.setBackground(new Color(218, 205, 212));
 		lblNewLabel.setBounds(324, 20, 788, 97);
 		contentPane.add(lblNewLabel);
-
-		JPanel panel = new JPanel();
 
 		JDesktopPane desktopPane = new JDesktopPane();
 		desktopPane.setBounds(131, 171, 185, -83);

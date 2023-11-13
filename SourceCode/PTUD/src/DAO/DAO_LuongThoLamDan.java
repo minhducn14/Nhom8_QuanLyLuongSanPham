@@ -9,11 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Connection.MyConnection;
-import Entity.BangChamCongThoLamDan;
-import Entity.BangLuongNhanVien;
 import Entity.BangLuongThoLamDan;
-import Entity.CongDoan;
-import Entity.NhanVien;
 import Entity.ThoLamDan;
 
 public class DAO_LuongThoLamDan {

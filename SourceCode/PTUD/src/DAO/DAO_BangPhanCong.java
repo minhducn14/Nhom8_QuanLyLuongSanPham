@@ -12,7 +12,6 @@ import com.toedter.calendar.JDateChooser;
 import Connection.MyConnection;
 import Entity.BangPhanCong;
 import Entity.CongDoan;
-import Entity.Dan;
 import Entity.ThoLamDan;
 
 public class DAO_BangPhanCong {

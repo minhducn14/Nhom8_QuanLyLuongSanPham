@@ -30,7 +30,7 @@ public class DAO_CongDoan {
 		}
 	}
 
-	public static ArrayList<CongDoan> getAlListCongDoan() {
+	public ArrayList<CongDoan> getAlListCongDoan() {
 		ArrayList<CongDoan> ds = new ArrayList<CongDoan>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
@@ -64,7 +64,7 @@ public class DAO_CongDoan {
 			preparedStatement.setFloat(2, congDoan.getGiaCongDoan());
 			preparedStatement.setString(3, congDoan.getMaCongDoan());
 			int rowsUpdated = preparedStatement.executeUpdate();
-
+			
 			if (rowsUpdated > 0) {
 				return true;
 			}

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import Connection.MyConnection;
 import Entity.Dan;
 
+
 public class DAO_SanPham {
 	public ArrayList<Dan> docTuBang() {
 		ArrayList<Dan> ds = new ArrayList<Dan>();
@@ -99,4 +100,50 @@ public class DAO_SanPham {
 		}
 		return maSanPham;
 	}
+	public boolean update(Dan dan) {
+		Connection con = MyConnection.getInstance().getConnection();
+		if (con == null) {
+			return false;
+		}
+
+		PreparedStatement stm = null;
+		int n = 0;
+		try {
+			String sql = "update Dan set tenSanPham=?, loaiSanPham=?, moTa=?, giaBan=?, matDan=?, eoLung=?, can=?, matPhim=?, day=?, khoa=?, cauNgua=?, trangThai=? where maSanPham=? ";
+				
+			stm = con.prepareStatement(sql);
+			
+			stm.setString(1, dan.getTenSanPham());
+			stm.setString(2, dan.getLoaiSanPham());
+			stm.setString(3, dan.getMoTa());
+			stm.setDouble(4, dan.getGiaBan());	
+			stm.setString(5, dan.getMatDan());
+			stm.setString(6, dan.getEoLung());
+			stm.setString(7, dan.getCan());
+			stm.setString(8, dan.getMatPhim());
+			stm.setString(9, dan.getDay());
+			stm.setString(10, dan.getKhoa());
+			stm.setString(11, dan.getCauNgua());
+			stm.setBoolean(12, dan.isTrangThai());
+			stm.setString(13, dan.getMaSanPham());
+			
+
+			
+			
+			n = stm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return n > 0;
+	}
+	
 }

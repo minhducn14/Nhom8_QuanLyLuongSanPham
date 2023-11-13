@@ -350,33 +350,20 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 
 						if (row >= 0 && row < listsp.size()) {
 							Dan dan = listsp.get(row);
-
-//							CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
-//							txtMaNhanVien.setText(nv.getMaNhanVien());
-//							txtHoTen.setText(nv.getCongNhanVien().getHoTen());
-//							txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
-//							txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
-//							String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
-//							if ("Nữ".equals(gioiTinhValue)) {
-//								rbtNu.setSelected(true);
-//							} else {
-//								rbtNam.setSelected(true);
-//							}
-//
-//							java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
-//							dateChooserNgaySinh.setDate(getNgaySinh);
-//
-//							cbbChucVu.setSelectedItem(nv.getChucVu());
-//							cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
-//							cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
-//
-//							java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
-//							dateChooserNgayVaoLam.setDate(getNgayLam);
-//
-//							txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
-//							cbbTrangThai.setSelectedItem(nv.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Làm");
-//							txtLuongCoBan.setText(nv.getLuongCoBan() + "");
-						
+							txtMaSanPham.setText(dan.getMaSanPham());
+							txtTenSanPham.setText(dan.getTenSanPham());
+							txtMoTa.setText(dan.getMoTa());
+							txtGiaBan.setText(dan.getGiaBan() + "");
+							cbbLoaiSanPham.setSelectedItem(dan.getLoaiSanPham());
+							cbbEoLung.setSelectedItem(dan.getEoLung());
+							cbbMatPhim.setSelectedItem(dan.getMatPhim());
+							cbbNgua.setSelectedItem(dan.getCauNgua());
+							cbbDay.setSelectedItem(dan.getDay());
+							cbbMatDan.setSelectedItem(dan.getMatDan());
+							cbbCau.setSelectedItem(dan.getCan());
+							cbbKhoa.setSelectedItem(dan.getKhoa());
+							cbbTrangThai.setSelectedItem(dan.isTrangThai() ? "Đang Làm" : "Chưa Làm");
+													
 						}
 					}
 				});

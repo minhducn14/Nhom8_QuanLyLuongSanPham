@@ -27,8 +27,8 @@ public class frm_GiaoDienChinhQLSanXuat extends JFrame implements MouseListener,
 	JMenuItem mnPhanCong, mnChamCongTLD;
 	JMenuItem mnTimSanPham, mnCapNhatSP;
 	private JMenu mnTroGiup;
-	private JMenu mnThngK;
-	private JMenuItem mntmNewMenuItem;
+//	private JMenu mnThngK;
+//	private JMenuItem mntmNewMenuItem;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
@@ -155,16 +155,16 @@ public class frm_GiaoDienChinhQLSanXuat extends JFrame implements MouseListener,
 		cp.add(pnCneter, BorderLayout.CENTER);
 		menuBar.setBackground(Color.decode("#B2EBF2"));
 
-		mnThngK = new JMenu("Thống kê");
-		mnThngK.setIcon(new ImageIcon(frm_GiaoDienChinhQLSanXuat.class.getResource("/icons/analytis_icon.png")));
-		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
-		menuBar.add(mnThngK);
-
-		mntmNewMenuItem = new JMenuItem("Biểu đồ");
-		mnThngK.add(mntmNewMenuItem);
-
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
-		mnThngK.add(mntmNewMenuItem_1);
+//		mnThngK = new JMenu("Thống kê");
+//		mnThngK.setIcon(new ImageIcon(frm_GiaoDienChinhQLSanXuat.class.getResource("/icons/analytis_icon.png")));
+//		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
+//		menuBar.add(mnThngK);
+//
+//		mntmNewMenuItem = new JMenuItem("Biểu đồ");
+//		mnThngK.add(mntmNewMenuItem);
+//
+//		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+//		mnThngK.add(mntmNewMenuItem_1);
 
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 

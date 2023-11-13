@@ -207,6 +207,59 @@ public class DAO_NhanVien {
 		return dsNhanVien;
 	}
 
+	public boolean update(NhanVien nv,CongNhanVien cnv,PhongBan pb) {
+		Connection con = MyConnection.getInstance().getConnection();
+		if (con == null) {
+			return false;
+		}
+
+		PreparedStatement stm = null;
+		int n = 0;
+		try {
+			String sql = "update NhanVien set chucVu=?, trinhDoVanHoa=?, luongCoBan=? where maNhanVien=? "
+				+ "update CongNhanVien set hoTen=?, gioiTinh=?, ngaySinh=?, maCanCuocCongDan=?, soDienThoai=?, diaChi=?, trangThai=?, ngayVaoLam=? where maCongNhanVien=? "
+				+ "update PhongBan set tenPhongBan=? where maPhongBan = ?"	;
+			stm = con.prepareStatement(sql);
+			
+			stm.setString(1, nv.getChucVu());
+			stm.setString(2, nv.getTrinhDoVanHoa());
+			stm.setDouble(3, nv.getLuongCoBan());
+//			stm.setString(4, nv.getPhongBan().getMaPhongBan());
+//			stm.setString(5, nv.getCongNhanVien().getMaCongNhanVien());
+			stm.setString(4, nv.getMaNhanVien() );
+			
+			stm.setString(5, cnv.getHoTen());
+			stm.setBoolean(6, cnv.isGioiTinh());
+			stm.setDate(7, cnv.getNgaySinh());
+			stm.setString(8, cnv.getMaCanCuocCongDan());
+			stm.setString(9, cnv.getSoDienThoai());
+			stm.setString(10, cnv.getDiaChi());
+			stm.setBoolean(11, cnv.isTrangThai());
+			stm.setDate(12, cnv.getNgayVaoLam());
+			stm.setString(13, cnv.getMaCongNhanVien());
+			
+			stm.setString(14,pb.getTenPhongBan());
+			stm.setString(15,pb.getMaPhongBan());
+			
+			
+			n = stm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return n > 0;
+	}
+	
+
+
 	public ArrayList<NhanVien> getNhanVienTheoTen(String ten) {
 		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
 		try {
@@ -380,4 +433,5 @@ public class DAO_NhanVien {
 		}
 		return dsNhanVien;
 	}
+
 }

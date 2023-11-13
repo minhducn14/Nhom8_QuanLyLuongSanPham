@@ -27,7 +27,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 	JMenuItem mnTimNhanVien, mnTimCongNhan;
 	private JMenu mnTroGiup;
 	private JMenu mnThngK;
-	private JMenuItem mntmNewMenuItem;
+	private JMenuItem mnTKBieuDo;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
@@ -166,11 +166,10 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
 		menuBar.add(mnThngK);
 
-		mntmNewMenuItem = new JMenuItem("Biểu đồ");
-		mnThngK.add(mntmNewMenuItem);
-
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
-		mnThngK.add(mntmNewMenuItem_1);
+		mnTKBieuDo = new JMenuItem("Biểu đồ");
+		mnThngK.add(mnTKBieuDo);
+//		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+//		mnThngK.add(mntmNewMenuItem_1);
 
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
@@ -184,7 +183,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 		mnTimNhanVien.addActionListener(this);
 		mnTimCongNhan.addActionListener(this);
 		mnTroGiup.addMouseListener(this);
-
+		mnTKBieuDo.addActionListener(this);
 	}
 
 	@Override
@@ -263,6 +262,11 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 			frm_TimKiemThongTinThoLamDan form_TimKiemThoLamDan = new frm_TimKiemThongTinThoLamDan();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemThoLamDan);
+			validate();
+		} else if (e.getSource().equals(mnTKBieuDo)) {
+			frm_BieuDoThongKe bieuDoThongKe = new frm_BieuDoThongKe();
+			pnCneter.removeAll();
+			pnCneter.add(bieuDoThongKe);
 			validate();
 		}
 	}

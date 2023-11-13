@@ -157,14 +157,12 @@ public class DAO_LuongThoLamDan {
 		double tongThuNhap = 0;
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT\r\n" + "    BCCTLD.maThoLamDan,\r\n" + "    MONTH(BCCTLD.ngayChamCong) AS Thang,\r\n"
-					+ "    YEAR(BCCTLD.ngayChamCong) AS Nam,\r\n"
-					+ "    SUM(CD.giaCongDoan * BCCTLD.soLuongSanPham) AS TongThuNhap\r\n" + "FROM\r\n"
-					+ "    BangChamCongThoLamDan BCCTLD\r\n" + "JOIN\r\n"
-					+ "    BangPhanCong BPC ON BCCTLD.maThoLamDan = BPC.maThoLamDan\r\n"
-					+ "    AND BCCTLD.maCongDoan = BPC.maCongDoan\r\n" + "JOIN\r\n"
-					+ "    CongDoan CD ON BPC.maCongDoan = CD.maCongDoan\r\n" + "GROUP BY\r\n"
-					+ "    BCCTLD.maThoLamDan, MONTH(BCCTLD.ngayChamCong), YEAR(BCCTLD.ngayChamCong)"
+			String sql = "SELECT BCCTLD.maThoLamDan,MONTH(BCCTLD.ngayChamCong) AS Thang,YEAR(BCCTLD.ngayChamCong) AS Nam,\r\n"
+					+ "SUM(CD.giaCongDoan * BCCTLD.soLuongSanPham) AS TongThuNhap\r\n" + "FROM \r\n"
+					+ "    BangChamCongThoLamDan BCCTLD \r\n" + "JOIN \r\n"
+					+ "    CongDoan cd ON BCCTLD.maCongDoan = cd.maCongDoan\r\n" + "JOIN \r\n"
+					+ "    ThoLamDan tho ON BCCTLD.maThoLamDan = tho.maThoLamDan\r\n" + "GROUP BY\r\n"
+					+ "BCCTLD.maThoLamDan, MONTH(BCCTLD.ngayChamCong), YEAR(BCCTLD.ngayChamCong)"
 					+ "Having BCCTLD.maThoLamDan = '" + maThoLamDan + "'\r\n" + "  AND MONTH(BCCTLD.ngayChamCong) = '"
 					+ thang + "'\r\n" + "and  YEAR(BCCTLD.ngayChamCong)= '" + nam + "'\r\n";
 

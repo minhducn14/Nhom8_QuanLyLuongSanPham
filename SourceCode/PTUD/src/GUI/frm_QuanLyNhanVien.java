@@ -632,7 +632,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 			}
 
 		} else if (o.equals(btnSua)) {
-			if (checkregex()) {
+			
 				int row = tbl_bangTen.getSelectedRow();
 				if (row >=0) {
 					String chucVu = (String) cbbChucVu.getSelectedItem();
@@ -694,7 +694,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 			            updateTableDataNhanVien();
 						
 						
-					}
+					
 				}
 				
 				

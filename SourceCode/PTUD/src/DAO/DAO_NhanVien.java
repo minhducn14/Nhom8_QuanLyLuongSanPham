@@ -206,7 +206,7 @@ public class DAO_NhanVien {
 		}
 		return dsNhanVien;
 	}
-<<<<<<< HEAD
+
 	public boolean update(NhanVien nv,CongNhanVien cnv,PhongBan pb) {
 		Connection con = MyConnection.getInstance().getConnection();
 		if (con == null) {
@@ -258,7 +258,7 @@ public class DAO_NhanVien {
 		return n > 0;
 	}
 	
-=======
+
 
 	public ArrayList<NhanVien> getNhanVienTheoTen(String ten) {
 		ArrayList<NhanVien> dsNhanVien = new ArrayList<NhanVien>();
@@ -433,5 +433,5 @@ public class DAO_NhanVien {
 		}
 		return dsNhanVien;
 	}
->>>>>>> ed961dfde1d08e8d076ff2911afdb6849eabd4a1
+
 }

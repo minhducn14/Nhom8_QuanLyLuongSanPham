@@ -168,8 +168,8 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 
 		mnTKBieuDo = new JMenuItem("Biểu đồ");
 		mnThngK.add(mnTKBieuDo);
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
-		mnThngK.add(mntmNewMenuItem_1);
+//		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
+//		mnThngK.add(mntmNewMenuItem_1);
 
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 

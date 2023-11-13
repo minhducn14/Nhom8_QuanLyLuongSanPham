@@ -10,12 +10,10 @@ import java.sql.Statement;
 import java.time.LocalDate;
 
 import Connection.MyConnection;
-import Entity.BangChamCongNhanVien;
 import Entity.BangChamCongThoLamDan;
 import Entity.BangLuongThoLamDan;
 import Entity.BangPhanCong;
 import Entity.CongDoan;
-import Entity.NhanVien;
 import Entity.ThoLamDan;
 
 public class DAO_ChamCongThoLamDan {

@@ -157,4 +157,124 @@ public class DAO_ThoLamDan {
 		}
 		return ds;
 	}
+
+	public ArrayList<ThoLamDan> getThoLamDanTheoTen(String ten) {
+		ArrayList<ThoLamDan> dsTholamDan = new ArrayList<ThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.hoTen LIKE N'%" + ten + "%'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(resultSet.getString(1));
+				thoLamDan.setTayNghe(resultSet.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				dsTholamDan.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsTholamDan;
+	}
+
+	public ArrayList<ThoLamDan> getThoLamDanTheoTrangThai(int trangThai) {
+		ArrayList<ThoLamDan> dsTholamDan = new ArrayList<ThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.trangThai = " + trangThai + " ";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(resultSet.getString(1));
+				thoLamDan.setTayNghe(resultSet.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				dsTholamDan.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsTholamDan;
+	}
+
+	public ArrayList<ThoLamDan> getAllThoLamDanTheoSoDienThaoi(String sdt) {
+		ArrayList<ThoLamDan> dsTholamDan = new ArrayList<ThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE congNhanVien.soDienThoai LIKE '%" + sdt + "%'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(resultSet.getString(1));
+				thoLamDan.setTayNghe(resultSet.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				dsTholamDan.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsTholamDan;
+	}
+
+	public ArrayList<ThoLamDan> getThoLamDanTheoGioiTinh(int gioiTinh) {
+		ArrayList<ThoLamDan> dsTholamDan = new ArrayList<ThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.gioiTinh = " + gioiTinh + " ";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(resultSet.getString(1));
+				thoLamDan.setTayNghe(resultSet.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				dsTholamDan.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsTholamDan;
+	}
+
+	public ArrayList<ThoLamDan> getThoLamDanTheoDiaChi(String diaChi) {
+		ArrayList<ThoLamDan> dsTholamDan = new ArrayList<ThoLamDan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT *\r\n" + "FROM ThoLamDan\r\n"
+					+ "INNER JOIN CongNhanVien ON CongNhanVien.maCongNhanVien = ThoLamDan.maCongNhanVien\r\n"
+					+ "WHERE CongNhanVien.diaChi LIKE N'%" + diaChi + "%'";
+			Statement statement = con.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				ThoLamDan thoLamDan = new ThoLamDan();
+				thoLamDan.setMaThoLamDan(resultSet.getString(1));
+				thoLamDan.setTayNghe(resultSet.getString(2));
+				DAO_CongNhanVien dao_CNV = new DAO_CongNhanVien();
+				CongNhanVien congNhanVien = dao_CNV.getCongNhanVienTheoMa(resultSet.getString(3));
+				thoLamDan.setCongNhanVien(congNhanVien);
+				dsTholamDan.add(thoLamDan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dsTholamDan;
+	}
 }

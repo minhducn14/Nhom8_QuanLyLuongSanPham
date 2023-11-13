@@ -5,5 +5,6 @@ module PTUD {
 	requires java.sql;
 	requires jcalendar;
 	requires poi;
+	requires itextpdf;
 
 }

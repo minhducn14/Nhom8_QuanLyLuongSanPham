@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import Connection.MyConnection;
-
 import Entity.PhongBan;
 
 public class DAO_PhongBan {
@@ -41,7 +40,7 @@ public class DAO_PhongBan {
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			PreparedStatement preparedStatement = con
-					.prepareStatement("select * from PhongBan where tenPhongBan = '" + tenPhongBan + "'");
+					.prepareStatement("select * from PhongBan where tenPhongBan = N'" + tenPhongBan + "'");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				phongBan.setMaPhongBan(resultSet.getString(1));

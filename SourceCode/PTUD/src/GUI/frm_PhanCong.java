@@ -432,15 +432,13 @@ public class frm_PhanCong extends JPanel {
 									Date date = Date.valueOf(LocalDate.now());
 									bangPhanCong.setNgayPhanCong(date);
 									bangPhanCong_DAO.insertBangPhanCong(bangPhanCong);
-									bangPhanCong_DAO.getBangPhanCongMoiTao();
-									BangPhanCong newBangPhanCong = bangPhanCong_DAO.getBangPhanCongMoiTao();
-									Object[] rowData = new Object[] { newBangPhanCong.getCongDoan().getMaCongDoan(),
-											newBangPhanCong.getCongDoan().getTenCongDoan(),
-											newBangPhanCong.getThoLamDan().getMaThoLamDan(),
-											newBangPhanCong.getThoLamDan().getCongNhanVien().getHoTen(),
-											newBangPhanCong.getCongDoan().getDan().getMaSanPham(),
-											newBangPhanCong.getCongDoan().getDan().getTenSanPham(),
-											newBangPhanCong.getNgayPhanCong() };
+									Object[] rowData = new Object[] { bangPhanCong.getCongDoan().getMaCongDoan(),
+											bangPhanCong.getCongDoan().getTenCongDoan(),
+											bangPhanCong.getThoLamDan().getMaThoLamDan(),
+											bangPhanCong.getThoLamDan().getCongNhanVien().getHoTen(),
+											bangPhanCong.getCongDoan().getDan().getMaSanPham(),
+											bangPhanCong.getCongDoan().getDan().getTenSanPham(),
+											bangPhanCong.getNgayPhanCong() };
 									modelDSPC.addRow(rowData);
 								}
 

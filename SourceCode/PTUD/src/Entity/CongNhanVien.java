@@ -172,4 +172,21 @@ public class CongNhanVien {
 		super();
 	}
 
+	public CongNhanVien( String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan,
+			String soDienThoai, String diaChi, boolean trangThai, Date ngayVaoLam,String maCongNhanVien) {
+		// TODO Auto-generated constructor stub
+		super();
+		
+		this.hoTen = hoTen;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.maCanCuocCongDan = maCanCuocCongDan;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.trangThai = trangThai;
+		this.ngayVaoLam = ngayVaoLam;
+		this.maCongNhanVien = maCongNhanVien;
+	}
+
+
 }

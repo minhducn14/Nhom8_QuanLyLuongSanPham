@@ -9,6 +9,8 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +21,9 @@ import java.util.List;
 
 import Connection.MyConnection;
 import DAO.DAO_SanPham;
+import Entity.CongNhanVien;
 import Entity.Dan;
+import Entity.NhanVien;
 
 
 public class frm_QuanLySanPham extends JPanel implements ActionListener{
@@ -315,6 +319,69 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener{
 	    	    btnSua.addActionListener(this);
 	    	    btnThem.addActionListener(this);
 	    	    btnXoaRong.addActionListener(this);
+	    	    
+	    	    tbl_BangSanPham.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+//						int row = tbl_BangSanPham.getSelectedRow();
+//
+//						if (row >= 0 && row < listnv.size()) {
+//							NhanVien nv = listnv.get(row);
+//
+//							CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
+//							txtMaNhanVien.setText(nv.getMaNhanVien());
+//							txtHoTen.setText(nv.getCongNhanVien().getHoTen());
+//							txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
+//							txtDiaChi.setText(nv.getCongNhanVien().getDiaChi());
+//							String gioiTinhValue = modelNhanVien.getValueAt(row, 2).toString();
+//							if ("Nữ".equals(gioiTinhValue)) {
+//								rbtNu.setSelected(true);
+//							} else {
+//								rbtNam.setSelected(true);
+//							}
+//
+//							java.sql.Date getNgaySinh = nv.getCongNhanVien().getNgaySinh();
+//							dateChooserNgaySinh.setDate(getNgaySinh);
+//
+//							cbbChucVu.setSelectedItem(nv.getChucVu());
+//							cbbPhongBan.setSelectedItem(nv.getPhongBan().getTenPhongBan());
+//							cbbTrinhDo.setSelectedItem(nv.getTrinhDoVanHoa());
+//
+//							java.sql.Date getNgayLam = nv.getCongNhanVien().getNgayVaoLam();
+//							dateChooserNgayVaoLam.setDate(getNgayLam);
+//
+//							txtCMND.setText(nv.getCongNhanVien().getMaCanCuocCongDan());
+//							cbbTrangThai.setSelectedItem(nv.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Làm");
+//							txtLuongCoBan.setText(nv.getLuongCoBan() + "");
+//						
+//						}
+					}
+				});
 	    	    
 	    	    MyConnection.getInstance().MyConnection();
 	    	    autoGenIdSanPham();

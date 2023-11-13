@@ -370,7 +370,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 		btnXoaRong.addActionListener(this);
 		btnThem.addActionListener(this);
-
+		btnSua.addActionListener(this);
 		tbl_bangTen.addMouseListener(new MouseListener() {
 
 			@Override
@@ -631,7 +631,77 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				xoaRong();
 			}
 
+		} else if (o.equals(btnSua)) {
+			
+				int row = tbl_bangTen.getSelectedRow();
+				if (row >=0) {
+					String chucVu = (String) cbbChucVu.getSelectedItem();
+					String trinhDo = (String) cbbTrinhDo.getSelectedItem();
+					double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
+					String maNV = txtMaNhanVien.getText();
+					
+					
+					String hoTen = txtHoTen.getText();
+					boolean phai = false;
+					if (G.getSelection() != null) {
+						if (G.getSelection().equals(rbtNam.getModel())) {
+							phai = true;
+						} else if (G.getSelection().equals(rbtNu.getModel())) {
+							phai = false;
+						}
+					}
+					
+					java.sql.Date ngaySinh = new java.sql.Date(dateChooserNgaySinh.getDate().getTime());
+					String cmnd = txtCMND.getText();
+					String sdt = txtSDT.getText();
+					String diaChi = txtDiaChi.getText();
+					boolean trangThai = true;
+					if (cbbTrangThai.getSelectedItem().equals("Đang Làm")) {
+						trangThai = true;
+					} else if (cbbTrangThai.getSelectedItem().equals("Nghỉ Làm")) {
+						trangThai = false;
+					}
+					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
+					
+					String maCNV ="";
+					int[] selectedRow = tbl_bangTen.getSelectedRows();
+					for(int selectedIndex : selectedRow) {
+						if(selectedIndex >= 0 && selectedIndex < listnv.size() ) {
+							 NhanVien nhanVienDuocChon = listnv.get(selectedIndex);
+							 CongNhanVien CNV = nhanVienDuocChon.getCongNhanVien();
+						     maCNV = CNV.getMaCongNhanVien();
+						}	
+					}
+					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,maCNV);
+					
+					
+					
+					String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
+					PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
+
+					
+					
+					NhanVien nv = new NhanVien(maNV,chucVu, trinhDo, luongCoBan, pb, cnv);
+					if(dao_nv.update(nv,cnv,pb)) {
+						
+						tbl_bangTen.setValueAt(maNV, row, 0);
+						tbl_bangTen.setValueAt(hoTen, row, 1);
+						tbl_bangTen.setValueAt(phai, row, 2);
+						tbl_bangTen.setValueAt(ngaySinh, row, 3);
+						tbl_bangTen.setValueAt(cmnd, row, 4);
+						tbl_bangTen.setValueAt(sdt, row, 5);
+			            JOptionPane.showMessageDialog(this, "Sửa thành công");
+			            updateTableDataNhanVien();
+						
+						
+					
+				}
+				
+				
+				
+			}
 		}
+		
 
 	}
 }

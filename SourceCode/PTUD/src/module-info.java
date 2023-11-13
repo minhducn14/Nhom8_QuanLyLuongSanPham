@@ -6,5 +6,6 @@ module PTUD {
 	requires jcalendar;
 	requires poi;
 	requires itextpdf;
+	requires org.jfree.jfreechart;
 
 }

@@ -306,7 +306,7 @@ public class frm_PhanCong extends JPanel {
 		columnModel1.setColumnMargin(0);
 		tblDSCD.getTableHeader().setReorderingAllowed(false);
 
-		loadDataCD(DAO_CongDoan.getAlListCongDoan());
+		loadDataCD(congDoan_DAO.getAlListCongDoan());
 
 		scrollPane_2.setViewportView(tblDSCD);
 		JTableHeader tb2 = tblDSCD.getTableHeader();

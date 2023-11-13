@@ -153,7 +153,7 @@ public class frm_CongDoan extends JPanel {
 		for (String congDoan : tenCongDoan) {
 			comboBox.addItem(congDoan);
 		}
-		comboBox.setSelectedIndex(-1);
+		comboBox.setSelectedIndex(0);
 		comboBox.setEnabled(false);
 		panel_1 = new JPanel();
 		panel_1.setBounds(15, 90, 900, 315);
@@ -244,7 +244,7 @@ public class frm_CongDoan extends JPanel {
 			}
 		});
 
-		loadDataCD(DAO_CongDoan.getAlListCongDoan());
+		loadDataCD(congDoan_DAO.getAlListCongDoan());
 
 		ListSelectionModel listSelectionModel1 = tblDSCongDoan.getSelectionModel();
 		listSelectionModel1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -271,7 +271,7 @@ public class frm_CongDoan extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				txtMaCongDoan.setText("");
 				txtGiaCongDoan.setText("");
-				comboBox.setSelectedIndex(-1);
+				comboBox.setSelectedIndex(0);
 			}
 		});
 
@@ -280,7 +280,7 @@ public class frm_CongDoan extends JPanel {
 				tblDSCongDoan.clearSelection();
 				txtMaCongDoan.setText("");
 				txtGiaCongDoan.setText("");
-				comboBox.setSelectedIndex(-1);
+				comboBox.setSelectedIndex(0);
 
 			}
 		});
@@ -290,109 +290,144 @@ public class frm_CongDoan extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (btnThem.getText().equals("Thêm")) {
-					btnThem.setText("Lưu");
-					btnSua.setText("Huỷ");
-					txtGiaCongDoan.setEnabled(true);
-					comboBox.setEnabled(true);
-				} else {
-					editedRow = tblDSCongDoan.getSelectedRow();
-					if (editedRow >= 0) {
-						modelDSCongDoan.setValueAt((String) comboBox.getSelectedItem(), editedRow, 1);
-						editedRow = -1;
+					int row = tblDSSanPham.getSelectedRow();
+					if (row >= 0) {
+						btnThem.setText("Lưu");
+						btnSua.setText("Huỷ");
 						txtMaCongDoan.setText("");
 						txtGiaCongDoan.setText("");
-						comboBox.setSelectedIndex(-1);
-						txtGiaCongDoan.setEnabled(false);
-						comboBox.setEnabled(false);
-						btnThem.setText("Thêm");
-						btnSua.setText("Sửa thông tin");
+						comboBox.setSelectedIndex(0);
+						tblDSCongDoan.clearSelection();
+						txtGiaCongDoan.setEnabled(true);
+						comboBox.setEnabled(true);
 					} else {
-						editedRow = -1;
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm từ danh sách sản phẩm.", "Lỗi",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} else if (btnThem.getText().equals("Lưu")) {
+					int row = tblDSSanPham.getSelectedRow();
+					if (row >= 0) {
+						boolean kt = true;
 						try {
 							String tenCongDoan = (String) comboBox.getSelectedItem();
 							String giaCongDoanStr = txtGiaCongDoan.getText();
 
 							if (tenCongDoan.equals("") || giaCongDoanStr.equals("")) {
+								kt = false;
 								JOptionPane.showMessageDialog(null,
 										"Tên công đoạn và giá công đoạn không được để trống.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
 							} else if (tenCongDoan.length() < 2) {
+								kt = false;
 								JOptionPane.showMessageDialog(null, "Tên công đoạn phải có ít nhất 2 kí tự.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
 							} else {
 								float giaCongDoan = Float.parseFloat(giaCongDoanStr);
 								if (giaCongDoan < 0) {
+									kt = false;
 									JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
 											JOptionPane.ERROR_MESSAGE);
-								} else {
-									boolean duplicate = false;
-
-									for (int i = 0; i < modelDSCongDoan.getRowCount(); i++) {
-										String tenCongDoanInTable = modelDSCongDoan.getValueAt(i, 1).toString();
-										String maSanPham = modelDSCongDoan.getValueAt(i, 2).toString();
-										int row = tblDSSanPham.getSelectedRow();
-										String maSanPhamKT = (String) modelDSSanPham.getValueAt(row, 0);
-										if (tenCongDoan.equals(tenCongDoanInTable) && maSanPham.equals(maSanPhamKT)) {
-											duplicate = true;
-											break;
-										}
-									}
-
-									if (duplicate) {
-										txtMaCongDoan.setText("");
-										txtGiaCongDoan.setText("");
-										comboBox.setSelectedIndex(-1);
-										txtGiaCongDoan.setEnabled(false);
-										comboBox.setEnabled(false);
-										btnThem.setText("Thêm");
-										btnSua.setText("Sửa thông tin");
-										tblDSSanPham.clearSelection();
-										JOptionPane.showMessageDialog(null, " Công đoạn đã tồn tại.", "Lỗi",
-												JOptionPane.ERROR_MESSAGE);
-
-									} else {
-										int row = tblDSSanPham.getSelectedRow();
-										if (row >= 0) {
-											String maSanPham = modelDSSanPham.getValueAt(row, 0).toString();
-											Entity.CongDoan congDoan = new Entity.CongDoan();
-
-											Dan dan = dan_DAO.getDanTheoMaSanPham(maSanPham);
-											congDoan.setDan(dan);
-											congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
-											congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
-											congDoan_DAO.insertCongDoan(congDoan);
-
-											String maCongDoan = congDoan_DAO.getMaCongDoan(maSanPham);
-											CongDoan newCongDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
-											Object[] rowData = new Object[] { maCongDoan, newCongDoan.getTenCongDoan(),
-													newCongDoan.getDan().getMaSanPham(),
-													newCongDoan.getDan().getTenSanPham(),
-													newCongDoan.getDan().getLoaiSanPham(),
-													newCongDoan.getGiaCongDoan() };
-											modelDSCongDoan.addRow(rowData);
-											txtMaCongDoan.setText("");
-											txtGiaCongDoan.setText("");
-											comboBox.setSelectedIndex(-1);
-											txtGiaCongDoan.setEnabled(false);
-											comboBox.setEnabled(false);
-											btnThem.setText("Thêm");
-											btnSua.setText("Sửa thông tin");
-											tblDSSanPham.clearSelection();
-										} else {
-											JOptionPane.showMessageDialog(null,
-													"Vui lòng chọn sản phẩm từ danh sách sản phẩm.", "Lỗi",
-													JOptionPane.ERROR_MESSAGE);
-										}
-									}
 								}
 							}
 						} catch (NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số.", "Lỗi",
 									JOptionPane.ERROR_MESSAGE);
 						}
+						if (kt) {
+							String maSanPham = modelDSSanPham.getValueAt(row, 0).toString();
+							Entity.CongDoan congDoan = new Entity.CongDoan();
+
+							Dan dan = dan_DAO.getDanTheoMaSanPham(maSanPham);
+							congDoan.setDan(dan);
+							congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
+							congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
+							congDoan_DAO.insertCongDoan(congDoan);
+
+							String maCongDoan = congDoan_DAO.getMaCongDoan(maSanPham);
+							CongDoan newCongDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
+							Object[] rowData = new Object[] { maCongDoan, newCongDoan.getTenCongDoan(),
+									newCongDoan.getDan().getMaSanPham(), newCongDoan.getDan().getTenSanPham(),
+									newCongDoan.getDan().getLoaiSanPham(), newCongDoan.getGiaCongDoan() };
+							modelDSCongDoan.addRow(rowData);
+
+							txtMaCongDoan.setText("");
+							txtGiaCongDoan.setText("");
+							comboBox.setSelectedIndex(0);
+							txtGiaCongDoan.setEnabled(false);
+							comboBox.setEnabled(false);
+							btnThem.setText("Thêm");
+							btnSua.setText("Sửa thông tin");
+							tblDSSanPham.clearSelection();
+							tblDSCongDoan.clearSelection();
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm từ danh sách sản phẩm.", "Lỗi",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
+				} else if (btnThem.getText().equals("Lưu ")) {
+					int rowCD = tblDSCongDoan.getSelectedRow();
+					if (rowCD >= 0) {
+						boolean kt = true;
+						try {
+							String tenCongDoan = (String) comboBox.getSelectedItem();
+							String giaCongDoanStr = txtGiaCongDoan.getText();
+
+							if (tenCongDoan.equals("") || giaCongDoanStr.equals("")) {
+								kt = false;
+								JOptionPane.showMessageDialog(null,
+										"Tên công đoạn và giá công đoạn không được để trống.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
+							} else if (tenCongDoan.length() < 2) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Tên công đoạn phải có ít nhất 2 kí tự.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								float giaCongDoan = Float.parseFloat(giaCongDoanStr);
+								if (giaCongDoan < 0) {
+									kt = false;
+									JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
+											JOptionPane.ERROR_MESSAGE);
+								}
+							}
+						} catch (NumberFormatException ex) {
+							JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số.", "Lỗi",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						if (kt) {
+							String maSanPham = modelDSCongDoan.getValueAt(rowCD, 3).toString();
+							Entity.CongDoan congDoan = new Entity.CongDoan();
+							String maCongDoan = modelDSCongDoan.getValueAt(rowCD, 0).toString();
+							Dan dan = dan_DAO.getDanTheoMaSanPham(maSanPham);
+							congDoan.setDan(dan);
+							congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
+							congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
+							congDoan.setMaCongDoan(maCongDoan);
+							congDoan_DAO.updateCongDoan(congDoan);
+							modelDSCongDoan.setRowCount(0);
+							modelDSCongDoan.fireTableDataChanged();
+							for (Entity.CongDoan congDoan1 : congDoan_DAO.getAlListCongDoan()) {
+								Object[] objects = { congDoan1.getMaCongDoan(), congDoan1.getTenCongDoan(),
+										congDoan1.getDan().getMaSanPham(), congDoan1.getDan().getTenSanPham(),
+										congDoan1.getDan().getLoaiSanPham(), congDoan1.getGiaCongDoan() };
+								modelDSCongDoan.addRow(objects);
+							}
+							modelDSCongDoan.fireTableDataChanged();
+							txtMaCongDoan.setText("");
+							txtGiaCongDoan.setText("");
+							comboBox.setSelectedIndex(0);
+							txtGiaCongDoan.setEnabled(false);
+							comboBox.setEnabled(false);
+							btnThem.setText("Thêm");
+							btnSua.setText("Sửa thông tin");
+							tblDSSanPham.clearSelection();
+							tblDSCongDoan.clearSelection();
+						}
 					}
 
 				}
+
 			}
 		});
 		btnSua.addActionListener(new ActionListener() {
@@ -401,7 +436,7 @@ public class frm_CongDoan extends JPanel {
 				if (btnSua.getText().equals("Sửa thông tin")) {
 					int selectedRow = tblDSCongDoan.getSelectedRow();
 					if (selectedRow >= 0) {
-						btnThem.setText("Lưu");
+						btnThem.setText("Lưu ");
 						btnSua.setText("Huỷ");
 						txtGiaCongDoan.setEnabled(true);
 						comboBox.setEnabled(true);
@@ -416,7 +451,7 @@ public class frm_CongDoan extends JPanel {
 					txtGiaCongDoan.setEnabled(false);
 					comboBox.setEnabled(false);
 					txtGiaCongDoan.setText("");
-					comboBox.setSelectedIndex(-1);
+					comboBox.setSelectedIndex(0);
 					txtMaCongDoan.setText("");
 					tblDSCongDoan.clearSelection();
 					tblDSSanPham.clearSelection();
@@ -425,7 +460,6 @@ public class frm_CongDoan extends JPanel {
 		});
 
 	};
-
 
 	private void loadDataCD(ArrayList<Entity.CongDoan> dsCD) {
 		modelDSCongDoan.setRowCount(0);

@@ -117,7 +117,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 		gioTangCaColumn.setCellEditor(editorGioTangCa);
 		gioTangCaComboBox.setSelectedItem("0");
 
-		String[] trangThaiLuaChon = { "Chưa ghi nhận công", "Làm nguyên ca", "Làm nửa ca", "Nghỉ có phép",
+		String[] trangThaiLuaChon = { "Chưa ghi nhận công", "Làm nguyên ca", "Làm nửa ca", "Nghỉ phép",
 				"Nghỉ không phép" };
 		JComboBox<String> trangThaiComboBox = new JComboBox<>(trangThaiLuaChon);
 		DefaultCellEditor editorTrangThai = new DefaultCellEditor(trangThaiComboBox);
@@ -164,9 +164,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 
 							for (int row = 0; row < modelChamCong.getRowCount(); row++) {
 								if (listNV.contains((String) modelChamCong.getValueAt(row, 0))) {
-									String tb = "Đã chấm công cho nhân viên"
-											+ (String) modelChamCong.getValueAt(row, 1);
-									JOptionPane.showMessageDialog(null, tb);
+
 								} else {
 									String maNhanVien = (String) modelChamCong.getValueAt(row, 0);
 									NhanVien nhanVien = dao_NhanVien.getNhanVienTheoMa(maNhanVien);
@@ -174,9 +172,17 @@ public class frm_ChamCongNhanVien extends JPanel {
 									long currentTimeMillis = System.currentTimeMillis();
 									Date currentDate = new Date(currentTimeMillis);
 									bangChamCong.setNhanVien(nhanVien);
-									bangChamCong.setSoGioTangCa(
-											Integer.parseInt((String) modelChamCong.getValueAt(row, 3)));
+
 									bangChamCong.setTrangThaiDiLam((String) modelChamCong.getValueAt(row, 2));
+									String trangThai = (String) modelChamCong.getValueAt(row, 2);
+									int soGioTangCa;
+									if (trangThai.equals("Nghỉ phép") || trangThai.equals("Nghỉ không phép")) {
+										soGioTangCa = 0;
+									} else {
+										soGioTangCa = Integer.parseInt((String) modelChamCong.getValueAt(row, 3));
+									}
+
+									bangChamCong.setSoGioTangCa(soGioTangCa);
 									bangChamCong.setNgayChamCong(currentDate);
 
 									LocalDate currentDate1 = LocalDate.now();
@@ -207,6 +213,9 @@ public class frm_ChamCongNhanVien extends JPanel {
 						}
 
 					}
+					loadDataIntoTableChamCong();
+					modelChamCong.fireTableDataChanged();
+
 				}
 			}
 		});

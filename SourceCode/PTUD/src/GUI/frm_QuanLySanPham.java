@@ -22,6 +22,7 @@ import DAO.DAO_SanPham;
 import Entity.CongNhanVien;
 import Entity.Dan;
 import Entity.NhanVien;
+import Entity.PhongBan;
 
 public class frm_QuanLySanPham extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -256,8 +257,8 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 	    
 	     cbbTrangThai = new JComboBox();
 	    cbbTrangThai.setEditable(true);
-	    cbbTrangThai.addItem("Đang Làm");
-	    cbbTrangThai.addItem("Chưa Làm");
+	    cbbTrangThai.addItem("Đang bán");
+	    cbbTrangThai.addItem("Ngưng phục vụ");
 	    cbbTrangThai.setBounds(163, 220, 305, 28);
 	    panel_1_2.add(cbbTrangThai);
 	    
@@ -362,7 +363,7 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 							cbbMatDan.setSelectedItem(dan.getMatDan());
 							cbbCau.setSelectedItem(dan.getCan());
 							cbbKhoa.setSelectedItem(dan.getKhoa());
-							cbbTrangThai.setSelectedItem(dan.isTrangThai() ? "Đang Làm" : "Chưa Làm");
+							cbbTrangThai.setSelectedItem(dan.isTrangThai() ? "Đang bán" : "Ngưng phục vụ");
 													
 						}
 					}
@@ -438,7 +439,7 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		String moTa = txtMoTa.getText().trim();
 		double giaBan = Double.parseDouble(txtGiaBan.getText().trim());
 
-		if (!(tensp.length() > 0 || tensp.matches("^[A-Za-z ]+$"))) {
+		if (!(tensp.length() > 0 || tensp.matches("^[\\p{L}\\s]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Tên sản phẩm phải là ký tự");
 			return false;
 		}
@@ -446,7 +447,7 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Error : Giá Bán phải lớn hơn 0 ");
 			return false;
 		}
-		if (!(moTa.length() > 0 || moTa.matches("^[A-Za-z ]+$"))) {
+		if (!(moTa.length() > 0 || moTa.matches("^[\\p{L}\\s]+$"))) {
 			JOptionPane.showMessageDialog(this, "Mô tả phải là ký tự");
 			return false;
 		}
@@ -473,9 +474,9 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 				String khoa = (String) cbbKhoa.getSelectedItem();
 				String ngua = (String) cbbNgua.getSelectedItem();
 				boolean trangThai = true;
-				if (cbbTrangThai.getSelectedItem().toString().equals("Đang Làm")) {
+				if (cbbTrangThai.getSelectedItem().toString().equals("Đang bán")) {
 					trangThai = true;
-				} else if (cbbTrangThai.getSelectedItem().toString().equals("Chưa Làm")) {
+				} else if (cbbTrangThai.getSelectedItem().toString().equals("Ngưng phục vụ")) {
 					trangThai = false;
 				}
 
@@ -490,16 +491,67 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 
 				boolean kiemTraGT = true;
 				if (kiemTraGT) {
-					trangthai = "Đang Làm";
+					trangthai = "Đang bán";
 				} else {
-					trangthai = "Chưa Làm";
+					trangthai = "Ngưng phục vụ";
 				}
 
 				modelSanPham.addRow(new Object[] { dan.getMaSanPham(), dan.getTenSanPham(), dan.getLoaiSanPham(),
 						trangthai, dan.getGiaBan() });
+				JOptionPane.showMessageDialog(this, "Thêm thành công");
 				xoaRong();
 			}
 
+		}else if(o.equals(btnSua)) {
+			if(checkregex()) {
+				int row = tbl_BangSanPham.getSelectedRow();
+				if (row >=0) {
+					String maSP = txtMaSanPham.getText();
+					String tenSP = txtTenSanPham.getText();
+					String mota = txtMoTa.getText();
+					double giaBan = Double.parseDouble(txtGiaBan.getText());
+					String loaiSP = (String) cbbLoaiSanPham.getSelectedItem();
+					String matDan = (String) cbbMatDan.getSelectedItem();
+					String eoLung = (String) cbbEoLung.getSelectedItem();
+					String can = (String) cbbCau.getSelectedItem();
+					String matPhim = (String) cbbMatPhim.getSelectedItem();
+					String day = (String) cbbDay.getSelectedItem();
+					String khoa = (String) cbbKhoa.getSelectedItem();
+					String ngua = (String) cbbNgua.getSelectedItem();
+					boolean trangThai = true;
+					if (cbbTrangThai.getSelectedItem().toString().equals("Đang bán")) {
+						trangThai = true;
+					} else if (cbbTrangThai.getSelectedItem().toString().equals("Ngưng phục vụ")) {
+						trangThai = false;
+					}
+					
+
+					
+					Dan dan = new Dan(maSP,tenSP, loaiSP, mota, giaBan, matDan, eoLung, can, matPhim, day, khoa, ngua,
+							trangThai);
+					
+					if(dao_sp.update(dan)) {
+						tbl_BangSanPham.setValueAt(maSP, row, 0);
+						tbl_BangSanPham.setValueAt(tenSP, row, 1);
+						tbl_BangSanPham.setValueAt(loaiSP, row, 2);
+						tbl_BangSanPham.setValueAt(trangThai, row, 3);
+						tbl_BangSanPham.setValueAt(giaBan, row, 4);
+						
+						
+						
+						
+						
+						
+						
+			            JOptionPane.showMessageDialog(this, "Sửa thành công");
+			            updateTableDataSanPham();
+			}
+			
+			}
+			
+			
+			
+		}
 		}
 
 	}

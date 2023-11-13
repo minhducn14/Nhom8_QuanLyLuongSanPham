@@ -2,14 +2,12 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,6 +30,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
@@ -43,7 +42,7 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 	private JTextField textField_2;
 	private JTextField txtSoDienThoai;
 	private DAO_PhongBan dao_PhongBan = new DAO_PhongBan();
-	private JComboBox comboBoxPhongban, comboBoxTrangThai;
+	private JComboBox<String> comboBoxPhongban, comboBoxTrangThai;
 	private ButtonGroup group = new ButtonGroup(), groupSex = new ButtonGroup();
 	private JRadioButton rdbtnNu, rdbtnHoTen, rdbtnDiaChi, rdbtnGioiTinh, rdbtnNam, rdbtnSDT, rdbtnPhongBan,
 			rdbtnTrangThai;
@@ -51,12 +50,14 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 	private DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
 	private JButton btnTmKim;
 	private DefaultTableModel modell;
+	private SimpleDateFormat dateFormat;
 
 	public frm_TimKiemNhanVien() {
 		MyConnection.getInstance().MyConnection();
 
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
+		dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 		JLabel lblNewLabel = new JLabel("TÌM KIẾM THÔNG TIN NHÂN VIÊN");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -124,10 +125,10 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 						} else {
 							ArrayList<NhanVien> listNV = dao_NhanVien.getNhanVienTheoTen(ten);
 							for (NhanVien nhanVien : listNV) {
+								String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 								String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 								Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-										gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-										nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+										gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 										nhanVien.getCongNhanVien().getSoDienThoai() };
 								modell.addRow(objects);
 
@@ -142,10 +143,10 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 						} else {
 							ArrayList<NhanVien> listNV = dao_NhanVien.getAllNhanVienTheoDiaChi(diaChi);
 							for (NhanVien nhanVien : listNV) {
+								String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 								String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 								Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-										gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-										nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+										gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 										nhanVien.getCongNhanVien().getSoDienThoai() };
 								modell.addRow(objects);
 
@@ -162,10 +163,10 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 						modell.setRowCount(0);
 						ArrayList<NhanVien> listNV = dao_NhanVien.getNhanVienTheoGioiTinh(gt);
 						for (NhanVien nhanVien : listNV) {
+							String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 							String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 							Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-									gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-									nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+									gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 									nhanVien.getCongNhanVien().getSoDienThoai() };
 							modell.addRow(objects);
 
@@ -173,18 +174,16 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 						modell.fireTableDataChanged();
 					} else if (rdbtnSDT.isSelected()) {
 						String sdt = txtSoDienThoai.getText().trim();
-						System.out.println(sdt);
-						System.out.println(sdt.length() > 0 && sdt.matches("^0[0-9]{0,9}$"));
 						if (!(sdt.length() > 0 || sdt.matches("^0[0-9]{0,9}$"))) {
 							JOptionPane.showMessageDialog(null, "Error : Số điện thoại bắt đầu từ số 0 và là số");
 						} else {
 							modell.setRowCount(0);
 							ArrayList<NhanVien> listNV = dao_NhanVien.getAllNhanVienTheoSoDienThaoi(sdt);
 							for (NhanVien nhanVien : listNV) {
+								String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 								String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 								Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-										gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-										nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+										gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 										nhanVien.getCongNhanVien().getSoDienThoai() };
 								modell.addRow(objects);
 
@@ -201,10 +200,10 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 							PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
 							ArrayList<NhanVien> listNV = dao_NhanVien.getNhanVienTheoPhongBan(pb.getMaPhongBan());
 							for (NhanVien nhanVien : listNV) {
+								String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 								String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 								Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-										gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-										nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+										gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 										nhanVien.getCongNhanVien().getSoDienThoai() };
 								modell.addRow(objects);
 
@@ -222,10 +221,10 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 						modell.setRowCount(0);
 						ArrayList<NhanVien> listNV = dao_NhanVien.getNhanVienTheoTrangThai(tt);
 						for (NhanVien nhanVien : listNV) {
+							String ngaySinh = dateFormat.format(nhanVien.getCongNhanVien().getNgaySinh());
 							String gioiTinh = nhanVien.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 							Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
-									gioiTinh, nhanVien.getCongNhanVien().getNgaySinh(),
-									nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
+									gioiTinh, ngaySinh, nhanVien.getCongNhanVien().getMaCanCuocCongDan(),
 									nhanVien.getCongNhanVien().getSoDienThoai() };
 							modell.addRow(objects);
 
@@ -343,7 +342,7 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 		textField_2.setColumns(10);
 		textField_2.setBounds(180, 0, 380, 25);
 
-		comboBoxPhongban = new JComboBox();
+		comboBoxPhongban = new JComboBox<String>();
 		comboBoxPhongban.setBounds(201, 0, 318, 25);
 		panel_1_2.add(comboBoxPhongban);
 		ArrayList<PhongBan> listPhongBan = dao_PhongBan.getTatCaPhongBan();
@@ -439,7 +438,7 @@ public class frm_TimKiemNhanVien extends JPanel implements ItemListener {
 		lblNewLabel_1_3_1.setBounds(31, 0, 140, 25);
 		panel_1_3_1.add(lblNewLabel_1_3_1);
 
-		comboBoxTrangThai = new JComboBox();
+		comboBoxTrangThai = new JComboBox<String>();
 		comboBoxTrangThai.setBounds(201, 0, 318, 25);
 		comboBoxTrangThai.addItem("Đang Làm");
 		comboBoxTrangThai.addItem("Nghỉ Làm");

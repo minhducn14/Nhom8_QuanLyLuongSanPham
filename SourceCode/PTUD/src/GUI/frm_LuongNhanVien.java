@@ -26,7 +26,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -194,7 +193,7 @@ public class frm_LuongNhanVien extends JPanel {
 		btnXuat.setBounds(1254, 10, 136, 30);
 		panel_ThongTinLuong.add(btnXuat);
 
-		JComboBox comboBoxPhongBan = new JComboBox();
+		JComboBox<String> comboBoxPhongBan = new JComboBox<String>();
 		comboBoxPhongBan.setBounds(1100, 10, 100, 30);
 		panel_ThongTinLuong.add(comboBoxPhongBan);
 		comboBoxPhongBan.addItem("Tất Cả");

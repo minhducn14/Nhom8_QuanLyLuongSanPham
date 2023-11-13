@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.sql.SQLException;
 
@@ -321,8 +322,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
 					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-					txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					txtHeSoLuong.setText(decimalFormat.format(heSoLuong));
 
 				}
 
@@ -443,8 +445,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 
 					double heSoLuong = nv.tinhHeSoLuong(ngayVaoLam, TrinhDoDuocChon);
+					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-					txtHeSoLuong.setText(String.valueOf(heSoLuong));
+					txtHeSoLuong.setText(decimalFormat.format(heSoLuong));
 				}
 			}
 		});

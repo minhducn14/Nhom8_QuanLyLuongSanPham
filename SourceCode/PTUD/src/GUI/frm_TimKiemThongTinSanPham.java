@@ -80,6 +80,10 @@ public class frm_TimKiemThongTinSanPham extends JPanel {
 		String[] col = { "M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m",
 				"T\u00ECnh tr\u1EA1ng", "Gi\u00E1 B\u00E1n" };
 		modelKQTK = new DefaultTableModel(col, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int col) {

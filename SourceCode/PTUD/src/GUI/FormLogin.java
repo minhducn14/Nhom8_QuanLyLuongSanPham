@@ -8,44 +8,26 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.net.URI;
-import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
-
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import javax.swing.JComboBox;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.Canvas;
-import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JDesktopPane;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.plaf.BorderUIResource;
-
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
-import javax.swing.JToolBar;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 
 public class FormLogin extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtpwd;

@@ -50,28 +50,28 @@ public class DAO_ChamCongNhanVien {
 
 	}
 
-//	public boolean KiemTraTrung(BangChamCongNhanVien bangChamCong) throws SQLException {
-//		int n = 0;
-//		try {
-//			Connection con = MyConnection.getInstance().getConnection();
-//			String sql = "SELECT COUNT(*) AS so_luong_trung\r\n" + "FROM BangChamCongNhanVien\r\n"
-//					+ "GROUP BY maNhanVien, ngayChamCong\r\n" + "having maNhanVien= '"
-//					+ bangChamCong.getNhanVien().getMaNhanVien() + "' and ngayChamCong = '"
-//					+ bangChamCong.getNgayChamCong() + "'";
-//			Statement statement = con.createStatement();
-//			ResultSet rs = statement.executeQuery(sql);
-//			while (rs.next()) {
-//				n = rs.getInt(1);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		if (n == 1) {
-//			return false;
-//		} else {
-//			return true;
-//		}
-//	}
+	public boolean KiemTraTrung(BangChamCongNhanVien bangChamCong) throws SQLException {
+		int n = 0;
+		boolean ketQua = true;
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT COUNT(*) AS so_luong_trung\r\n" + "FROM BangChamCongNhanVien\r\n"
+					+ "GROUP BY maNhanVien, ngayChamCong\r\n" + "having maNhanVien= '"
+					+ bangChamCong.getNhanVien().getMaNhanVien() + "' and ngayChamCong = '"
+					+ bangChamCong.getNgayChamCong() + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (n == 0) {
+			ketQua = false;
+		}
+		return ketQua;
+	}
 
 	public int kiemTraSoLuongDaChamCong(Date date) throws SQLException {
 		int n = 0;

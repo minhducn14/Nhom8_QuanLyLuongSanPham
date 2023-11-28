@@ -200,7 +200,7 @@ public class frm_TimKiemNhanVien extends JPanel implements ActionListener{
 		for (PhongBan phongBan : listPhongBan) {
 			comboBoxPhongban.addItem(phongBan.getTenPhongBan());
 		}
-		comboBoxPhongban.setSelectedIndex(-1);
+		comboBoxPhongban.setSelectedIndex(0);
 		JPanel panel_1_3 = new JPanel();
 		panel_1_3.setLayout(null);
 		panel_1_3.setBackground(Color.WHITE);
@@ -278,7 +278,7 @@ public class frm_TimKiemNhanVien extends JPanel implements ActionListener{
 		comboBoxTrangThai.addItem("Đang Làm");
 		comboBoxTrangThai.addItem("Nghỉ Làm");
 		
-		comboBoxTrangThai.setSelectedIndex(-1);
+		comboBoxTrangThai.setSelectedIndex(0);
 		panel_1_3_1.add(comboBoxTrangThai);
 
 		groupSex.add(rdbtnNu);

@@ -18,7 +18,6 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
@@ -402,7 +401,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				if (row >= 0 && row < listnv.size()) {
 					NhanVien nv = listnv.get(row);
 
-					CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
 					txtMaNhanVien.setText(nv.getMaNhanVien());
 					txtHoTen.setText(nv.getCongNhanVien().getHoTen());
 					txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
@@ -539,7 +537,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		String hoTen = txtHoTen.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String diaChi = txtDiaChi.getText().trim();
-		//them try catch
+		// them try catch
 		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
 
 		if (!(cmnd.length() > 0 || cmnd.matches("^[0-9]{12}$"))) {
@@ -597,7 +595,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				} else if (cbbTrangThai.getSelectedItem().equals("Nghỉ Làm")) {
 					trangThai = false;
 				}
-			
+
 				java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
 				String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
 				PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
@@ -622,20 +620,19 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
 						nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),
 						nv.getCongNhanVien().getSoDienThoai() });
-				  JOptionPane.showMessageDialog(this, "Thêm thành công");
+				JOptionPane.showMessageDialog(this, "Thêm thành công");
 				xoaRong();
 			}
 
 		} else if (o.equals(btnSua)) {
-			if(checkregex()) {
+			if (checkregex()) {
 				int row = tbl_bangTen.getSelectedRow();
-				if (row >=0) {
+				if (row >= 0) {
 					String chucVu = (String) cbbChucVu.getSelectedItem();
 					String trinhDo = (String) cbbTrinhDo.getSelectedItem();
 					double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
 					String maNV = txtMaNhanVien.getText();
-					
-					
+
 					String hoTen = txtHoTen.getText();
 					boolean phai = false;
 					if (G.getSelection() != null) {
@@ -645,7 +642,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 							phai = false;
 						}
 					}
-					
+
 					java.sql.Date ngaySinh = new java.sql.Date(dateChooserNgaySinh.getDate().getTime());
 					String cmnd = txtCMND.getText();
 					String sdt = txtSDT.getText();
@@ -657,45 +654,39 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 						trangThai = false;
 					}
 					java.sql.Date ngayVaoLam = new java.sql.Date(dateChooserNgayVaoLam.getDate().getTime());
-					
-					String maCNV ="";
+
+					String maCNV = "";
 					int[] selectedRow = tbl_bangTen.getSelectedRows();
-					for(int selectedIndex : selectedRow) {
-						if(selectedIndex >= 0 && selectedIndex < listnv.size() ) {
-							 NhanVien nhanVienDuocChon = listnv.get(selectedIndex);
-							 CongNhanVien CNV = nhanVienDuocChon.getCongNhanVien();
-						     maCNV = CNV.getMaCongNhanVien();
-						}	
+					for (int selectedIndex : selectedRow) {
+						if (selectedIndex >= 0 && selectedIndex < listnv.size()) {
+							NhanVien nhanVienDuocChon = listnv.get(selectedIndex);
+							CongNhanVien CNV = nhanVienDuocChon.getCongNhanVien();
+							maCNV = CNV.getMaCongNhanVien();
+						}
 					}
-					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,maCNV);
-					
-					
-					
+					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,
+							maCNV);
+
 					String tenPhongBan = (String) cbbPhongBan.getSelectedItem();
 					PhongBan pb = dao_pb.getPhongBanTheoTen(tenPhongBan);
 
-					
-					
-					NhanVien nv = new NhanVien(maNV,chucVu, trinhDo, luongCoBan, pb, cnv);
-					if(dao_nv.update(nv,cnv,pb)) {
-						
+					NhanVien nv = new NhanVien(maNV, chucVu, trinhDo, luongCoBan, pb, cnv);
+					if (dao_nv.update(nv, cnv, pb)) {
+
 						tbl_bangTen.setValueAt(maNV, row, 0);
 						tbl_bangTen.setValueAt(hoTen, row, 1);
 						tbl_bangTen.setValueAt(phai, row, 2);
 						tbl_bangTen.setValueAt(ngaySinh, row, 3);
 						tbl_bangTen.setValueAt(cmnd, row, 4);
 						tbl_bangTen.setValueAt(sdt, row, 5);
-			            JOptionPane.showMessageDialog(this, "Sửa thành công");
-			            updateTableDataNhanVien();
-			}
-				
+						JOptionPane.showMessageDialog(this, "Sửa thành công");
+						updateTableDataNhanVien();
+					}
+
 				}
-				
-				
-				
+
 			}
 		}
-		
 
 	}
 }

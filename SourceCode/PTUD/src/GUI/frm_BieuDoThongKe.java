@@ -6,7 +6,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.labels.StandardCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -28,7 +27,6 @@ import java.time.Month;
 import java.util.Currency;
 import java.util.Locale;
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -44,7 +42,11 @@ import javax.swing.JScrollPane;
 
 public class frm_BieuDoThongKe extends JPanel {
 
-	private JFreeChart chartThongKeLuong;
+	/**
+		 * 
+		 */
+	private static final long serialVersionUID = 1L;
+//	private JFreeChart chartThongKeLuong;
 	private JYearChooser yearChooser;
 	private JComboBox<Object> cmbThang;
 	private ChartPanel panelChart;
@@ -119,7 +121,7 @@ public class frm_BieuDoThongKe extends JPanel {
 		btnTmKim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_1.removeAll();
-				JLabel lblNewLabel_5 = new JLabel("Biểu đồ thống kê1");
+				JLabel lblNewLabel_5 = new JLabel("Biểu đồ thống kê");
 				lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 20));
 				lblNewLabel_5.setBounds(35, 15, 217, 25);
 				panel_1.add(lblNewLabel_5);
@@ -135,7 +137,7 @@ public class frm_BieuDoThongKe extends JPanel {
 				panel_1.add(panelChart);
 				panel_1.revalidate();
 				panel_1.repaint();
-				model = dao_ThongKe.getTopSanPham(thang, nam);
+				model = dao_ThongKe.getSPTheoTopLuongNhanVien(thang, nam);
 				table.setModel(model);
 			}
 		});

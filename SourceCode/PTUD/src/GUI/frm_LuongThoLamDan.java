@@ -2,15 +2,11 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JTextField;
@@ -33,24 +29,18 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
 import com.toedter.calendar.JYearChooser;
-
 import Connection.MyConnection;
 import DAO.DAO_LuongThoLamDan;
 import DAO.DAO_ThoLamDan;
-import Entity.BangLuongNhanVien;
 import Entity.BangLuongThoLamDan;
 import Entity.ThoLamDan;
-
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 public class frm_LuongThoLamDan extends JPanel {
 

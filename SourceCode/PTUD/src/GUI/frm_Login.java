@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -18,11 +21,16 @@ import javax.swing.JDesktopPane;
 import javax.swing.border.LineBorder;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+
+import Connection.MyConnection;
+import DAO.DAO_TaiKhoan;
+import Entity.TaiKhoan;
+
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JPasswordField;
 
-public class FormLogin extends JFrame {
+public class frm_Login extends JFrame implements ActionListener {
 
 	/**
 	 * 
@@ -31,6 +39,9 @@ public class FormLogin extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtTaiKhoan;
 	private JPasswordField txtpwd;
+	private int countSaiMatKhau = 0;
+	private JButton btn_login, btn_exit;
+	private DAO_TaiKhoan dao_taiKhoan = new DAO_TaiKhoan();
 
 	/**
 	 * Launch the application.
@@ -44,7 +55,7 @@ public class FormLogin extends JFrame {
 					System.err.println("Failed to initialize LaF");
 				}
 				try {
-					FormLogin frame = new FormLogin();
+					frm_Login frame = new frm_Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +67,8 @@ public class FormLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FormLogin() {
+	public frm_Login() {
+		MyConnection.getInstance().MyConnection();
 		setTitle("Form login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(1450, 700);
@@ -83,7 +95,7 @@ public class FormLogin extends JFrame {
 		contentPane.add(desktopPane);
 
 		JLabel jbicon = new JLabel();
-		jbicon.setIcon(new ImageIcon(FormLogin.class.getResource("/icons/form_login.jpg")));
+		jbicon.setIcon(new ImageIcon(frm_Login.class.getResource("/icons/form_login.jpg")));
 		jbicon.setBounds(165, 156, 563, 431);
 		contentPane.add(jbicon);
 
@@ -117,6 +129,15 @@ public class FormLogin extends JFrame {
 		txtTaiKhoan.setBounds(70, 114, 400, 36);
 		login.add(txtTaiKhoan);
 		txtTaiKhoan.setColumns(10);
+		txtTaiKhoan.setText("NV002");
+		txtTaiKhoan.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_login.doClick();
+				}
+			}
+		});
 
 		JCheckBox checkbox_show = new JCheckBox("Hiển thị mật khẩu");
 		checkbox_show.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -127,6 +148,15 @@ public class FormLogin extends JFrame {
 		txtpwd = new JPasswordField();
 		txtpwd.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		txtpwd.setBounds(70, 214, 400, 36);
+		txtpwd.setText("123");
+		txtpwd.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					btn_login.doClick();
+				}
+			}
+		});
 		login.add(txtpwd);
 		Font defaultFont = txtpwd.getFont();
 
@@ -142,34 +172,68 @@ public class FormLogin extends JFrame {
 
 			}
 		});
-		JButton btn_login = new JButton("Đăng nhập");
-		btn_login.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String enteredPassword = new String(txtpwd.getPassword());
-
-				if (txtTaiKhoan.getText().trim().equals("QLSX") && enteredPassword.equals("QLSX")) {
-					frm_GiaoDienChinhQLSanXuat qlsx = new frm_GiaoDienChinhQLSanXuat();
-					setVisible(false);
-					qlsx.setVisible(true);
-				} else if (txtTaiKhoan.getText().trim().equals("QLNS") && enteredPassword.equals("QLNS")) {
-					frm_GiaoDienChinhQLNhanSu qlns = new frm_GiaoDienChinhQLNhanSu();
-					setVisible(false);
-					qlns.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "Sai mật khẩu hoặc tài khoản");
-				}
-			}
-		});
+		btn_login = new JButton("Đăng nhập");
 		btn_login.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_login.setBackground(new Color(255, 255, 255));
 		btn_login.setBounds(73, 319, 120, 40);
 		login.add(btn_login);
 
-		JButton btn_exit = new JButton("Thoát");
+		btn_exit = new JButton("Thoát");
 		btn_exit.setBackground(new Color(255, 255, 255));
 		btn_exit.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_exit.setBounds(350, 321, 120, 40);
 		login.add(btn_exit);
+		btn_login.addActionListener(this);
 
+	}
+
+	public void login() throws SQLException {
+		if (countSaiMatKhau > 2) {
+			JOptionPane.showMessageDialog(null, "Bạn đã nhập sai tài khoản quá 3 lần. Chương trình sẽ thoát!");
+			System.exit(0);
+		} else {
+			String maTaiKhoan = txtTaiKhoan.getText().trim();
+			@SuppressWarnings("deprecation")
+			String matKhau = txtpwd.getText().toString().trim();
+			TaiKhoan taiKhoan = dao_taiKhoan.getTaiKhoanTheoMaTaiKhoan(maTaiKhoan);
+			if (taiKhoan.getTaiKhoan() == null) {
+				JOptionPane.showMessageDialog(null, "Tài khoản không đúng!");
+				countSaiMatKhau++;
+			} else if (!taiKhoan.getMatKhau().equals(matKhau)) {
+				JOptionPane.showMessageDialog(null, "Mật khẩu không đúng!");
+				countSaiMatKhau++;
+			} else {
+				String maPB = taiKhoan.getNhanVien().getPhongBan().getMaPhongBan();
+				if (maPB.equals("PB005")) {
+					frm_GiaoDienChinhQLSanXuat qlsx = new frm_GiaoDienChinhQLSanXuat();
+					setVisible(false);
+					qlsx.setVisible(true);
+				} else {
+					frm_GiaoDienChinhQLNhanSu qlns = new frm_GiaoDienChinhQLNhanSu();
+					setVisible(false);
+					qlns.setVisible(true);
+				}
+				this.setVisible(false);
+			}
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource().equals(btn_login)) {
+			try {
+				login();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} else if (e.getSource().equals(btn_exit)) {
+			int option = JOptionPane.showConfirmDialog(null, "Bạn có thực sự muốn thoát?", "Thoát?",
+					JOptionPane.YES_NO_OPTION);
+			if (option == JOptionPane.YES_OPTION) {
+				System.exit(0);
+			}
+		}
 	}
 }

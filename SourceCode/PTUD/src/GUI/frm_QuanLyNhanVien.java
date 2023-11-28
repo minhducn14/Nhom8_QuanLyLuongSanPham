@@ -30,9 +30,11 @@ import Connection.MyConnection;
 import DAO.DAO_CongNhanVien;
 import DAO.DAO_NhanVien;
 import DAO.DAO_PhongBan;
+import DAO.DAO_TaiKhoan;
 import Entity.CongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
+import Entity.TaiKhoan;
 
 public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -55,12 +57,14 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private DAO_NhanVien dao_nv;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_PhongBan dao_pb;
+	private DAO_TaiKhoan dao_TaiKhoan;
 
 	public frm_QuanLyNhanVien() {
 
 		dao_nv = new DAO_NhanVien();
 		dao_cnv = new DAO_CongNhanVien();
 		dao_pb = new DAO_PhongBan();
+		dao_TaiKhoan = new DAO_TaiKhoan();
 
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
@@ -462,8 +466,8 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				CongNhanVien cnv = listcnv.get(i);
 				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
 				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
-				String[] rowData = { nv.getMaNhanVien(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
-						cnv.getSoDienThoai() };
+				String[] rowData = { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh, ngaySinh,
+						nv.getCongNhanVien().getMaCanCuocCongDan(), nv.getCongNhanVien().getSoDienThoai() };
 				modelNhanVien.addRow(rowData);
 			} else {
 
@@ -608,6 +612,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 				String maNVNew = dao_nv.getMaNhanVienMoiTao();
 				nv.setMaNhanVien(maNVNew);
+
 				String gioiTinh;
 				Boolean gt = nv.getCongNhanVien().isGioiTinh();
 				boolean kiemTraGT = true;
@@ -616,6 +621,17 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					gioiTinh = "Nam";
 				} else {
 					gioiTinh = "Nữ";
+				}
+				String maPB = nv.getPhongBan().getMaPhongBan();
+				if (maPB.equals("PB005") || maPB.equals("PB002")) {
+					TaiKhoan tk = new TaiKhoan();
+					tk.setTaiKhoan(nv.getMaNhanVien());
+					tk.setMatKhau("123");
+					try {
+						dao_TaiKhoan.themTaiKhoan(tk);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 				}
 				modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
 						nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),

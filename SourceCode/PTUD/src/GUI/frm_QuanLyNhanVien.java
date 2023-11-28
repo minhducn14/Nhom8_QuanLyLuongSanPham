@@ -450,7 +450,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		updateTableDataNhanVien();
 	}
 
-	private void updateTableDataNhanVien() {
+	public void updateTableDataNhanVien() {
 
 		listnv = dao_nv.docTuBang();
 		listcnv = dao_cnv.docTuBang();

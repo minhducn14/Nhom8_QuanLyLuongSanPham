@@ -21,7 +21,7 @@ public class DAO_ChamCongThoLamDan {
 	public ArrayList<BangPhanCong> listAllBangPhanCongTheoNgayHienTai() throws SQLException {
 		LocalDate currentDate = LocalDate.now();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(currentDate);
-		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList();
+		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList<BangPhanCong>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BPC.* FROM BangPhanCong BPC \r\n" + "WHERE ngayPhanCong ='" + sqlDate + "'";
@@ -50,7 +50,7 @@ public class DAO_ChamCongThoLamDan {
 	public ArrayList<BangPhanCong> listAllBangPhanCongTheoNgayHienTaiVaSP(String maSP) throws SQLException {
 		LocalDate currentDate = LocalDate.now();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(currentDate);
-		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList();
+		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList<BangPhanCong>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT * FROM BangPhanCong \r\n "
@@ -82,7 +82,7 @@ public class DAO_ChamCongThoLamDan {
 			throws SQLException {
 		LocalDate currentDate = LocalDate.now();
 		java.sql.Date sqlDate = java.sql.Date.valueOf(currentDate);
-		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList();
+		ArrayList<BangPhanCong> listBangPhanCong = new ArrayList<BangPhanCong>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT * FROM BangPhanCong \r\n "

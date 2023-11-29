@@ -10,11 +10,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
@@ -134,38 +132,39 @@ public class frm_ChamCongNhanVien extends JPanel {
 		int rowMargin = 10;
 		tableChamCong.setRowHeight(rowHeight);
 		tableChamCong.setIntercellSpacing(new java.awt.Dimension(0, rowMargin));
-
+		JComboBox<String> comboBoxPhongBan = new JComboBox<String>();
+		comboBoxPhongBan.setBounds(1199, 85, 100, 30);
+		add(comboBoxPhongBan);
+		comboBoxPhongBan.addItem("Tất Cả");
+		ArrayList<PhongBan> listPhongBan = dao_PhongBan.getTatCaPhongBan();
+		for (PhongBan phongBan : listPhongBan) {
+			comboBoxPhongBan.addItem(phongBan.getTenPhongBan());
+		}
+		comboBoxPhongBan.setSelectedIndex(0);
 		btnChamCong = new JButton("Chấm Công");
 		btnChamCong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int check = 0;
-				for (int i = 0; i < modelChamCong.getRowCount(); i++) {
-					String trangThaiDiLam = (String) modelChamCong.getValueAt(i, 2);
-					if (trangThaiDiLam.equals("Chưa ghi nhận công")) {
-						check++;
-					}
-				}
 
-				if (check != 0) {
-					JOptionPane.showMessageDialog(null, "Chưa hoàn thành chấm công cho nhân viên");
-				} else {
-					int output = JOptionPane.showConfirmDialog(null, "Bạn xác nhận chấm công", "Thông báo xác nhận",
-							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-					if (output == JOptionPane.YES_OPTION) {
-						java.util.Date utilDate = new java.util.Date();
-						Date date = new Date(utilDate.getTime());
-						ArrayList<BangChamCongNhanVien> listBCC;
-						try {
-							listBCC = dao_ChamCongNhanVien.layDanhSachChamCong(date);
-							ArrayList<String> listNV = new ArrayList<>();
-							for (BangChamCongNhanVien bangChamCongNhanVien : listBCC) {
-								listNV.add(bangChamCongNhanVien.getNhanVien().getMaNhanVien());
-							}
+				int output = JOptionPane.showConfirmDialog(null, "Bạn xác nhận chấm công", "Thông báo xác nhận",
+						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if (output == JOptionPane.YES_OPTION) {
 
-							for (int row = 0; row < modelChamCong.getRowCount(); row++) {
-								if (listNV.contains((String) modelChamCong.getValueAt(row, 0))) {
+					java.util.Date utilDate = new java.util.Date();
+					Date date = new Date(utilDate.getTime());
+					ArrayList<BangChamCongNhanVien> listBCC;
+					try {
+						listBCC = dao_ChamCongNhanVien.layDanhSachChamCong(date);
+						ArrayList<String> listNV = new ArrayList<>();
+						for (BangChamCongNhanVien bangChamCongNhanVien : listBCC) {
+							listNV.add(bangChamCongNhanVien.getNhanVien().getMaNhanVien());
+						}
 
-								} else {
+						for (int row = 0; row < modelChamCong.getRowCount(); row++) {
+							if (listNV.contains((String) modelChamCong.getValueAt(row, 0))) {
+
+							} else {
+								String trangThaiDiLam = (String) modelChamCong.getValueAt(row, 2);
+								if (!trangThaiDiLam.equals("Chưa ghi nhận công")) {
 									String maNhanVien = (String) modelChamCong.getValueAt(row, 0);
 									NhanVien nhanVien = dao_NhanVien.getNhanVienTheoMa(maNhanVien);
 									BangChamCongNhanVien bangChamCong = new BangChamCongNhanVien();
@@ -198,7 +197,10 @@ public class frm_ChamCongNhanVien extends JPanel {
 									BangLuongNhanVien bangLuong = dao_LuongNhanVien.getBangLuongTheoMa(maBangLuong);
 									bangChamCong.setBangLuong(bangLuong);
 									try {
-										dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
+										boolean kiemTra = dao_ChamCongNhanVien.KiemTraTrung(bangChamCong);
+										if (!kiemTra) {
+											dao_ChamCongNhanVien.themBangChamCong(bangChamCong);
+										}
 									} catch (SQLException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
@@ -207,17 +209,26 @@ public class frm_ChamCongNhanVien extends JPanel {
 
 							}
 
-						} catch (SQLException e2) {
-							// TODO Auto-generated catch block
-							e2.printStackTrace();
 						}
 
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
 					}
-					loadDataIntoTableChamCong();
-					modelChamCong.fireTableDataChanged();
 
 				}
+				String selectedValue = (String) comboBoxPhongBan.getSelectedItem();
+				if (selectedValue.equals("Tất Cả")) {
+					loadDataIntoTableChamCong();
+					modelChamCong.fireTableDataChanged();
+				} else {
+					DAO_PhongBan dao_PhongBan = new DAO_PhongBan();
+					PhongBan pb = dao_PhongBan.getPhongBanTheoTen(selectedValue);
+					loadDataIntoTableChamCongTheoPhongBan(pb.getMaPhongBan());
+					modelChamCong.fireTableDataChanged();
+				}
 			}
+
 		});
 		btnChamCong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnChamCong.setForeground(Color.WHITE);
@@ -301,15 +312,6 @@ public class frm_ChamCongNhanVien extends JPanel {
 		lblTmKimTheo_2.setBounds(927, 85, 223, 30);
 		add(lblTmKimTheo_2);
 
-		JComboBox<String> comboBoxPhongBan = new JComboBox<String>();
-		comboBoxPhongBan.setBounds(1199, 85, 100, 30);
-		add(comboBoxPhongBan);
-		comboBoxPhongBan.addItem("Tất Cả");
-		ArrayList<PhongBan> listPhongBan = dao_PhongBan.getTatCaPhongBan();
-		for (PhongBan phongBan : listPhongBan) {
-			comboBoxPhongBan.addItem(phongBan.getTenPhongBan());
-		}
-		comboBoxPhongBan.setSelectedIndex(-1);
 		comboBoxPhongBan.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {

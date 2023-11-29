@@ -23,7 +23,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -38,19 +37,13 @@ import DAO.DAO_BangPhanCong;
 import DAO.DAO_ChamCongThoLamDan;
 import DAO.DAO_CongDoan;
 import DAO.DAO_Dan;
-import DAO.DAO_LuongNhanVien;
 import DAO.DAO_LuongThoLamDan;
-import DAO.DAO_PhongBan;
 import DAO.DAO_ThoLamDan;
-import Entity.BangChamCongNhanVien;
 import Entity.BangChamCongThoLamDan;
-import Entity.BangLuongNhanVien;
 import Entity.BangLuongThoLamDan;
 import Entity.BangPhanCong;
 import Entity.CongDoan;
 import Entity.Dan;
-import Entity.NhanVien;
-import Entity.PhongBan;
 import Entity.ThoLamDan;
 
 import javax.swing.DefaultCellEditor;
@@ -340,7 +333,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		lblThongTin_1_1_1.setBounds(899, 20, 116, 25);
 		panel_1_2.add(lblThongTin_1_1_1);
 
-		JComboBox comboBoxSP = new JComboBox();
+		JComboBox<String> comboBoxSP = new JComboBox<String>();
 		comboBoxSP.setBounds(1017, 20, 100, 25);
 		panel_1_2.add(comboBoxSP);
 		comboBoxSP.addItem("Tất cả");
@@ -363,7 +356,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 			}
 		});
 
-		JComboBox comboBoxCongDoan = new JComboBox();
+		JComboBox<String> comboBoxCongDoan = new JComboBox<String>();
 		comboBoxCongDoan.setBounds(1287, 20, 100, 25);
 		panel_1_2.add(comboBoxCongDoan);
 		comboBoxCongDoan.addItem("Tất cả");

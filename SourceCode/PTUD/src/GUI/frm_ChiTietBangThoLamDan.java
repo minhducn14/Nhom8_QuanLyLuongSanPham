@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -11,7 +10,6 @@ import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Entity.BangChamCongThoLamDan;
-import Entity.BangLuongNhanVien;
 import Entity.BangLuongThoLamDan;
 import Entity.CongDoan;
 
@@ -27,6 +25,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -34,15 +36,17 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.storage.BATBlock;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import DAO.DAO_ChamCongThoLamDan;
 import DAO.DAO_CongDoan;
 import DAO.DAO_LuongThoLamDan;
-import DAO.DAO_ThoLamDan;
 
 import javax.swing.JScrollPane;
 
@@ -50,11 +54,11 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel lblMaNhanVien;
-	private JLabel lblTenNhanVien;
+	private JLabel lblMaThoLamDan;
+	private JLabel lblTenThoLamDan;
 	private JTable table;
 	private DAO_ChamCongThoLamDan dao_ChamCongThoLamDan = new DAO_ChamCongThoLamDan();
-	private DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
+	private static DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
 	private DAO_CongDoan dao_CongDoan = new DAO_CongDoan();
 	private DefaultTableModel model_ChiTietBangLuong;
 	/**
@@ -85,66 +89,49 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 		setType(Type.POPUP);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1000, 670);
+		setBounds(100, 100, 1000, 744);
 		setTitle("Phiếu Lương");
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(221, 242, 251));
 		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel_1 = new JLabel("Mã Thợ Làm Đàn:");
-		lblNewLabel_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(25, 69, 300, 25);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblMTLD = new JLabel("Mã Thợ Làm Đàn:");
+		lblMTLD.setForeground(new Color(0, 0, 0));
+		lblMTLD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMTLD.setBounds(25, 69, 300, 25);
+		contentPane.add(lblMTLD);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Tên Thợ Làm Đàn:");
-		lblNewLabel_1_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1.setBounds(25, 114, 300, 25);
-		contentPane.add(lblNewLabel_1_1);
+		JLabel lblTenTLD = new JLabel("Tên Thợ Làm Đàn:");
+		lblTenTLD.setForeground(new Color(0, 0, 0));
+		lblTenTLD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenTLD.setBounds(25, 114, 300, 25);
+		contentPane.add(lblTenTLD);
 
-		JLabel lblNewLabel = new JLabel("Phiếu Lương");
-		lblNewLabel.setBounds(0, 10, 877, 49);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel.setForeground((new Color(0, 27, 72)));
-		contentPane.add(lblNewLabel);
+		JLabel lblThongTin = new JLabel();
+		String txt = "Phiếu Lương Tháng " + bangLuongThoLamDan.getThang() + " Năm " + bangLuongThoLamDan.getNam();
+		lblThongTin.setText(txt);
+		lblThongTin.setBounds(0, 10, 986, 49);
+		lblThongTin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblThongTin.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblThongTin.setForeground(new Color(255, 0, 0));
+		contentPane.add(lblThongTin);
 
-		lblMaNhanVien = new JLabel();
-		lblMaNhanVien.setText(bangLuongThoLamDan.getThoLamDan().getMaThoLamDan());
-		lblMaNhanVien.setForeground(new Color(0, 27, 72));
-		lblMaNhanVien.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblMaNhanVien.setBounds(242, 69, 300, 25);
-		contentPane.add(lblMaNhanVien);
+		lblMaThoLamDan = new JLabel();
+		lblMaThoLamDan.setText(bangLuongThoLamDan.getThoLamDan().getMaThoLamDan());
+		lblMaThoLamDan.setForeground(new Color(0, 0, 0));
+		lblMaThoLamDan.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMaThoLamDan.setBounds(242, 69, 300, 25);
+		contentPane.add(lblMaThoLamDan);
 
-		lblTenNhanVien = new JLabel();
-		lblTenNhanVien.setText(bangLuongThoLamDan.getThoLamDan().getCongNhanVien().getHoTen());
-		lblTenNhanVien.setForeground(new Color(0, 27, 72));
-		lblTenNhanVien.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTenNhanVien.setBounds(242, 114, 300, 25);
-		contentPane.add(lblTenNhanVien);
-
-		JLabel lblNewLabel_1_1_1_2_2_1_1_1_1 = new JLabel("Tổng lương được nhận");
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setForeground(new Color(0, 27, 72));
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setBounds(30, 554, 300, 20);
-		contentPane.add(lblNewLabel_1_1_1_2_2_1_1_1_1);
-		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-
-		JLabel lblluongThucLinh = new JLabel();
-		double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(),
-				bangLuongThoLamDan.getThang(), bangLuongThoLamDan.getNam());
-		double luongThucLinh = bangLuongThoLamDan.tinhLuongThucLinh(luong);
-		lblluongThucLinh.setText(decimalFormat.format(luongThucLinh));
-		lblluongThucLinh.setForeground(new Color(255, 0, 0));
-		lblluongThucLinh.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblluongThucLinh.setBounds(304, 554, 300, 20);
-		contentPane.add(lblluongThucLinh);
-
+		lblTenThoLamDan = new JLabel();
+		lblTenThoLamDan.setText(bangLuongThoLamDan.getThoLamDan().getCongNhanVien().getHoTen());
+		lblTenThoLamDan.setForeground(new Color(0, 0, 0));
+		lblTenThoLamDan.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenThoLamDan.setBounds(242, 114, 300, 25);
+		contentPane.add(lblTenThoLamDan);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(25, 169, 934, 353);
+		scrollPane.setBounds(25, 169, 934, 302);
 		contentPane.add(scrollPane);
 
 		table = new JTable();
@@ -186,11 +173,81 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 		JButton btnXuat = new JButton("Xuất Excel");
 		btnXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				exportExcel(bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), table, luongThucLinh);
+				exportExcel(table, bangLuongThoLamDan);
 			}
 		});
-		btnXuat.setBounds(731, 566, 85, 21);
+		btnXuat.setBounds(835, 640, 124, 40);
 		contentPane.add(btnXuat);
+
+		JLabel lblLuongSP = new JLabel("Lương sản phẩm : ");
+		lblLuongSP.setForeground(Color.BLACK);
+		lblLuongSP.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblLuongSP.setBounds(30, 499, 300, 20);
+		contentPane.add(lblLuongSP);
+
+		JLabel lblluongSP = new JLabel();
+		lblluongSP.setForeground(Color.RED);
+		lblluongSP.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblluongSP.setBounds(304, 499, 300, 20);
+		contentPane.add(lblluongSP);
+		DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+		double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(),
+				bangLuongThoLamDan.getThang(), bangLuongThoLamDan.getNam());
+		lblluongSP.setText(decimalFormat.format(luong));
+
+		JLabel lblPCThamNien = new JLabel("Phụ cấp thâm niên : ");
+		lblPCThamNien.setForeground(Color.BLACK);
+		lblPCThamNien.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblPCThamNien.setBounds(30, 539, 300, 20);
+		contentPane.add(lblPCThamNien);
+
+		JLabel lblPCTN = new JLabel();
+		lblPCTN.setForeground(Color.RED);
+		lblPCTN.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblPCTN.setBounds(304, 539, 300, 20);
+		contentPane.add(lblPCTN);
+		lblPCTN.setText(decimalFormat.format(bangLuongThoLamDan.getThoLamDan().getCongNhanVien()
+				.tinhPhuCapThamNien(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong())));
+
+		JLabel lblPCAnTrua = new JLabel("Phụ cấp ăn trưa : ");
+		lblPCAnTrua.setForeground(Color.BLACK);
+		lblPCAnTrua.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblPCAnTrua.setBounds(30, 579, 300, 20);
+		contentPane.add(lblPCAnTrua);
+
+		JLabel lblPCAT = new JLabel();
+		lblPCAT.setForeground(Color.RED);
+		lblPCAT.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblPCAT.setBounds(304, 579, 300, 20);
+		contentPane.add(lblPCAT);
+		lblPCAT.setText(decimalFormat.format(900000));
+
+		JLabel lblTienBH = new JLabel();
+		lblTienBH.setForeground(Color.RED);
+		lblTienBH.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTienBH.setBounds(304, 619, 300, 20);
+		contentPane.add(lblTienBH);
+		lblTienBH.setText(decimalFormat.format((3000000 * 0.08 + 3000000 * 0.015 + 3000000 * 0.01)));
+
+		JLabel lblTienBaoHiem = new JLabel("Tiền đóng bảo hiểm : ");
+		lblTienBaoHiem.setForeground(Color.BLACK);
+		lblTienBaoHiem.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTienBaoHiem.setBounds(30, 619, 300, 20);
+		contentPane.add(lblTienBaoHiem);
+
+		JLabel lblLuongThucLinh = new JLabel("Lương thực lĩnh : ");
+		lblLuongThucLinh.setForeground(Color.BLACK);
+		lblLuongThucLinh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblLuongThucLinh.setBounds(30, 659, 300, 20);
+		contentPane.add(lblLuongThucLinh);
+
+		JLabel lblLuongTL = new JLabel();
+		lblLuongTL.setForeground(Color.RED);
+		lblLuongTL.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblLuongTL.setBounds(304, 659, 300, 20);
+		contentPane.add(lblLuongTL);
+		double luongThucLinh = bangLuongThoLamDan.tinhLuongThucLinh(luong);
+		lblLuongTL.setText(decimalFormat.format(luongThucLinh));
 
 		ArrayList<BangChamCongThoLamDan> list = dao_ChamCongThoLamDan.laySoLuongLamDuocCuaThang(
 				bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), bangLuongThoLamDan.getThang(),
@@ -199,15 +256,54 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 		ArrayList<CongDoan> listCongDoans = dao_CongDoan.getCongDoanTheoTLDNgayThang(
 				bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), bangLuongThoLamDan.getThang(),
 				bangLuongThoLamDan.getNam());
-
 		for (int i = 0; i < listCongDoans.size(); i++) {
 			Object[] objects = { listCongDoans.get(i).getDan().getTenSanPham(), listCongDoans.get(i).getTenCongDoan(),
-					list.get(i).getSoLuongSanPham(), listCongDoans.get(i).getGiaCongDoan() };
+					decimalFormat.format(list.get(i).getSoLuongSanPham()),
+					decimalFormat.format(listCongDoans.get(i).getGiaCongDoan()) };
 			model_ChiTietBangLuong.addRow(objects);
 		}
 	}
 
-	public static void exportExcel(String ma, JTable table, double luongThucLinh) {
+	public static void addSalaryTableTitle(Sheet sheet, String title, int tableWidth) {
+		// Create a Font for styling the title
+		org.apache.poi.ss.usermodel.Font titleFont = sheet.getWorkbook().createFont();
+		titleFont.setBoldweight(org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD);
+		titleFont.setFontHeightInPoints((short) 16);
+
+		// Create a CellStyle with the font
+		CellStyle titleCellStyle = sheet.getWorkbook().createCellStyle();
+		titleCellStyle.setFont(titleFont);
+		titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+
+		// Create the title row
+		Row titleRow = sheet.createRow(0); // Title at the first row (index 0)
+
+		Cell titleCell = titleRow.createCell(0);
+		titleCell.setCellValue(title);
+		titleCell.setCellStyle(titleCellStyle);
+
+		// Merge cells for the title
+		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, tableWidth - 1));
+	}
+
+	public static boolean isFileOpen(File file) {
+		if (!file.exists() || file.isDirectory()) {
+			return false;
+		}
+
+		try (RandomAccessFile raf = new RandomAccessFile(file, "rw");
+				FileChannel channel = raf.getChannel();
+				FileLock lock = channel.tryLock()) {
+			if (lock == null) {
+				return true;
+			}
+		} catch (IOException e) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void exportExcel(JTable table, BangLuongThoLamDan bangLuongThoLamDan) {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Chọn nơi lưu tệp Excel");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("Tệp Excel (.xls)", "xls");
@@ -219,62 +315,185 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 			try {
 				File fileToSave = fileChooser.getSelectedFile();
 				String filePath = fileToSave.getAbsolutePath();
+				if (fileToSave.exists()) {
+					int response = JOptionPane.showConfirmDialog(null, "Tệp đã tồn tại. Bạn có muốn ghi đè không?",
+							"Xác nhận ghi đè", JOptionPane.YES_NO_OPTION);
+
+					if (response != JOptionPane.YES_OPTION) {
+						return;
+					}
+				}
 				if (!filePath.endsWith(".xls")) {
 					filePath += ".xls";
 				}
+				File file = new File(filePath);
 
-				Workbook workbook = new HSSFWorkbook();
-				String tenSheet = "ChiTietBangLuongThoLamDan" + ma;
-				Sheet sheet = workbook.createSheet(tenSheet);
+				if (isFileOpen(file)) {
+					JOptionPane.showMessageDialog(null, "File is already open. Please close it and try again.");
+				} else {
 
-				Row headerRow = sheet.createRow(0);
-				for (int col = 0; col < table.getColumnCount(); col++) {
-					headerRow.createCell(col).setCellValue(table.getColumnName(col));
-				}
+					Workbook workbook = new HSSFWorkbook();
+					String tenSheet = "ChiTietBangLuongThoLamDan" + bangLuongThoLamDan.getThoLamDan().getMaThoLamDan();
+					Sheet sheet = workbook.createSheet(tenSheet);
+					org.apache.poi.ss.usermodel.Font headerFont = workbook.createFont();
+					headerFont.setBoldweight((short) 12);
+					headerFont.setFontHeightInPoints((short) 12);
+					String title = "Phiếu Lương Tháng " + bangLuongThoLamDan.getThang() + " Năm "
+							+ bangLuongThoLamDan.getNam();
 
-				for (int row = 0; row < table.getRowCount(); row++) {
-					Row dataRow = sheet.createRow(row + 1);
-					for (int col = 0; col < table.getColumnCount(); col++) {
-						Object cellValue = table.getValueAt(row, col);
+					int tableWidth = 4;
+					addSalaryTableTitle(sheet, title, tableWidth);
+
+					CellStyle headerCellStyle = workbook.createCellStyle();
+					headerCellStyle.setFont(headerFont);
+					Row rowThongTin = sheet.createRow(2);
+					Object[] rowTT = { "Mã TLD", bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), "Tên TLD",
+							bangLuongThoLamDan.getThoLamDan().getCongNhanVien().getHoTen() };
+					for (int col = 0; col < rowTT.length; col++) {
+						Object cellValue = rowTT[col];
 						if (cellValue != null) {
 							if (cellValue instanceof String) {
-								dataRow.createCell(col).setCellValue((String) cellValue);
+								rowThongTin.createCell(col).setCellValue((String) cellValue);
 							} else if (cellValue instanceof Number) {
-								dataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+								rowThongTin.createCell(col).setCellValue(((Number) cellValue).doubleValue());
 							} else {
-								dataRow.createCell(col).setCellValue(cellValue.toString());
+								rowThongTin.createCell(col).setCellValue(cellValue.toString());
 							}
 						}
 					}
-				}
 
-				int newRowNum = table.getRowCount();
+					Row headerRow = sheet.createRow(4);
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						Cell cell = headerRow.createCell(i);
+						cell.setCellValue(table.getColumnName(i));
+						cell.setCellStyle(headerCellStyle);
+					}
 
-				Row newDataRow = sheet.createRow(newRowNum + 1);
-				DecimalFormat decimalFormat = new DecimalFormat("#,##0.000");
-				Object[] newData = { "Lương Được Nhận", "", "", decimalFormat.format(luongThucLinh) + "VND" };
+					CellStyle dateCellStyle = workbook.createCellStyle();
+					CreationHelper createHelper = workbook.getCreationHelper();
+					dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-yyyy"));
 
-				for (int col = 0; col < newData.length; col++) {
-					Object cellValue = newData[col];
+					for (int col = 0; col < table.getColumnCount(); col++) {
+						headerRow.createCell(col).setCellValue(table.getColumnName(col));
+					}
 
-					if (cellValue != null) {
-						if (cellValue instanceof String) {
-							newDataRow.createCell(col).setCellValue((String) cellValue);
-						} else if (cellValue instanceof Number) {
-							newDataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
-						} else {
-							newDataRow.createCell(col).setCellValue(cellValue.toString());
+					for (int row = 0; row < table.getRowCount(); row++) {
+						Row dataRow = sheet.createRow(row + 5);
+						for (int col = 0; col < table.getColumnCount(); col++) {
+							Object cellValue = table.getValueAt(row, col);
+							if (cellValue != null) {
+								if (cellValue instanceof String) {
+									dataRow.createCell(col).setCellValue((String) cellValue);
+								} else if (cellValue instanceof Number) {
+									dataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+								} else {
+									dataRow.createCell(col).setCellValue(cellValue.toString());
+								}
+							}
 						}
+					}
+
+					int row = table.getRowCount();
+					DecimalFormat decimalFormat = new DecimalFormat("#,##0.000");
+					double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(
+							bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), bangLuongThoLamDan.getThang(),
+							bangLuongThoLamDan.getNam());
+					Row Luong_Data_Row = sheet.createRow(row + 6);
+					Object[] luongData = { "Lương được nhận", "", "", decimalFormat.format(luong) + " VND" };
+					for (int col = 0; col < luongData.length; col++) {
+						Object cellValue = luongData[col];
+						if (cellValue != null) {
+							if (cellValue instanceof String) {
+								Luong_Data_Row.createCell(col).setCellValue((String) cellValue);
+							} else if (cellValue instanceof Number) {
+								Luong_Data_Row.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+							} else {
+								Luong_Data_Row.createCell(col).setCellValue(cellValue.toString());
+							}
+						}
+					}
+
+					Row PCTN_Data_Row = sheet.createRow(row + 7);
+					Object[] PCTNData = { "Phụ cấp thâm niên", "", "",
+							decimalFormat
+									.format(bangLuongThoLamDan.getThoLamDan().getCongNhanVien()
+											.tinhPhuCapThamNien(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong()))
+									+ " VND" };
+					for (int col = 0; col < PCTNData.length; col++) {
+						Object cellValue = PCTNData[col];
+						if (cellValue != null) {
+							if (cellValue instanceof String) {
+								PCTN_Data_Row.createCell(col).setCellValue((String) cellValue);
+							} else if (cellValue instanceof Number) {
+								PCTN_Data_Row.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+							} else {
+								PCTN_Data_Row.createCell(col).setCellValue(cellValue.toString());
+							}
+						}
+					}
+
+					Row PCAT_Data_Row = sheet.createRow(row + 8);
+					Object[] PCATData = { "Phụ cấp ăn trưa", "", "", decimalFormat.format(900000) + " VND" };
+					for (int col = 0; col < PCATData.length; col++) {
+						Object cellValue = PCATData[col];
+						if (cellValue != null) {
+							if (cellValue instanceof String) {
+								PCAT_Data_Row.createCell(col).setCellValue((String) cellValue);
+							} else if (cellValue instanceof Number) {
+								PCAT_Data_Row.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+							} else {
+								PCAT_Data_Row.createCell(col).setCellValue(cellValue.toString());
+							}
+						}
+					}
+
+					Row TienDongBaoHiem_Data_Row = sheet.createRow(row + 9);
+					Object[] TienDongBaoHiem_Data = { "Tiền đóng bảo hiểm", "", "",
+							decimalFormat.format((3000000 * 0.08 + 3000000 * 0.015 + 3000000 * 0.01)) + " VND" };
+					for (int col = 0; col < TienDongBaoHiem_Data.length; col++) {
+						Object cellValue = TienDongBaoHiem_Data[col];
+						if (cellValue != null) {
+							if (cellValue instanceof String) {
+								TienDongBaoHiem_Data_Row.createCell(col).setCellValue((String) cellValue);
+							} else if (cellValue instanceof Number) {
+								TienDongBaoHiem_Data_Row.createCell(col)
+										.setCellValue(((Number) cellValue).doubleValue());
+							} else {
+								TienDongBaoHiem_Data_Row.createCell(col).setCellValue(cellValue.toString());
+							}
+						}
+					}
+
+					double luongThucLinh = bangLuongThoLamDan.tinhLuongThucLinh(luong);
+
+					Row tongLuongDataRow = sheet.createRow(row + 10);
+					Object[] luongTNData = { "Lương Được Nhận", "", "", decimalFormat.format(luongThucLinh) + " VND" };
+					for (int col = 0; col < luongTNData.length; col++) {
+						Object cellValue = luongTNData[col];
+						if (cellValue != null) {
+							if (cellValue instanceof String) {
+								tongLuongDataRow.createCell(col).setCellValue((String) cellValue);
+							} else if (cellValue instanceof Number) {
+								tongLuongDataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+							} else {
+								tongLuongDataRow.createCell(col).setCellValue(cellValue.toString());
+							}
+						}
+					}
+
+					for (int i = 0; i < table.getColumnCount(); i++) {
+						sheet.autoSizeColumn(i);
+					}
+
+					try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+						workbook.write(fileOut);
+						JOptionPane.showMessageDialog(null, "Tạo và lưu tệp Excel thành công!");
+					} catch (Exception e) {
+						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Lỗi khi tạo và lưu tệp Excel!");
 					}
 				}
 
-				try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
-					workbook.write(fileOut);
-					JOptionPane.showMessageDialog(null, "Tạo và lưu tệp Excel thành công!");
-				} catch (Exception e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, "Lỗi khi tạo và lưu tệp Excel!");
-				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

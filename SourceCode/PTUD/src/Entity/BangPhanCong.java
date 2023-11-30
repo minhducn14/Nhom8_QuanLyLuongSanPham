@@ -6,6 +6,15 @@ public class BangPhanCong {
 	private CongDoan congDoan;
 	private ThoLamDan thoLamDan;
 	private Date ngayPhanCong;
+	private int soLuongSanPham;
+
+	public int getSoLuongSanPham() {
+		return soLuongSanPham;
+	}
+
+	public void setSoLuongSanPham(int soLuongSanPham) {
+		this.soLuongSanPham = soLuongSanPham;
+	}
 
 	public CongDoan getCongDoan() {
 		return congDoan;
@@ -36,6 +45,10 @@ public class BangPhanCong {
 		this.congDoan = congDoan;
 		this.thoLamDan = thoLamDan;
 		this.ngayPhanCong = ngayPhanCong;
+	}
+
+	public BangPhanCong() {
+		super();
 	}
 
 	@Override

@@ -5,6 +5,15 @@ public class BangLuongThoLamDan {
 	private ThoLamDan thoLamDan;
 	private int thang;
 	private int nam;
+	private int soLuongSanPham;
+
+	public int getSoLuongSanPham() {
+		return soLuongSanPham;
+	}
+
+	public void setSoLuongSanPham(int soLuongSanPham) {
+		this.soLuongSanPham = soLuongSanPham;
+	}
 
 	public String getMaBangLuong() {
 		return maBangLuong;
@@ -38,12 +47,13 @@ public class BangLuongThoLamDan {
 		this.nam = nam;
 	}
 
-	public BangLuongThoLamDan(String maBangLuong, ThoLamDan thoLamDan, int thang, int nam) {
+	public BangLuongThoLamDan(String maBangLuong, ThoLamDan thoLamDan, int thang, int nam, int soLuongSanPham) {
 		super();
 		this.maBangLuong = maBangLuong;
 		this.thoLamDan = thoLamDan;
 		this.thang = thang;
 		this.nam = nam;
+		this.soLuongSanPham = soLuongSanPham;
 	}
 
 	@Override
@@ -53,8 +63,13 @@ public class BangLuongThoLamDan {
 	}
 
 	public double tinhLuongThucLinh(double luongThucTe) {
-		double luongThucLinh = luongThucTe - (3000000 * 0.08 + 3000000 * 0.015 + 3000000 * 0.01);
+		double luongThucLinh = luongThucTe - (3000000 * 0.08 + 3000000 * 0.015 + 3000000 * 0.01) + 900000
+				+ thoLamDan.getCongNhanVien().tinhPhuCapThamNien(thoLamDan.tinhHeSoLuong());
 		return luongThucLinh;
+	}
+
+	public BangLuongThoLamDan() {
+		super();
 	}
 
 }

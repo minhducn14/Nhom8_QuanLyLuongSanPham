@@ -141,6 +141,25 @@ public class Dan {
 		super();
 	}
 
+
+	public Dan(String tenSanPham, String loaiSanPham, String moTa, double giaBan, String matDan, String eoLung,
+			String can, String matPhim, String day, String khoa, String cauNgua, boolean trangThai) {
+
+		super();
+		this.tenSanPham = tenSanPham;
+		this.loaiSanPham = loaiSanPham;
+		this.moTa = moTa;
+		this.giaBan = giaBan;
+		this.matDan = matDan;
+		this.eoLung = eoLung;
+		this.can = can;
+		this.matPhim = matPhim;
+		this.day = day;
+		this.khoa = khoa;
+		this.cauNgua = cauNgua;
+		this.trangThai = trangThai;
+	}
+
 	@Override
 	public String toString() {
 		return "Dan [maSanPham=" + maSanPham + ", tenSanPham=" + tenSanPham + ", loaiSanPham=" + loaiSanPham + ", moTa="

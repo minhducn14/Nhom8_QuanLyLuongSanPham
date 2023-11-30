@@ -65,8 +65,8 @@ public class BangChamCongThoLamDan {
 				+ ", congDoan=" + congDoan + "]";
 	}
 
-	public BangChamCongThoLamDan(String maBCCThoLamDan, int soLuongSanPham, Date ngayChamCong, BangLuongThoLamDan bangLuong,
-			ThoLamDan thoLamDan, CongDoan congDoan) {
+	public BangChamCongThoLamDan(String maBCCThoLamDan, int soLuongSanPham, Date ngayChamCong,
+			BangLuongThoLamDan bangLuong, ThoLamDan thoLamDan, CongDoan congDoan) {
 		super();
 		this.maBCCThoLamDan = maBCCThoLamDan;
 		this.soLuongSanPham = soLuongSanPham;
@@ -74,6 +74,10 @@ public class BangChamCongThoLamDan {
 		this.bangLuong = bangLuong;
 		this.thoLamDan = thoLamDan;
 		this.congDoan = congDoan;
+	}
+
+	public BangChamCongThoLamDan() {
+		super();
 	}
 
 }

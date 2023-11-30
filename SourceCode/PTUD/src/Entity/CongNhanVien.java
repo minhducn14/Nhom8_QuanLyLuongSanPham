@@ -2,8 +2,7 @@ package Entity;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
+
 
 public class CongNhanVien {
 	private String maCongNhanVien;
@@ -138,22 +137,23 @@ public class CongNhanVien {
 				+ ", diaChi=" + diaChi + ", trangThai=" + trangThai + ", ngayVaoLam=" + ngayVaoLam + "]";
 	}
 
-	public double tinhPhuCapThamNien(Date ngayVaoLam, double luongCoBan, double heSoLuong) {
-		int soNamLamViec = tinhSoNamLamViec(ngayVaoLam);
-		double tyLePhuCap = xacDinhTyLePhuCap(soNamLamViec);
+	public double tinhPhuCapThamNien(double luongCoBan, double heSoLuong) {
+		double tyLePhuCap = xacDinhTyLePhuCap();
 		double phuCapThamNien = luongCoBan * heSoLuong * (tyLePhuCap / 100);
 		return phuCapThamNien;
 	}
 
-	private int tinhSoNamLamViec(Date ngayVaoLam) {
-		LocalDate ngayVaoLamLocal = ngayVaoLam.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate ngayHienTai = LocalDate.now();
-		Period khoangThoiGian = Period.between(ngayVaoLamLocal, ngayHienTai);
-		int soNamLamViec = khoangThoiGian.getYears();
-		return soNamLamViec;
+	public double tinhPhuCapThamNien(double heSo) {
+		double tyLePhuCap = xacDinhTyLePhuCap();
+		double phuCapThamNien = 3000000 * heSo * (tyLePhuCap / 100);
+		return phuCapThamNien;
 	}
 
-	private double xacDinhTyLePhuCap(int soNamLamViec) {
+	private double xacDinhTyLePhuCap() {
+		LocalDate ngayVaoLamLocal = ngayVaoLam.toLocalDate();
+		LocalDate ngayHienTai = LocalDate.now();
+		int soNamLamViec = ngayVaoLamLocal.until(ngayHienTai).getYears();
+
 		if (soNamLamViec >= 5 && soNamLamViec < 10) {
 			return 5.0;
 		} else if (soNamLamViec >= 10 && soNamLamViec < 15) {
@@ -170,5 +170,22 @@ public class CongNhanVien {
 	public CongNhanVien() {
 		super();
 	}
+
+	public CongNhanVien( String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan,
+			String soDienThoai, String diaChi, boolean trangThai, Date ngayVaoLam,String maCongNhanVien) {
+		// TODO Auto-generated constructor stub
+		super();
+		
+		this.hoTen = hoTen;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.maCanCuocCongDan = maCanCuocCongDan;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.trangThai = trangThai;
+		this.ngayVaoLam = ngayVaoLam;
+		this.maCongNhanVien = maCongNhanVien;
+	}
+
 
 }

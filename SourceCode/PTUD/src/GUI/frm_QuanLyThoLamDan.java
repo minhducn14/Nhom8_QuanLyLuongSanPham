@@ -25,8 +25,11 @@ import Connection.MyConnection;
 import DAO.DAO_CongNhanVien;
 import DAO.DAO_ThoLamDan;
 import Entity.CongNhanVien;
+import Entity.NhanVien;
 import Entity.ThoLamDan;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import java.sql.Connection;
@@ -58,6 +61,9 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 	private JComboBox<String> jtayNghe, jtrangThai;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_ThoLamDan dao_tld;
+	private List<ThoLamDan> listtld;
+	private List<CongNhanVien> listcnv;
+	private JTable table_1;
 
 	public frm_QuanLyThoLamDan() {
 
@@ -89,7 +95,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		scrollPane_1.setBounds(20, 10, 1380, 180);
 		panel_2.add(scrollPane_1);
 
-		JTable table_1 = new JTable();
+		table_1 = new JTable();
 		scrollPane_1.setViewportView(table_1);
 		JTableHeader tb1 = table_1.getTableHeader();
 		tb1.setBackground(new Color(221, 242, 251));
@@ -309,18 +315,18 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 
 		// Xóa
 		btnXoaRong = new JButton("Xoá rỗng");
-		btnXoaRong.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				jhoTen.setText("");
-				jsdt.setText("");
-				jdiaChi.setText("");
-				jngaySinh.setDate(null);
-				jngayVaoLam.setDate(null);
-				jtayNghe.setSelectedIndex(0);
-				jtrangThai.setSelectedIndex(0);
-				jcmnd.setText("");
-			}
-		});
+//		btnXoaRong.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				jhoTen.setText("");
+//				jsdt.setText("");
+//				jdiaChi.setText("");
+//				jngaySinh.setDate(null);
+//				jngayVaoLam.setDate(null);
+//				jtayNghe.setSelectedIndex(0);
+//				jtrangThai.setSelectedIndex(0);
+//				jcmnd.setText("");
+//			}
+//		});
 		btnXoaRong.setForeground(Color.WHITE);
 		btnXoaRong.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXoaRong.setBackground(new Color(2, 104, 156));
@@ -349,14 +355,70 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 
 		btnThem.addActionListener(this);
 		btnXoaRong.addActionListener(this);
+		btnSua.addActionListener(this);
+		
+		table_1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row = table_1.getSelectedRow();
+				if(row>=0 && row <listtld.size()) {
+					ThoLamDan tld = listtld.get(row);
+					CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
+					jmaTLD.setText(tld.getMaThoLamDan());
+					jhoTen.setText(cnv.getHoTen());
+					jcmnd.setText(cnv.getMaCanCuocCongDan());
+					jdiaChi.setText(cnv.getDiaChi());
+					jsdt.setText(cnv.getSoDienThoai());
+					jtayNghe.setSelectedItem(tld.getTayNghe());
+					jtrangThai.setSelectedItem(cnv.isTrangThai()?"Đang Làm" : "Nghỉ Việc");
+					String gioiTinhValue = modelThoLamDan.getValueAt(row, 2).toString();
+					if ("Nữ".equals(gioiTinhValue)) {
+						rdbtnNewRadioButton_4.setSelected(true);
+					} else {
+						rdbtnNewRadioButton_5.setSelected(true);
+					}
+					java.sql.Date getNgaySinh = tld.getCongNhanVien().getNgaySinh();
+					jngaySinh.setDate(getNgaySinh);
+					java.sql.Date getNgayVaoLam = tld.getCongNhanVien().getNgaySinh();
+					jngayVaoLam.setDate(getNgayVaoLam);
+				}
+			}
+		});
 
 		MyConnection.getInstance().MyConnection();
 		autoGenIdThoLamDan();
-		updateTableDataNhanVien();
+		updateTableDataThoLamDan();
 	}
 
-	private void updateTableDataNhanVien() {
-
+	private void updateTableDataThoLamDan() {
+		listtld = dao_tld.docTuBang();
+		listcnv = dao_cnv.docTuBang();
 		modelThoLamDan.setRowCount(0);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -371,7 +433,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			if (gt == kiemTraGT) {
 				gioiTinh = "Nam";
 			} else {
-				gioiTinh = "Nam";
+				gioiTinh = "Nữ";
 			}
 			String[] rowData = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(), gioiTinh,
 					dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh()),
@@ -392,7 +454,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 				if (maThoLamDan == null) {
 					jmaTLD.setText("TLD001");
 				} else {
-					Long stt = Long.parseLong(maThoLamDan.substring(4));
+					Long stt = Long.parseLong(maThoLamDan.substring(3));
 					stt++;
 					jmaTLD.setText("TLD" + String.format("%03d", stt));
 				}
@@ -402,61 +464,101 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-
+	//============================================================
+	public void xoaRong() {
+		java.util.Date today = new java.util.Date();
+		jmaTLD.setText("");
+		jhoTen.setText("");
+		jsdt.setText("");
+		jcmnd.setText("");
+		jdiaChi.setText("");
+		jtayNghe.setSelectedIndex(0);
+		jtrangThai.setSelectedIndex(0);
+		jngaySinh.setDate(null);
+		jngayVaoLam.setDate(today);
+		rdbtnNewRadioButton_5.setSelected(true);
+		autoGenIdThoLamDan();
+	}
+	
+	public boolean checkregex() {
+		String cmnd = jcmnd.getText().trim();
+		String hoTen = jhoTen.getText().trim();
+		String sdt = jsdt.getText().trim();
+		String diaChi = jdiaChi.getText().trim();
+		java.util.Date today = new java.util.Date();
+		Date ngaySinh = new Date(jngaySinh.getDate().getTime());
+		Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
+		boolean phai = false;
+		if (buttonGroup.getSelection() != null) {
+			if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+				phai = true;
+			} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+				phai = false;
+			}
+		}
+		if (!(cmnd.length() > 0 && cmnd.matches("^[0-9]{12}$"))) {
+			JOptionPane.showMessageDialog(this, "Error : CMND phải có 12 số");
+			return false;
+		}
+		if (!(sdt.length() > 0 && sdt.matches("^0[0-9]{9}$"))) {
+			JOptionPane.showMessageDialog(this, "Error : Số điện thoại bắt đầu từ số 0");
+			return false;
+		}
+		if (!(hoTen.length() > 0 || hoTen.matches("^[\\p{L}\\s]+$"))) {
+			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
+			return false;
+		}
+		if (!(diaChi.length() > 0 || diaChi.matches("^[\\p{L}\\s]+$"))) {
+			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
+			return false;
+		}if (ngaySinh.after(today) || (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
+			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+			return false;
+		}
+		if (ngayVaoLam.after(today)) {
+			JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		Object o = e.getSource();
-
-		Pattern patternsdt = Pattern.compile("^(0[0-9]{9})$");
-		Pattern patternsmnd = Pattern.compile("^[0-9]{12}$");
-		java.util.Date today = new java.util.Date();
-		if (o.equals(btnThem)) {
-
-			String tayNghe = (String) jtayNghe.getSelectedItem();
-			String hoTen = jhoTen.getText();
-			boolean phai = false;
-			if (buttonGroup.getSelection() != null) {
-				if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
-					phai = true;
-				} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
-					phai = false;
-				}
-			}
-			Date ngaySinh = new Date(jngaySinh.getDate().getTime());
-			Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
-
-			String cmnd = jcmnd.getText();
-			Matcher matchercmnd = patternsmnd.matcher(cmnd);
-			String sdt = jsdt.getText();
-			Matcher matchersdt = patternsdt.matcher(sdt);
-			String diaChi = jdiaChi.getText();
-
-			if (hoTen.equals("") || cmnd.equals("") || sdt.equals("") || diaChi.equals("")
-					|| ngaySinh.toString().equals("") || ngayVaoLam.toString().equals("")) {
-				JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
-			} else if (!matchersdt.matches()) {
-				JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
-			} else if (!matchercmnd.matches()) {
-				JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
-			} else if (ngaySinh.after(today)
-					|| (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
-				JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
-			} else if (ngayVaoLam.after(today)) {
-				JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");
-			} else {
+		
+		if(o.equals(btnXoaRong)) {
+			xoaRong();
+		} else if(o.equals(btnThem)) {
+			if(checkregex()) {
+				String hoTen = jhoTen.getText();
+				String sdt = jsdt.getText();
+				String cmnd = jcmnd.getText();
+				String diaChi =jdiaChi.getText();
+				String tayNghe = (String)jtayNghe.getSelectedItem();
+				java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
+				java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
 				boolean trangThai = true;
 				if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
 					trangThai = true;
 				} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
 					trangThai = false;
 				}
+				boolean phai = false;
+				if (buttonGroup.getSelection() != null) {
+					if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+						phai = true;
+					} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+						phai = false;
+					}
+				}
 				CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
 				dao_cnv.taoCNV(cnv);
 				CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
 				ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
 				dao_tld.taoTLD(tld);
-				String maThoLamDanMoi = dao_tld.getMaThoLamDanMoiTao();
-				tld.setMaThoLamDan(maThoLamDanMoi);
+
+				String maTLDNew = dao_tld.getMaThoLamDanMoiTao();
+				tld.setMaThoLamDan(maTLDNew);
 				String gioiTinh;
 				Boolean gt = tld.getCongNhanVien().isGioiTinh();
 				boolean kiemTraGT = true;
@@ -469,18 +571,140 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 				modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(), gioiTinh,
 						tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
 						tld.getCongNhanVien().getSoDienThoai() });
-				jhoTen.setText("");
-				jsdt.setText("");
-				jdiaChi.setText("");
-				jngaySinh.setDate(null);
-				jngayVaoLam.setDate(null);
-				jtayNghe.setSelectedIndex(0);
-				jtrangThai.setSelectedIndex(0);
-				jcmnd.setText("");
+				  JOptionPane.showMessageDialog(this, "Thêm thành công");
+				xoaRong();
 			}
-
+		} else if(o.equals(btnSua)) {
+			if(checkregex()) {
+				int row = table_1.getSelectedRow();
+				if (row >=0) {
+					String maThoLamDan = jmaTLD.getText();
+					String hoTen = jhoTen.getText();
+					String sdt = jsdt.getText();
+					String cmnd = jcmnd.getText();
+					String diaChi =jdiaChi.getText();
+					String tayNghe = (String)jtayNghe.getSelectedItem();
+					java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
+					java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
+					boolean trangThai = true;
+					if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
+						trangThai = true;
+					} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
+						trangThai = false;
+					}
+					boolean phai = false;
+					if (buttonGroup.getSelection() != null) {
+						if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+							phai = true;
+						} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+							phai = false;
+						}
+					}
+					
+					String maCNV ="";
+					int[] selectedRow = table_1.getSelectedRows();
+					for(int selectedIndex : selectedRow) {
+						if(selectedIndex >= 0 && selectedIndex < listtld.size() ) {
+							 ThoLamDan thoLamDanDuocChon = listtld.get(selectedIndex);
+							 CongNhanVien CNV = thoLamDanDuocChon.getCongNhanVien();
+						     maCNV = CNV.getMaCongNhanVien();
+						}	
+					}
+					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,maCNV);
+					ThoLamDan tld = new ThoLamDan(maThoLamDan, tayNghe, cnv);
+					if(dao_tld.update(tld, cnv)) {
+						table_1.setValueAt(maThoLamDan, row, 0);
+						table_1.setValueAt(hoTen, row, 1);
+						table_1.setValueAt(phai, row, 2);
+						table_1.setValueAt(ngaySinh, row, 3);
+						table_1.setValueAt(cmnd, row, 4);
+						table_1.setValueAt(sdt, row, 5);
+						JOptionPane.showMessageDialog(this, "Sửa thành công");
+			            updateTableDataThoLamDan();
+					}
+				}
+			}
 		}
-
 	}
+	//============================================================
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		Object o = e.getSource();
+//
+//		Pattern patternsdt = Pattern.compile("^(0[0-9]{9})$");
+//		Pattern patternsmnd = Pattern.compile("^[0-9]{12}$");
+//		java.util.Date today = new java.util.Date();
+//		if (o.equals(btnThem)) {
+//
+//			String tayNghe = (String) jtayNghe.getSelectedItem();
+//			String hoTen = jhoTen.getText();
+//			boolean phai = false;
+//			if (buttonGroup.getSelection() != null) {
+//				if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+//					phai = true;
+//				} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+//					phai = false;
+//				}
+//			}
+//			Date ngaySinh = new Date(jngaySinh.getDate().getTime());
+//			Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
+//
+//			String cmnd = jcmnd.getText();
+//			Matcher matchercmnd = patternsmnd.matcher(cmnd);
+//			String sdt = jsdt.getText();
+//			Matcher matchersdt = patternsdt.matcher(sdt);
+//			String diaChi = jdiaChi.getText();
+//
+//			if (hoTen.equals("") || cmnd.equals("") || sdt.equals("") || diaChi.equals("")
+//					|| ngaySinh.toString().equals("") || ngayVaoLam.toString().equals("")) {
+//				JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
+//			} else if (!matchersdt.matches()) {
+//				JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
+//			} else if (!matchercmnd.matches()) {
+//				JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
+//			} else if (ngaySinh.after(today)
+//					|| (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
+//				JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+//			} else if (ngayVaoLam.after(today)) {
+//				JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");
+//			} else {
+//				boolean trangThai = true;
+//				if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
+//					trangThai = true;
+//				} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
+//					trangThai = false;
+//				}
+//				CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
+//				dao_cnv.taoCNV(cnv);
+//				CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+//				ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
+//				dao_tld.taoTLD(tld);
+//				String maThoLamDanMoi = dao_tld.getMaThoLamDanMoiTao();
+//				tld.setMaThoLamDan(maThoLamDanMoi);
+//				String gioiTinh;
+//				Boolean gt = tld.getCongNhanVien().isGioiTinh();
+//				boolean kiemTraGT = true;
+//
+//				if (gt == kiemTraGT) {
+//					gioiTinh = "Nam";
+//				} else {
+//					gioiTinh = "Nữ";
+//				}
+//				modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(), gioiTinh,
+//						tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
+//						tld.getCongNhanVien().getSoDienThoai() });
+//				jhoTen.setText("");
+//				jsdt.setText("");
+//				jdiaChi.setText("");
+//				jngaySinh.setDate(null);
+//				jngayVaoLam.setDate(null);
+//				jtayNghe.setSelectedIndex(0);
+//				jtrangThai.setSelectedIndex(0);
+//				jcmnd.setText("");
+//			}
+//
+//		}
+//
+//	}
 
 }

@@ -449,6 +449,8 @@ public class frm_PhanCong extends JPanel {
 								tblDSTLD.clearSelection();
 								btnPhanCong.setText("Phân công");
 								btnXoaRong.setText("Xoá rỗng");
+								selectedRowInDSCD = -1;
+								selectedRowInDSTLD = -1;
 							}
 						} catch (NumberFormatException e2) {
 							JOptionPane.showMessageDialog(null, "Số lượng sản phẩm nhập vào phải là số.", "Lỗi",

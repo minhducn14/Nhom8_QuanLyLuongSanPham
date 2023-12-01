@@ -93,11 +93,11 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		panel_1_2.setBounds(27, 85, 1413, 579);
 		add(panel_1_2);
 
-		JLabel lblThongTin_1 = new JLabel("Danh Sách Chấm Công");
-		lblThongTin_1.setForeground(new Color(0, 27, 72));
-		lblThongTin_1.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblThongTin_1.setBounds(568, 70, 318, 25);
-		panel_1_2.add(lblThongTin_1);
+		JLabel lblThongTinDSCC = new JLabel("Danh Sách Chấm Công");
+		lblThongTinDSCC.setForeground(new Color(0, 27, 72));
+		lblThongTinDSCC.setFont(new Font("Tahoma", Font.BOLD, 24));
+		lblThongTinDSCC.setBounds(568, 70, 318, 25);
+		panel_1_2.add(lblThongTinDSCC);
 		ngayPhanCong = new JDateChooser();
 		ngayPhanCong.setSize(new Dimension(30, 20));
 		ngayPhanCong.setDateFormatString("dd-MM-yyyy");
@@ -236,28 +236,19 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 					try {
 						java.util.Date utilDate = new java.util.Date();
 						Date date = new Date(utilDate.getTime());
-						int check = 0;
-						for (int i = 0; i < model_BagPhanCong.getRowCount(); i++) {
-							String trangThaiDiLam = (String) model_BagPhanCong.getValueAt(i, 6);
-							if (trangThaiDiLam.equals("Chưa ghi nhận công")) {
-								check++;
-							}
-						}
-						if (check != 0) {
-							JOptionPane.showMessageDialog(null, "Chưa hoàn thành chấm công cho nhân viên");
-						} else {
-							ArrayList<BangChamCongThoLamDan> listBCC = dao_ChamCongThoLamDan.layDanhSachChamCong(date);
-							ArrayList<String> listtld = new ArrayList<>();
-							for (BangChamCongThoLamDan bangChamCongThoLamDan : listBCC) {
-								listtld.add(bangChamCongThoLamDan.getThoLamDan().getMaThoLamDan());
-							}
 
-							for (int row = 0; row < model_BagPhanCong.getRowCount(); row++) {
-								if (listtld.contains(model_BagPhanCong.getValueAt(row, 0))) {
-									String tb = "Đã chấm công cho nhân viên "
-											+ (String) model_BagPhanCong.getValueAt(row, 1);
-									JOptionPane.showMessageDialog(null, tb);
-								} else {
+						ArrayList<BangChamCongThoLamDan> listBCC = dao_ChamCongThoLamDan.layDanhSachChamCong(date);
+						ArrayList<String> listtld = new ArrayList<>();
+						for (BangChamCongThoLamDan bangChamCongThoLamDan : listBCC) {
+							listtld.add(bangChamCongThoLamDan.getThoLamDan().getMaThoLamDan());
+						}
+
+						for (int row = 0; row < model_BagPhanCong.getRowCount(); row++) {
+							if (listtld.contains((String) model_BagPhanCong.getValueAt(row, 0))) {
+
+							} else {
+								String trangThaiDiLam = (String) model_BagPhanCong.getValueAt(row, 6);
+								if (!trangThaiDiLam.equals("Chưa ghi nhận chấm công")) {
 									String maThoLamDan = (String) model_BagPhanCong.getValueAt(row, 0);
 									ThoLamDan thoLamDan = dao_ThoLamDan.getTLDTheoMaThoLamDan(maThoLamDan);
 									BangChamCongThoLamDan bccThoLamDan = new BangChamCongThoLamDan();
@@ -271,14 +262,12 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 
 									CongDoan congdoan = dao_congDoan.getCongDoanTheoCDSP(tenCongDoan,
 											dan.getMaSanPham());
-
 									bccThoLamDan.setCongDoan(congdoan);
 									LocalDate currentDate1 = LocalDate.now();
 									Month currentMonth = currentDate1.getMonth();
 									int thang = currentMonth.getValue();
 									int nam = currentDate1.getYear();
 									int sl = 0;
-									String trangThaiDiLam = (String) model_BagPhanCong.getValueAt(row, 6);
 									if (trangThaiDiLam.equals("Có mặt")) {
 										String soLuongSanPham = model_BagPhanCong.getValueAt(row, 5).toString();
 										sl = Integer.parseInt(soLuongSanPham);
@@ -306,7 +295,6 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 								}
 							}
 						}
-
 					} catch (Exception e2) {
 						e2.printStackTrace();
 					}
@@ -321,17 +309,17 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		btnChamCong.setBounds(1259, 528, 129, 30);
 		panel_1_2.add(btnChamCong);
 
-		JLabel lblThongTin_1_1 = new JLabel("Tìm kiếm theo tên");
-		lblThongTin_1_1.setForeground(new Color(0, 27, 72));
-		lblThongTin_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblThongTin_1_1.setBounds(394, 20, 187, 25);
-		panel_1_2.add(lblThongTin_1_1);
+		JLabel lblTimKiemTheoTen = new JLabel("Tìm kiếm theo tên");
+		lblTimKiemTheoTen.setForeground(new Color(0, 27, 72));
+		lblTimKiemTheoTen.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTimKiemTheoTen.setBounds(394, 20, 187, 25);
+		panel_1_2.add(lblTimKiemTheoTen);
 
-		JLabel lblThongTin_1_1_1 = new JLabel("Sản Phẩm");
-		lblThongTin_1_1_1.setForeground(new Color(0, 27, 72));
-		lblThongTin_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblThongTin_1_1_1.setBounds(899, 20, 116, 25);
-		panel_1_2.add(lblThongTin_1_1_1);
+		JLabel lblSP = new JLabel("Sản Phẩm");
+		lblSP.setForeground(new Color(0, 27, 72));
+		lblSP.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSP.setBounds(899, 20, 116, 25);
+		panel_1_2.add(lblSP);
 
 		JComboBox<String> comboBoxSP = new JComboBox<String>();
 		comboBoxSP.setBounds(1017, 20, 100, 25);
@@ -341,11 +329,12 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 			comboBoxSP.addItem(dan.getTenSanPham());
 		}
 		comboBoxSP.addItemListener(new ItemListener() {
+
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					String selectedValue = (String) comboBoxSP.getSelectedItem();
-					if (selectedValue.equals("Tất Cả")) {
+					if (selectedValue.equals("Tất cả")) {
 						loadDataIntoTableChamCong();
 						model_BagPhanCong.fireTableDataChanged();
 					} else {
@@ -373,26 +362,27 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					String selectedValue = (String) comboBoxCongDoan.getSelectedItem();
-					if (selectedValue.equals("Tất Cả")) {
+					if (selectedValue.equals("Tất cả")) {
 						loadDataIntoTableChamCong();
 						model_BagPhanCong.fireTableDataChanged();
 					} else {
 						loadDataIntoTableChamCongTheoTenCongDoan(selectedValue);
+						model_BagPhanCong.fireTableDataChanged();
 					}
 				}
 			}
 		});
-		JLabel lblThongTin_1_1_1_1 = new JLabel("Công Đoạn");
-		lblThongTin_1_1_1_1.setForeground(new Color(0, 27, 72));
-		lblThongTin_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblThongTin_1_1_1_1.setBounds(1144, 20, 116, 25);
-		panel_1_2.add(lblThongTin_1_1_1_1);
+		JLabel lblCongDoan = new JLabel("Công Đoạn");
+		lblCongDoan.setForeground(new Color(0, 27, 72));
+		lblCongDoan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblCongDoan.setBounds(1144, 20, 116, 25);
+		panel_1_2.add(lblCongDoan);
 
-		JLabel lblThongTin_1_1_2 = new JLabel("Ngày Chấm Công");
-		lblThongTin_1_1_2.setForeground(new Color(0, 27, 72));
-		lblThongTin_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblThongTin_1_1_2.setBounds(20, 20, 270, 25);
-		panel_1_2.add(lblThongTin_1_1_2);
+		JLabel lblNgayChamCong = new JLabel("Ngày Chấm Công");
+		lblNgayChamCong.setForeground(new Color(0, 27, 72));
+		lblNgayChamCong.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNgayChamCong.setBounds(20, 20, 270, 25);
+		panel_1_2.add(lblNgayChamCong);
 
 		JSeparator separator = new JSeparator();
 		separator.setBackground(new Color(0, 128, 128));
@@ -409,17 +399,16 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 	}
 
 	private void loadDataIntoTableChamCong() {
-		model_BagPhanCong.setRowCount(0);
 		java.util.Date utilDate = new java.util.Date();
 		Date date = new Date(utilDate.getTime());
 		try {
+			model_BagPhanCong.setRowCount(0);
 			ArrayList<BangChamCongThoLamDan> listBCC = dao_ChamCongThoLamDan.layDanhSachChamCong(date);
 			ArrayList<String> listtld = new ArrayList<>();
 			for (BangChamCongThoLamDan bangChamCongThoLamDan : listBCC) {
 				listtld.add(bangChamCongThoLamDan.getThoLamDan().getMaThoLamDan());
 			}
 			ArrayList<BangPhanCong> listBangPhanCong = dao_ChamCongThoLamDan.listAllBangPhanCongTheoNgayHienTai();
-
 			for (BangPhanCong bangPhanCong : listBangPhanCong) {
 				if (listtld.contains(bangPhanCong.getThoLamDan().getMaThoLamDan())) {
 					Object[] objects = { bangPhanCong.getThoLamDan().getMaThoLamDan(),
@@ -437,7 +426,6 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 					model_BagPhanCong.addRow(objects);
 
 				}
-
 			}
 
 		} catch (Exception e2) {
@@ -571,6 +559,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 							listBCC.get(position).getNgayChamCong(),
 							listBCC.get(position).getThoLamDan().getMaThoLamDan(),
 							listBCC.get(position).getCongDoan().getMaCongDoan());
+					System.out.println(listBCC.get(position).getCongDoan().getMaCongDoan());
 					Object[] objects = { listBCC.get(position).getThoLamDan().getMaThoLamDan(),
 							listBCC.get(position).getThoLamDan().getCongNhanVien().getHoTen(),
 							listBCC.get(position).getCongDoan().getDan().getTenSanPham(),

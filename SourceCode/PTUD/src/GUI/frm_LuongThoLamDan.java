@@ -279,11 +279,6 @@ public class frm_LuongThoLamDan extends JPanel {
 			dao_LuongThoLamDan.updateBangLuongThoLamDan(bl);
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(thoLamDan.getMaThoLamDan(), thang, nam);
-			boolean KT = dao_LuongThoLamDan.kiemTraTrungMa(thang, nam, thoLamDan.getMaThoLamDan());
-
-			if (!KT) {
-				themBangLuong(thoLamDan);
-			}
 			Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
 					decimalFormat.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNien(thoLamDan.tinhHeSoLuong())),
 					decimalFormat.format(luong), decimalFormat.format(bl.tinhLuongThucLinh(luong)) };
@@ -344,21 +339,21 @@ public class frm_LuongThoLamDan extends JPanel {
 		}
 	}
 
-	private void themBangLuong(ThoLamDan thoLamDan) {
-		LocalDate currentDate = LocalDate.now();
-		Month currentMonth = currentDate.getMonth();
-		int thang = currentMonth.getValue();
-		int nam = currentDate.getYear();
-		BangLuongThoLamDan bl = new BangLuongThoLamDan();
-		bl.setNam(nam);
-		bl.setThang(thang);
-		bl.setThoLamDan(thoLamDan);
-		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
-		bl.setMaBangLuong(maBangLuong);
-		bl.setSoLuongSanPham(0);
-		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
-		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
-	}
+//	private void themBangLuong(ThoLamDan thoLamDan) {
+//		LocalDate currentDate = LocalDate.now();
+//		Month currentMonth = currentDate.getMonth();
+//		int thang = currentMonth.getValue();
+//		int nam = currentDate.getYear();
+//		BangLuongThoLamDan bl = new BangLuongThoLamDan();
+//		bl.setNam(nam);
+//		bl.setThang(thang);
+//		bl.setThoLamDan(thoLamDan);
+//		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
+//		bl.setMaBangLuong(maBangLuong);
+//		bl.setSoLuongSanPham(0);
+//		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
+//		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
+//	}
 
 	private void loadDataLuongTheoTen(String tenThoLamDan) {
 
@@ -370,7 +365,9 @@ public class frm_LuongThoLamDan extends JPanel {
 			} else {
 				modelDanhSachLuong.setRowCount(0);
 				DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-				ArrayList<BangLuongThoLamDan> listBL = dao_LuongThoLamDan.getBangLuongTheoTen(tenThoLamDan);
+				int nam = yearChooser.getYear();
+				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				ArrayList<BangLuongThoLamDan> listBL = dao_LuongThoLamDan.getBangLuongTheoTen(tenThoLamDan, thang, nam);
 				for (BangLuongThoLamDan bangLuongThoLamDan : listBL) {
 					double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(
 							bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), bangLuongThoLamDan.getThang(),

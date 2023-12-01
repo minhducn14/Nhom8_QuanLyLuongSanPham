@@ -319,7 +319,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		lblTongPC.setBounds(262, 321, 169, 20);
 		contentPane.add(lblTongPC);
 
-		JButton btnNewButton = new JButton("Export pdf");
+		JButton btnNewButton = new JButton("Xuất pdf");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				exportPDF();

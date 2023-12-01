@@ -64,7 +64,7 @@ public class DAO_CongDoan {
 			preparedStatement.setFloat(2, congDoan.getGiaCongDoan());
 			preparedStatement.setString(3, congDoan.getMaCongDoan());
 			int rowsUpdated = preparedStatement.executeUpdate();
-			
+
 			if (rowsUpdated > 0) {
 				return true;
 			}
@@ -126,8 +126,8 @@ public class DAO_CongDoan {
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
 			String sql = "SELECT [maCongDoan]\r\n" + "      ,[tenCongDoan]\r\n" + "      ,[maSanPham]\r\n"
-					+ "      ,[giaCongDoan]\r\n" + "FROM [dbo].[CongDoan]\r\n" + "WHERE [maSanPham] = '" + maSanPham
-					+ "'\r\n" + "  AND [tenCongDoan] = N'" + tenCongDoan + "'" + "";
+					+ "      ,[giaCongDoan]\r\n" + "FROM CongDoan\r\n" + "WHERE [maSanPham] = '" + maSanPham + "'\r\n"
+					+ "  AND [tenCongDoan] = N'" + tenCongDoan + "'" + "";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
@@ -174,4 +174,25 @@ public class DAO_CongDoan {
 		return ds;
 	}
 
+	public boolean checkIfExists(String tenCongDoan, String maSanPham) {
+		boolean ketQua = true;
+		int tong = 0;
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT COUNT(*) FROM CongDoan WHERE TenCongDoan = N'" + tenCongDoan + "' AND MaSanPham = '"
+					+ maSanPham + "'";
+
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				tong = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (tong == 0) {
+			ketQua = false;
+		}
+		return ketQua;
+	}
 }

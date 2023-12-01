@@ -278,7 +278,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				for (int row = 0; row < modelChamCong.getRowCount(); row++) {
 					if (modelChamCong.getValueAt(row, 2).equals("Chưa ghi nhận công")) {
-						modelChamCong.setValueAt("Làm nguyên ca", row, 2);
+						modelChamCong.setValueAt("Làm nguyên ngày công", row, 2);
 						modelChamCong.setValueAt("0", row, 3);
 					}
 				}

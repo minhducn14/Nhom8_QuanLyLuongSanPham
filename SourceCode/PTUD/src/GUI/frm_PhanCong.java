@@ -73,11 +73,11 @@ public class frm_PhanCong extends JPanel {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		lblNewLabel.setBounds(550, 5, 375, 70);
-		add(lblNewLabel);
-		lblNewLabel.setText("BẢNG PHÂN CÔNG");
+		JLabel lblBangPhanCong = new JLabel("New label");
+		lblBangPhanCong.setFont(new Font("Tahoma", Font.BOLD, 40));
+		lblBangPhanCong.setBounds(550, 5, 375, 70);
+		add(lblBangPhanCong);
+		lblBangPhanCong.setText("BẢNG PHÂN CÔNG");
 
 		JPanel pnlThongTinCongDoan = new JPanel();
 		pnlThongTinCongDoan.setBounds(990, 90, 450, 315);
@@ -112,45 +112,45 @@ public class frm_PhanCong extends JPanel {
 		ngayPhanCong.setEnabled(false);
 		pnlThongTinCongDoan.add(ngayPhanCong);
 
-		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setBounds(20, 225, 170, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_3);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_3.setText("Ngày phân công");
+		JLabel lblNgayPhanCong = new JLabel("New label");
+		lblNgayPhanCong.setBounds(20, 225, 170, 25);
+		pnlThongTinCongDoan.add(lblNgayPhanCong);
+		lblNgayPhanCong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNgayPhanCong.setText("Ngày phân công");
 
-		JLabel lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(20, 65, 170, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2.setText("Mã thợ làm đàn\r\n");
+		JLabel lblMaTLD = new JLabel("New label");
+		lblMaTLD.setBounds(20, 65, 170, 25);
+		pnlThongTinCongDoan.add(lblMaTLD);
+		lblMaTLD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMaTLD.setText("Mã thợ làm đàn\r\n");
 
 		txtSoLuongSanPham = new JTextField();
 		txtSoLuongSanPham.setBounds(200, 185, 200, 25);
 		pnlThongTinCongDoan.add(txtSoLuongSanPham);
 		txtSoLuongSanPham.setColumns(10);
-		lblNewLabel_2.setLabelFor(txtSoLuongSanPham);
+		lblMaTLD.setLabelFor(txtSoLuongSanPham);
 		txtSoLuongSanPham.setEnabled(false);
 
-		JLabel lblNewLabel_4 = new JLabel("New label");
-		lblNewLabel_4.setBounds(35, 15, 220, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_4);
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_4.setText("Thông tin phân công");
+		JLabel lblTTPhanCong = new JLabel("New label");
+		lblTTPhanCong.setBounds(35, 15, 220, 25);
+		pnlThongTinCongDoan.add(lblTTPhanCong);
+		lblTTPhanCong.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTTPhanCong.setText("Thông tin phân công");
 
-		JLabel lblNewLabel_2_1 = new JLabel("Số lượng sản phẩm\r\n");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2_1.setBounds(20, 185, 170, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_2_1);
+		JLabel lblSLSP = new JLabel("Số lượng sản phẩm\r\n");
+		lblSLSP.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSLSP.setBounds(20, 185, 170, 25);
+		pnlThongTinCongDoan.add(lblSLSP);
 
-		JLabel lblNewLabel_2_1_1 = new JLabel("Tên thợ làm đàn");
-		lblNewLabel_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2_1_1.setBounds(20, 105, 170, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_2_1_1);
+		JLabel lblTenTLD = new JLabel("Tên thợ làm đàn");
+		lblTenTLD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenTLD.setBounds(20, 105, 170, 25);
+		pnlThongTinCongDoan.add(lblTenTLD);
 
-		JLabel lblNewLabel_2_1_2 = new JLabel("Tên công đoạn\r\n");
-		lblNewLabel_2_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2_1_2.setBounds(20, 145, 170, 25);
-		pnlThongTinCongDoan.add(lblNewLabel_2_1_2);
+		JLabel lblTenCD = new JLabel("Tên công đoạn\r\n");
+		lblTenCD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenCD.setBounds(20, 145, 170, 25);
+		pnlThongTinCongDoan.add(lblTenCD);
 
 		txtTenCongDoan = new JTextField();
 		txtTenCongDoan.setEnabled(false);
@@ -179,11 +179,11 @@ public class frm_PhanCong extends JPanel {
 		add(panel_1);
 		panel_1.setLayout(null);
 
-		JLabel lblNewLabel_5 = new JLabel("New label");
-		lblNewLabel_5.setBounds(35, 15, 249, 25);
-		panel_1.add(lblNewLabel_5);
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_5.setText("Danh sách thợ làm đàn\r\n");
+		JLabel lblDSTLD = new JLabel("New label");
+		lblDSTLD.setBounds(35, 15, 249, 25);
+		panel_1.add(lblDSTLD);
+		lblDSTLD.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDSTLD.setText("Danh sách thợ làm đàn\r\n");
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(20, 65, 410, 230);
@@ -271,11 +271,11 @@ public class frm_PhanCong extends JPanel {
 		ListSelectionModel listSelectionModel2 = tblDSPC.getSelectionModel();
 		listSelectionModel2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		JLabel lblNewLabel_6 = new JLabel("New label");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_6.setBounds(49, 450, 217, 25);
-		add(lblNewLabel_6);
-		lblNewLabel_6.setText("Danh sách phân công\r\n");
+		JLabel lblDSPC = new JLabel("New label");
+		lblDSPC.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDSPC.setBounds(49, 450, 217, 25);
+		add(lblDSPC);
+		lblDSPC.setText("Danh sách phân công\r\n");
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(Color.WHITE);
@@ -318,15 +318,15 @@ public class frm_PhanCong extends JPanel {
 		ListSelectionModel listSelectionModel1 = tblDSCD.getSelectionModel();
 		listSelectionModel1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		JLabel lblNewLabel_5_1 = new JLabel("Danh sách công đoạn");
-		lblNewLabel_5_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_5_1.setBounds(35, 15, 217, 25);
-		panel_3.add(lblNewLabel_5_1);
+		JLabel lblDSCD = new JLabel("Danh sách công đoạn");
+		lblDSCD.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDSCD.setBounds(35, 15, 217, 25);
+		panel_3.add(lblDSCD);
 
-		JLabel lblNewLabel_3_1 = new JLabel("Ngày phân công");
-		lblNewLabel_3_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_3_1.setBounds(1055, 443, 170, 25);
-		add(lblNewLabel_3_1);
+		JLabel lblsortNgayPC = new JLabel("Ngày phân công");
+		lblsortNgayPC.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblsortNgayPC.setBounds(1055, 443, 170, 25);
+		add(lblsortNgayPC);
 
 		JDateChooser ngayPhanCong_1 = new JDateChooser();
 		ngayPhanCong_1.setEnabled(false);

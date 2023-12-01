@@ -307,12 +307,10 @@ public class DAO_ChamCongThoLamDan {
 		ArrayList<BangChamCongThoLamDan> ds = new ArrayList<BangChamCongThoLamDan>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT\r\n" + "    TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan,\r\n"
-					+ "    SUM(BCCTLD.soLuongSanPham) AS SoLuongLamDuoc\r\n" + "FROM\r\n"
-					+ "    BangChamCongThoLamDan BCCTLD\r\n" + "JOIN\r\n"
-					+ "    ThoLamDan TLD ON BCCTLD.maThoLamDan = TLD.maThoLamDan\r\n" + "JOIN\r\n"
-					+ "    BangPhanCong BPC ON BCCTLD.maThoLamDan = BPC.maThoLamDan AND BCCTLD.maCongDoan = BPC.maCongDoan\r\n"
-					+ "JOIN\r\n" + "    CongDoan CD ON BPC.maCongDoan = CD.maCongDoan\r\n" + "WHERE\r\n"
+			String sql = "SELECT TLD.maThoLamDan, CD.maSanPham, CD.maCongDoan, SUM(BCCTLD.soLuongSanPham) AS SoLuongLamDuoc\r\n"
+					+ "FROM BangChamCongThoLamDan BCCTLD \r\n"
+					+ "JOIN ThoLamDan TLD ON BCCTLD.maThoLamDan = TLD.maThoLamDan\r\n"
+					+ "JOIN CongDoan CD ON BCCTLD.maCongDoan = CD.maCongDoan " + "WHERE\r\n"
 					+ "    TLD.maThoLamDan ='" + maThoLamDan + "'\r\n" + "    AND MONTH(BCCTLD.ngayChamCong) = '"
 					+ thang + "'\r\n" + "    AND YEAR(BCCTLD.ngayChamCong) = '" + nam + "'\r\n" + "GROUP BY\r\n"
 					+ "TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan\r\n" + "";

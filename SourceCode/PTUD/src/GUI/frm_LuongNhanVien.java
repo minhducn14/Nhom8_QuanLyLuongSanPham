@@ -523,7 +523,7 @@ public class frm_LuongNhanVien extends JPanel {
 				Cell titleCell = titleRow.createCell(0);
 				int nam = yearChooser.getYear();
 				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
-				String txt = "Danh sách lương Tháng " + thang + " Năm " + nam;
+				String txt = "Danh sách lương nhân viên Tháng " + thang + " Năm " + nam;
 
 				titleCell.setCellValue(txt);
 				titleCell.setCellStyle(titleCellStyle);

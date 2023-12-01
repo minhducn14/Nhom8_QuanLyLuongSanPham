@@ -147,11 +147,11 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Thông tin nhân viên");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(54, 11, 256, 25);
-		panel.add(lblNewLabel);
+		JLabel lblThongTinNhanVien = new JLabel("Thông tin nhân viên");
+		lblThongTinNhanVien.setHorizontalAlignment(SwingConstants.CENTER);
+		lblThongTinNhanVien.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblThongTinNhanVien.setBounds(54, 11, 256, 25);
+		panel.add(lblThongTinNhanVien);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

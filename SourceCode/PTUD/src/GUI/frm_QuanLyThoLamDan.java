@@ -25,7 +25,6 @@ import Connection.MyConnection;
 import DAO.DAO_CongNhanVien;
 import DAO.DAO_ThoLamDan;
 import Entity.CongNhanVien;
-import Entity.NhanVien;
 import Entity.ThoLamDan;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -39,8 +38,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 
@@ -356,38 +353,38 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		btnThem.addActionListener(this);
 		btnXoaRong.addActionListener(this);
 		btnSua.addActionListener(this);
-		
+
 		table_1.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				int row = table_1.getSelectedRow();
-				if(row>=0 && row <listtld.size()) {
+				if (row >= 0 && row < listtld.size()) {
 					ThoLamDan tld = listtld.get(row);
 					CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
 					jmaTLD.setText(tld.getMaThoLamDan());
@@ -396,7 +393,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 					jdiaChi.setText(cnv.getDiaChi());
 					jsdt.setText(cnv.getSoDienThoai());
 					jtayNghe.setSelectedItem(tld.getTayNghe());
-					jtrangThai.setSelectedItem(cnv.isTrangThai()?"Đang Làm" : "Nghỉ Việc");
+					jtrangThai.setSelectedItem(cnv.isTrangThai() ? "Đang Làm" : "Nghỉ Việc");
 					String gioiTinhValue = modelThoLamDan.getValueAt(row, 2).toString();
 					if ("Nữ".equals(gioiTinhValue)) {
 						rdbtnNewRadioButton_4.setSelected(true);
@@ -464,7 +461,8 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 	}
-	//============================================================
+
+	// ============================================================
 	public void xoaRong() {
 		java.util.Date today = new java.util.Date();
 		jmaTLD.setText("");
@@ -479,7 +477,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		rdbtnNewRadioButton_5.setSelected(true);
 		autoGenIdThoLamDan();
 	}
-	
+
 	public boolean checkregex() {
 		String cmnd = jcmnd.getText().trim();
 		String hoTen = jhoTen.getText().trim();
@@ -504,14 +502,16 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Error : Số điện thoại bắt đầu từ số 0");
 			return false;
 		}
-		if (!(hoTen.length() > 0 || hoTen.matches("^[\\p{L}\\s]+$"))) {
+		if (!(hoTen.length() > 0 && hoTen.matches("^[\\p{L}\\s]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
 			return false;
 		}
-		if (!(diaChi.length() > 0 || diaChi.matches("^[\\p{L}\\s]+$"))) {
+		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\s]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
 			return false;
-		}if (ngaySinh.after(today) || (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
+		}
+		if (ngaySinh.after(today)
+				|| (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
 			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
 			return false;
 		}
@@ -521,20 +521,21 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		}
 		return true;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
-		
-		if(o.equals(btnXoaRong)) {
+
+		if (o.equals(btnXoaRong)) {
 			xoaRong();
-		} else if(o.equals(btnThem)) {
-			if(checkregex()) {
+		} else if (o.equals(btnThem)) {
+			if (checkregex()) {
 				String hoTen = jhoTen.getText();
 				String sdt = jsdt.getText();
 				String cmnd = jcmnd.getText();
-				String diaChi =jdiaChi.getText();
-				String tayNghe = (String)jtayNghe.getSelectedItem();
+				String diaChi = jdiaChi.getText();
+				String tayNghe = (String) jtayNghe.getSelectedItem();
 				java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
 				java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
 				boolean trangThai = true;
@@ -571,19 +572,19 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 				modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(), gioiTinh,
 						tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
 						tld.getCongNhanVien().getSoDienThoai() });
-				  JOptionPane.showMessageDialog(this, "Thêm thành công");
+				JOptionPane.showMessageDialog(this, "Thêm thành công");
 				xoaRong();
 			}
-		} else if(o.equals(btnSua)) {
-			if(checkregex()) {
+		} else if (o.equals(btnSua)) {
+			if (checkregex()) {
 				int row = table_1.getSelectedRow();
-				if (row >=0) {
+				if (row >= 0) {
 					String maThoLamDan = jmaTLD.getText();
 					String hoTen = jhoTen.getText();
 					String sdt = jsdt.getText();
 					String cmnd = jcmnd.getText();
-					String diaChi =jdiaChi.getText();
-					String tayNghe = (String)jtayNghe.getSelectedItem();
+					String diaChi = jdiaChi.getText();
+					String tayNghe = (String) jtayNghe.getSelectedItem();
 					java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
 					java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
 					boolean trangThai = true;
@@ -600,19 +601,20 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 							phai = false;
 						}
 					}
-					
-					String maCNV ="";
+
+					String maCNV = "";
 					int[] selectedRow = table_1.getSelectedRows();
-					for(int selectedIndex : selectedRow) {
-						if(selectedIndex >= 0 && selectedIndex < listtld.size() ) {
-							 ThoLamDan thoLamDanDuocChon = listtld.get(selectedIndex);
-							 CongNhanVien CNV = thoLamDanDuocChon.getCongNhanVien();
-						     maCNV = CNV.getMaCongNhanVien();
-						}	
+					for (int selectedIndex : selectedRow) {
+						if (selectedIndex >= 0 && selectedIndex < listtld.size()) {
+							ThoLamDan thoLamDanDuocChon = listtld.get(selectedIndex);
+							CongNhanVien CNV = thoLamDanDuocChon.getCongNhanVien();
+							maCNV = CNV.getMaCongNhanVien();
+						}
 					}
-					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,maCNV);
+					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,
+							maCNV);
 					ThoLamDan tld = new ThoLamDan(maThoLamDan, tayNghe, cnv);
-					if(dao_tld.update(tld, cnv)) {
+					if (dao_tld.update(tld, cnv)) {
 						table_1.setValueAt(maThoLamDan, row, 0);
 						table_1.setValueAt(hoTen, row, 1);
 						table_1.setValueAt(phai, row, 2);
@@ -620,13 +622,13 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 						table_1.setValueAt(cmnd, row, 4);
 						table_1.setValueAt(sdt, row, 5);
 						JOptionPane.showMessageDialog(this, "Sửa thành công");
-			            updateTableDataThoLamDan();
+						updateTableDataThoLamDan();
 					}
 				}
 			}
 		}
 	}
-	//============================================================
+	// ============================================================
 //	@Override
 //	public void actionPerformed(ActionEvent e) {
 //		Object o = e.getSource();

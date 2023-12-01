@@ -162,10 +162,8 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 
 		mnTKBieuDo = new JMenuItem("Biểu đồ");
 		mnThngK.add(mnTKBieuDo);
-		mnBangTK = new JMenuItem("Bảng Thống Kê Lương");
+		mnBangTK = new JMenuItem("Danh Sách");
 		mnThngK.add(mnBangTK);
-//		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
-//		mnThngK.add(mntmNewMenuItem_1);
 
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
@@ -265,7 +263,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 			pnCneter.removeAll();
 			pnCneter.add(bieuDoThongKe);
 			validate();
-		} else if(e.getSource().equals(mnBangTK)) {
+		} else if (e.getSource().equals(mnBangTK)) {
 			frm_BangThongKeLuong bangThongKeLuong = new frm_BangThongKeLuong();
 			pnCneter.removeAll();
 			pnCneter.add(bangThongKeLuong);

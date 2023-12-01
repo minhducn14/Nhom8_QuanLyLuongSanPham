@@ -486,14 +486,6 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		java.util.Date today = new java.util.Date();
 		Date ngaySinh = new Date(jngaySinh.getDate().getTime());
 		Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
-		boolean phai = false;
-		if (buttonGroup.getSelection() != null) {
-			if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
-				phai = true;
-			} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
-				phai = false;
-			}
-		}
 		if (!(cmnd.length() > 0 && cmnd.matches("^[0-9]{12}$"))) {
 			JOptionPane.showMessageDialog(this, "Error : CMND phải có 12 số");
 			return false;
@@ -628,85 +620,5 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			}
 		}
 	}
-	// ============================================================
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		Object o = e.getSource();
-//
-//		Pattern patternsdt = Pattern.compile("^(0[0-9]{9})$");
-//		Pattern patternsmnd = Pattern.compile("^[0-9]{12}$");
-//		java.util.Date today = new java.util.Date();
-//		if (o.equals(btnThem)) {
-//
-//			String tayNghe = (String) jtayNghe.getSelectedItem();
-//			String hoTen = jhoTen.getText();
-//			boolean phai = false;
-//			if (buttonGroup.getSelection() != null) {
-//				if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
-//					phai = true;
-//				} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
-//					phai = false;
-//				}
-//			}
-//			Date ngaySinh = new Date(jngaySinh.getDate().getTime());
-//			Date ngayVaoLam = new Date(jngayVaoLam.getDate().getTime());
-//
-//			String cmnd = jcmnd.getText();
-//			Matcher matchercmnd = patternsmnd.matcher(cmnd);
-//			String sdt = jsdt.getText();
-//			Matcher matchersdt = patternsdt.matcher(sdt);
-//			String diaChi = jdiaChi.getText();
-//
-//			if (hoTen.equals("") || cmnd.equals("") || sdt.equals("") || diaChi.equals("")
-//					|| ngaySinh.toString().equals("") || ngayVaoLam.toString().equals("")) {
-//				JOptionPane.showMessageDialog(null, "Vui lòng điền thông tin đầy đủ");
-//			} else if (!matchersdt.matches()) {
-//				JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ");
-//			} else if (!matchercmnd.matches()) {
-//				JOptionPane.showMessageDialog(null, "Mã căn cước công dân không hợp lệ");
-//			} else if (ngaySinh.after(today)
-//					|| (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
-//				JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
-//			} else if (ngayVaoLam.after(today)) {
-//				JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");
-//			} else {
-//				boolean trangThai = true;
-//				if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
-//					trangThai = true;
-//				} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
-//					trangThai = false;
-//				}
-//				CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
-//				dao_cnv.taoCNV(cnv);
-//				CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
-//				ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
-//				dao_tld.taoTLD(tld);
-//				String maThoLamDanMoi = dao_tld.getMaThoLamDanMoiTao();
-//				tld.setMaThoLamDan(maThoLamDanMoi);
-//				String gioiTinh;
-//				Boolean gt = tld.getCongNhanVien().isGioiTinh();
-//				boolean kiemTraGT = true;
-//
-//				if (gt == kiemTraGT) {
-//					gioiTinh = "Nam";
-//				} else {
-//					gioiTinh = "Nữ";
-//				}
-//				modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(), gioiTinh,
-//						tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
-//						tld.getCongNhanVien().getSoDienThoai() });
-//				jhoTen.setText("");
-//				jsdt.setText("");
-//				jdiaChi.setText("");
-//				jngaySinh.setDate(null);
-//				jngayVaoLam.setDate(null);
-//				jtayNghe.setSelectedIndex(0);
-//				jtrangThai.setSelectedIndex(0);
-//				jcmnd.setText("");
-//			}
-//
-//		}
-//
-//	}
 
 }

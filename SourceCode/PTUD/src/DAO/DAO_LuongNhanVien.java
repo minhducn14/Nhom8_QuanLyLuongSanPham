@@ -256,7 +256,6 @@ public class DAO_LuongNhanVien {
 			statement.execute();
 
 			maBangLuongResult = statement.getString(1);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

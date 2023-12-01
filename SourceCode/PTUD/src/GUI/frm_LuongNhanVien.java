@@ -39,6 +39,7 @@ import DAO.DAO_PhongBan;
 import Entity.BangLuongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
@@ -306,6 +307,11 @@ public class frm_LuongNhanVien extends JPanel {
 					double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(),
 							bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(),
 									nhanVien.tinhHeSoLuong()));
+					boolean KT = dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
+
+					if (!KT) {
+						themBangLuong(nhanVien);
+					}
 					Object[] objects = { bl.getNhanVien().getMaNhanVien(),
 							bl.getNhanVien().getCongNhanVien().getHoTen(),
 							decimalFormat.format(bl.getNhanVien().getCongNhanVien()
@@ -381,6 +387,11 @@ public class frm_LuongNhanVien extends JPanel {
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(), bl.getNhanVien()
 					.getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong()));
+			boolean KT = dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
+
+			if (!KT) {
+				themBangLuong(nhanVien);
+			}
 			Object[] objects = { bl.getNhanVien().getMaNhanVien(), bl.getNhanVien().getCongNhanVien().getHoTen(),
 					decimalFormat.format(bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(),
 							nhanVien.tinhHeSoLuong())),
@@ -450,6 +461,26 @@ public class frm_LuongNhanVien extends JPanel {
 			modelDanhSachLuong.addRow(objects);
 		}
 		modelDanhSachLuong.fireTableDataChanged();
+	}
+
+	private void themBangLuong(NhanVien nhanVien) {
+		LocalDate currentDate = LocalDate.now();
+		Month currentMonth = currentDate.getMonth();
+		int thang = currentMonth.getValue();
+		int nam = currentDate.getYear();
+		BangLuongNhanVien bl = new BangLuongNhanVien();
+		bl.setNam(nam);
+		bl.setThang(thang);
+		bl.setNhanVien(nhanVien);
+		String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
+		bl.setMaBangLuong(maBangLuong);
+		bl.setSoGioTangCaChuNhat(0);
+		bl.setSoGioTangCaNgayThuong(0);
+		bl.setSoNgayLamChuNhat(0);
+		bl.setSoNgayNghiCoPhep(0);
+		bl.setSoNgayNghiKhongPhep(0);
+		bl.setSoNgayThuongDiLam(0);
+		dao_LuongNhanVien.themBangLuongNhanVien(bl);
 	}
 
 	public static void exportExcel(JTable table) {

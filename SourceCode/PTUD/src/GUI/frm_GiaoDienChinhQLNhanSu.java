@@ -21,7 +21,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 	JMenuItem mnTimNhanVien, mnTimCongNhan;
 	private JMenu mnTroGiup;
 	private JMenu mnThngK;
-	private JMenuItem mnTKBieuDo;
+	private JMenuItem mnTKBieuDo, mnBangTK;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
@@ -162,6 +162,8 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 
 		mnTKBieuDo = new JMenuItem("Biểu đồ");
 		mnThngK.add(mnTKBieuDo);
+		mnBangTK = new JMenuItem("Bảng Thống Kê Lương");
+		mnThngK.add(mnBangTK);
 //		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
 //		mnThngK.add(mntmNewMenuItem_1);
 
@@ -178,6 +180,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 		mnTimCongNhan.addActionListener(this);
 		mnTroGiup.addMouseListener(this);
 		mnTKBieuDo.addActionListener(this);
+		mnBangTK.addActionListener(this);
 	}
 
 	@Override
@@ -261,6 +264,11 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 			frm_BieuDoThongKe bieuDoThongKe = new frm_BieuDoThongKe();
 			pnCneter.removeAll();
 			pnCneter.add(bieuDoThongKe);
+			validate();
+		} else if(e.getSource().equals(mnBangTK)) {
+			frm_BangThongKeLuong bangThongKeLuong = new frm_BangThongKeLuong();
+			pnCneter.removeAll();
+			pnCneter.add(bangThongKeLuong);
 			validate();
 		}
 	}

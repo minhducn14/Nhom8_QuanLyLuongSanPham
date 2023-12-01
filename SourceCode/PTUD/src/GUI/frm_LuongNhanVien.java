@@ -258,7 +258,7 @@ public class frm_LuongNhanVien extends JPanel {
 		lblNam.setBounds(190, 20, 80, 30);
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
-		JButton btnXemLuong = new JButton("");
+		JButton btnXemLuong = new JButton("Tính lương");
 		btnXemLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_ThongTinLuong.setEnabled(true);
@@ -317,11 +317,11 @@ public class frm_LuongNhanVien extends JPanel {
 
 			}
 		});
-		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnXemLuong.setIcon(null);
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 61, 30);
+		btnXemLuong.setBounds(340, 20, 130, 30);
 
 		panel_1.add(btnXemLuong);
 		panel_ThongTinLuong.setEnabled(false);

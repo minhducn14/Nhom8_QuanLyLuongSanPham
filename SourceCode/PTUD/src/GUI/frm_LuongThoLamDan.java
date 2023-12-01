@@ -222,12 +222,12 @@ public class frm_LuongThoLamDan extends JPanel {
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
 
-		JButton btnXemLuong = new JButton("");
-		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		JButton btnXemLuong = new JButton("Tính Lương");
+		btnXemLuong.setIcon(null);
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 61, 30);
+		btnXemLuong.setBounds(340, 20, 130, 30);
 		panel_1.add(btnXemLuong);
 		btnXemLuong.addActionListener(new ActionListener() {
 

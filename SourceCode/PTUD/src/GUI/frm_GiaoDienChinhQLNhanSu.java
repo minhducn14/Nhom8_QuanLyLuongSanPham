@@ -248,7 +248,7 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 			pnCneter.add(form_luongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimNhanVien)) {
-			frm_TimKiemNhanVien form_TimKiemNhanVien = new frm_TimKiemNhanVien();
+			frm_TimKiemThongTinNhanVien form_TimKiemNhanVien = new frm_TimKiemThongTinNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemNhanVien);
 			validate();

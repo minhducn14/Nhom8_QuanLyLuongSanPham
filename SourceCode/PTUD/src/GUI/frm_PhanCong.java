@@ -11,7 +11,6 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JDayChooser;
 
 import Connection.MyConnection;
 import DAO.DAO_BangPhanCong;
@@ -19,7 +18,6 @@ import DAO.DAO_CongDoan;
 import DAO.DAO_ThoLamDan;
 import Entity.BangPhanCong;
 import Entity.CongDoan;
-import Entity.Dan;
 import Entity.ThoLamDan;
 
 import javax.swing.JButton;
@@ -36,7 +34,6 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class frm_PhanCong extends JPanel {
 

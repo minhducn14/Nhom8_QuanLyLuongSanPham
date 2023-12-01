@@ -115,7 +115,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 		gioTangCaColumn.setCellEditor(editorGioTangCa);
 		gioTangCaComboBox.setSelectedItem("0");
 
-		String[] trangThaiLuaChon = { "Chưa ghi nhận công", "Làm nguyên ca", "Làm nửa ca", "Nghỉ phép",
+		String[] trangThaiLuaChon = { "Chưa ghi nhận công", "Làm nguyên ngày công", "Làm nửa ngày công", "Nghỉ phép",
 				"Nghỉ không phép" };
 		JComboBox<String> trangThaiComboBox = new JComboBox<>(trangThaiLuaChon);
 		DefaultCellEditor editorTrangThai = new DefaultCellEditor(trangThaiComboBox);

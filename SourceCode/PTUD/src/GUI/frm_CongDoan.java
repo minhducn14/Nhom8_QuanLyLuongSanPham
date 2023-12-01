@@ -7,7 +7,6 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SingleSelectionModel;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,14 +49,10 @@ public class frm_CongDoan extends JPanel {
 	private JScrollPane scrollPane_1;
 	private JTable tblDSSanPham;
 	private JScrollPane scrollPane;
-	private JButton btnThem;
-	private JButton btnSua;
-	private JButton btnXoaRong;
 	private DefaultTableModel modelDSSanPham;
 	private DAO_Dan dan_DAO = new DAO_Dan();
 	private DefaultTableModel modelDSCongDoan;
 	private DAO_CongDoan congDoan_DAO = new DAO_CongDoan();
-	private int editedRow = -1;
 
 	/**
 	 * Create the panel.
@@ -142,7 +136,7 @@ public class frm_CongDoan extends JPanel {
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_4.setText("Thông tin công đoạn");
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(160, 135, 250, 25);
 		panel.add(comboBox);
 
@@ -170,6 +164,10 @@ public class frm_CongDoan extends JPanel {
 		String[] cols = { "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Lo\u1EA1i s\u1EA3n ph\u1EA9m",
 				"Gi\u00E1 b\u00E1n" };
 		modelDSSanPham = new DefaultTableModel(cols, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int cols) {
@@ -224,6 +222,10 @@ public class frm_CongDoan extends JPanel {
 		modelDSCongDoan = new DefaultTableModel(col, 0);
 
 		tblDSCongDoan = new JTable(modelDSCongDoan) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int col) {
@@ -440,7 +442,6 @@ public class frm_CongDoan extends JPanel {
 						btnSua.setText("Huỷ");
 						txtGiaCongDoan.setEnabled(true);
 						comboBox.setEnabled(true);
-						editedRow = selectedRow;
 					} else {
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn công đoạn cần sửa từ bảng.", "Lỗi",
 								JOptionPane.ERROR_MESSAGE);

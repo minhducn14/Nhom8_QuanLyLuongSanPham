@@ -1,10 +1,6 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
-import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import java.awt.*;
@@ -289,7 +285,7 @@ public class frm_GiaoDienChinh extends JFrame implements MouseListener, ActionLi
 			pnCneter.add(form_luongThoLamDan);
 			validate();
 		} else if (e.getSource().equals(mnTimNhanVien)) {
-			frm_TimKiemNhanVien form_TimKiemNhanVien = new frm_TimKiemNhanVien();
+			frm_TimKiemThongTinNhanVien form_TimKiemNhanVien = new frm_TimKiemThongTinNhanVien();
 			pnCneter.removeAll();
 			pnCneter.add(form_TimKiemNhanVien);
 			validate();
@@ -306,5 +302,5 @@ public class frm_GiaoDienChinh extends JFrame implements MouseListener, ActionLi
 
 		}
 	}
-	
+
 }

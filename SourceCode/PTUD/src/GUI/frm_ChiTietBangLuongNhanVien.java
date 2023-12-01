@@ -7,29 +7,17 @@ import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import Connection.MyConnection;
-import DAO.DAO_LuongNhanVien;
 import Entity.BangLuongNhanVien;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
-import java.awt.Container;
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -103,7 +91,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		contentPane.add(lblCV);
 
 		JLabel lblThongTin = new JLabel();
-		String txt= "Phiếu Lương Tháng " + bangLuongNhanVien.getThang() + " Năm " + bangLuongNhanVien.getNam();
+		String txt = "Phiếu Lương Tháng " + bangLuongNhanVien.getThang() + " Năm " + bangLuongNhanVien.getNam();
 		lblThongTin.setText(txt);
 		lblThongTin.setBounds(0, 10, 939, 49);
 		lblThongTin.setHorizontalAlignment(SwingConstants.CENTER);

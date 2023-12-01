@@ -1,11 +1,20 @@
 package Entity;
 
+import java.sql.Date;
+
 public class BangPhanCong {
-<<<<<<< Updated upstream
-=======
 	private CongDoan congDoan;
 	private ThoLamDan thoLamDan;
 	private Date ngayPhanCong;
+	private int soLuongSanPham;
+
+	public int getSoLuongSanPham() {
+		return soLuongSanPham;
+	}
+
+	public void setSoLuongSanPham(int soLuongSanPham) {
+		this.soLuongSanPham = soLuongSanPham;
+	}
 
 	public CongDoan getCongDoan() {
 		return congDoan;
@@ -47,6 +56,5 @@ public class BangPhanCong {
 		return "BangPhanCong [congDoan=" + congDoan + ", thoLamDan=" + thoLamDan + ", ngayPhanCong=" + ngayPhanCong
 				+ "]";
 	}
->>>>>>> Stashed changes
 
 }

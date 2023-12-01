@@ -9,8 +9,8 @@ public class MyConnection {
     private static MyConnection instance;
     private Connection connection;
 
-    private MyConnection() {
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyLuongSanPham";
+    public void MyConnection() {
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyLuongSP";
         try {
             connection = DriverManager.getConnection(url , "sa", "sapassword");
         } catch (SQLException e) {
@@ -27,6 +27,8 @@ public class MyConnection {
     public Connection getConnection() {
         return connection;
     }
+
+	
 }
 
 

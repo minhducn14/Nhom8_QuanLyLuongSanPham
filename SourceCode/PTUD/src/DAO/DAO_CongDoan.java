@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import Connection.MyConnection;
@@ -29,12 +30,14 @@ public class DAO_CongDoan {
 		}
 	}
 
-	public static ArrayList<CongDoan> getAlListCongDoan() {
+	public ArrayList<CongDoan> getAlListCongDoan() {
 		ArrayList<CongDoan> ds = new ArrayList<CongDoan>();
 		try {
-			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM CongDoan");
-			ResultSet rs = preparedStatement.executeQuery();
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT * FROM CongDoan";
+
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
 				CongDoan congDoan = new CongDoan();
 				congDoan.setMaCongDoan(rs.getString(1));
@@ -61,7 +64,7 @@ public class DAO_CongDoan {
 			preparedStatement.setFloat(2, congDoan.getGiaCongDoan());
 			preparedStatement.setString(3, congDoan.getMaCongDoan());
 			int rowsUpdated = preparedStatement.executeUpdate();
-
+			
 			if (rowsUpdated > 0) {
 				return true;
 			}
@@ -71,12 +74,13 @@ public class DAO_CongDoan {
 		return false;
 	}
 
-	public static CongDoan getCongDoanTheoMaCongDoan(String maCongDoan) {
+	public CongDoan getCongDoanTheoMaCongDoan(String maCongDoan) {
+
 		CongDoan congDoan = new CongDoan();
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select * from CongDoan Where maCongDoan ='" + maCongDoan + "'");
+			String sql = "select * from CongDoan Where maCongDoan ='" + maCongDoan + "'";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				congDoan.setMaCongDoan(rs.getString(1));
@@ -94,12 +98,37 @@ public class DAO_CongDoan {
 		return congDoan;
 	}
 
-	public static CongDoan getCongDoanMoiTao() {
+	public String getMaCongDoan(String maSanPham) {
+		String maxMaCongDoan = null;
+
+		try {
+			Connection connection = MyConnection.getInstance().getConnection();
+			String sql = "SELECT MAX(maCongDoan) AS MaxMaCongDoan FROM CongDoan WHERE maSanPham = ?";
+			try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+				preparedStatement.setString(1, maSanPham);
+
+				try (ResultSet resultSet = preparedStatement.executeQuery()) {
+					if (resultSet.next()) {
+						maxMaCongDoan = resultSet.getString("MaxMaCongDoan");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return maxMaCongDoan;
+	}
+
+	public CongDoan getCongDoanTheoCDSP(String tenCongDoan, String maSanPham) {
+
 		CongDoan congDoan = new CongDoan();
 		try {
 			Connection connection = MyConnection.getInstance().getConnection();
-			PreparedStatement preparedStatement = connection
-					.prepareStatement("select TOP 1 * from CongDoan order by maCongDoan DESC");
+			String sql = "SELECT [maCongDoan]\r\n" + "      ,[tenCongDoan]\r\n" + "      ,[maSanPham]\r\n"
+					+ "      ,[giaCongDoan]\r\n" + "FROM [dbo].[CongDoan]\r\n" + "WHERE [maSanPham] = '" + maSanPham
+					+ "'\r\n" + "  AND [tenCongDoan] = N'" + tenCongDoan + "'" + "";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				congDoan.setMaCongDoan(rs.getString(1));
@@ -116,4 +145,33 @@ public class DAO_CongDoan {
 		}
 		return congDoan;
 	}
+
+	public ArrayList<CongDoan> getCongDoanTheoTLDNgayThang(String maThoLamDan, int thang, int nam) {
+		ArrayList<CongDoan> ds = new ArrayList<CongDoan>();
+		try {
+			Connection con = MyConnection.getInstance().getConnection();
+			String sql = "SELECT\r\n" + "    TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan,\r\n"
+					+ "    SUM(BCCTLD.soLuongSanPham) AS SoLuongLamDuoc\r\n" + "FROM\r\n"
+					+ "    BangChamCongThoLamDan BCCTLD\r\n" + "JOIN\r\n"
+					+ "    ThoLamDan TLD ON BCCTLD.maThoLamDan = TLD.maThoLamDan\r\n" + "JOIN\r\n"
+					+ "    BangPhanCong BPC ON BCCTLD.maThoLamDan = BPC.maThoLamDan AND BCCTLD.maCongDoan = BPC.maCongDoan\r\n"
+					+ "JOIN\r\n" + "    CongDoan CD ON BPC.maCongDoan = CD.maCongDoan\r\n" + "WHERE\r\n"
+					+ "    TLD.maThoLamDan ='" + maThoLamDan + "'\r\n" + "    AND MONTH(BCCTLD.ngayChamCong) = '"
+					+ thang + "'\r\n" + "    AND YEAR(BCCTLD.ngayChamCong) = '" + nam + "'\r\n" + "GROUP BY\r\n"
+					+ "TLD.maThoLamDan,\r\n" + "    CD.maSanPham,\r\n" + "	CD.maCongDoan\r\n" + "";
+
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				CongDoan congDoan = new CongDoan();
+				DAO_CongDoan dao_congDoan = new DAO_CongDoan();
+				congDoan = dao_congDoan.getCongDoanTheoMaCongDoan(rs.getString(3));
+				ds.add(congDoan);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ds;
+	}
+
 }

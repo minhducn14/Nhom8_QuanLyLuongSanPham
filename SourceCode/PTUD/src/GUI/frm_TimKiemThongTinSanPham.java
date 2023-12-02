@@ -54,11 +54,11 @@ public class frm_TimKiemThongTinSanPham extends JPanel implements ActionListener
 		setLayout(null);
 		setBackground(new Color(221, 242, 251));
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(400, 5, 680, 70);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 40));
-		add(lblNewLabel);
-		lblNewLabel.setText("TÌM KIẾM THÔNG TIN SẢN PHẨM");
+		JLabel lblTimKiemSP = new JLabel("New label");
+		lblTimKiemSP.setBounds(400, 5, 680, 70);
+		lblTimKiemSP.setFont(new Font("Tahoma", Font.BOLD, 40));
+		add(lblTimKiemSP);
+		lblTimKiemSP.setText("TÌM KIẾM THÔNG TIN SẢN PHẨM");
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBackground(Color.BLACK);
@@ -66,11 +66,11 @@ public class frm_TimKiemThongTinSanPham extends JPanel implements ActionListener
 		separator_1.setBounds(15, 430, 1420, 3);
 		add(separator_1);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(15, 490, 1420, 200);
-		add(panel_2);
-		panel_2.setLayout(null);
+		JPanel pnlKQTK = new JPanel();
+		pnlKQTK.setBackground(Color.WHITE);
+		pnlKQTK.setBounds(15, 490, 1420, 200);
+		add(pnlKQTK);
+		pnlKQTK.setLayout(null);
 
 		String[] col = { "M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m",
 				"T\u00ECnh tr\u1EA1ng", "Gi\u00E1 B\u00E1n" };
@@ -88,7 +88,7 @@ public class frm_TimKiemThongTinSanPham extends JPanel implements ActionListener
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(20, 10, 1380, 180);
-		panel_2.add(scrollPane_1);
+		pnlKQTK.add(scrollPane_1);
 		int rowHeight1 = 30;
 		int rowMargin1 = 10;
 		tblKQTK = new JTable(modelKQTK);
@@ -120,36 +120,36 @@ public class frm_TimKiemThongTinSanPham extends JPanel implements ActionListener
 		add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel_6_1 = new JLabel("Tìm kiếm sản phẩm theo :");
-		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_6_1.setBounds(35, 15, 304, 25);
-		panel.add(lblNewLabel_6_1);
+		JLabel lblThongTInTImKiem = new JLabel("Tìm kiếm sản phẩm theo :");
+		lblThongTInTImKiem.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblThongTInTImKiem.setBounds(35, 15, 304, 25);
+		panel.add(lblThongTInTImKiem);
 
-		JLabel lblNewLabel_1 = new JLabel("Tên sản phẩm");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1.setBounds(100, 65, 170, 25);
-		panel.add(lblNewLabel_1);
+		JLabel lblTenSP = new JLabel("Tên sản phẩm");
+		lblTenSP.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenSP.setBounds(100, 65, 170, 25);
+		panel.add(lblTenSP);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Loại sản phẩm");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1.setBounds(100, 165, 130, 25);
-		panel.add(lblNewLabel_1_1);
+		JLabel lblLoaiSP = new JLabel("Loại sản phẩm");
+		lblLoaiSP.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblLoaiSP.setBounds(100, 165, 130, 25);
+		panel.add(lblLoaiSP);
 
 		txtTenSP = new JTextField();
-		lblNewLabel_1.setLabelFor(txtTenSP);
+		lblTenSP.setLabelFor(txtTenSP);
 		txtTenSP.setColumns(10);
 		txtTenSP.setBounds(240, 65, 250, 25);
 		panel.add(txtTenSP);
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("Giá bán");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1.setBounds(900, 165, 170, 25);
-		panel.add(lblNewLabel_1_1_1);
+		JLabel lblGiaBan = new JLabel("Giá bán");
+		lblGiaBan.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblGiaBan.setBounds(900, 165, 170, 25);
+		panel.add(lblGiaBan);
 
-		JLabel lblNewLabel_1_1_1_1 = new JLabel("Trạng thái\r\n");
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_1_1_1.setBounds(900, 65, 170, 25);
-		panel.add(lblNewLabel_1_1_1_1);
+		JLabel lblTrangThai = new JLabel("Trạng thái\r\n");
+		lblTrangThai.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTrangThai.setBounds(900, 65, 170, 25);
+		panel.add(lblTrangThai);
 
 		btnTimKiem = new JButton("Tìm kiếm");
 

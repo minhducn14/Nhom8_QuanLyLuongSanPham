@@ -7,7 +7,6 @@ import java.awt.Font;
 
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SingleSelectionModel;
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,14 +49,10 @@ public class frm_CongDoan extends JPanel {
 	private JScrollPane scrollPane_1;
 	private JTable tblDSSanPham;
 	private JScrollPane scrollPane;
-	private JButton btnThem;
-	private JButton btnSua;
-	private JButton btnXoaRong;
 	private DefaultTableModel modelDSSanPham;
 	private DAO_Dan dan_DAO = new DAO_Dan();
 	private DefaultTableModel modelDSCongDoan;
 	private DAO_CongDoan congDoan_DAO = new DAO_CongDoan();
-	private int editedRow = -1;
 
 	/**
 	 * Create the panel.
@@ -142,7 +136,7 @@ public class frm_CongDoan extends JPanel {
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_4.setText("Thông tin công đoạn");
 
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(160, 135, 250, 25);
 		panel.add(comboBox);
 
@@ -170,6 +164,10 @@ public class frm_CongDoan extends JPanel {
 		String[] cols = { "M\u00E3 s\u1EA3n ph\u1EA9m", "T\u00EAn s\u1EA3n ph\u1EA9m", "Lo\u1EA1i s\u1EA3n ph\u1EA9m",
 				"Gi\u00E1 b\u00E1n" };
 		modelDSSanPham = new DefaultTableModel(cols, 0) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int cols) {
@@ -224,6 +222,10 @@ public class frm_CongDoan extends JPanel {
 		modelDSCongDoan = new DefaultTableModel(col, 0);
 
 		tblDSCongDoan = new JTable(modelDSCongDoan) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = { false, false, false, false, false, false };
 
 			public boolean isCellEditable(int row, int col) {
@@ -309,25 +311,32 @@ public class frm_CongDoan extends JPanel {
 					if (row >= 0) {
 						boolean kt = true;
 						try {
+							String maSanPham = modelDSSanPham.getValueAt(row, 0).toString();
 							String tenCongDoan = (String) comboBox.getSelectedItem();
 							String giaCongDoanStr = txtGiaCongDoan.getText();
-
 							if (tenCongDoan.equals("") || giaCongDoanStr.equals("")) {
 								kt = false;
 								JOptionPane.showMessageDialog(null,
 										"Tên công đoạn và giá công đoạn không được để trống.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
-							} else if (tenCongDoan.length() < 2) {
+							}
+							if (congDoan_DAO.checkIfExists(tenCongDoan, maSanPham)) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Công đoạn này đã tồn tại cho sản phẩm.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
+							}
+
+							if (tenCongDoan.length() < 2) {
 								kt = false;
 								JOptionPane.showMessageDialog(null, "Tên công đoạn phải có ít nhất 2 kí tự.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
-							} else {
-								float giaCongDoan = Float.parseFloat(giaCongDoanStr);
-								if (giaCongDoan < 0) {
-									kt = false;
-									JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
-											JOptionPane.ERROR_MESSAGE);
-								}
+							}
+
+							float giaCongDoan = Float.parseFloat(giaCongDoanStr);
+							if (giaCongDoan < 0) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
 							}
 						} catch (NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số.", "Lỗi",
@@ -342,14 +351,15 @@ public class frm_CongDoan extends JPanel {
 							congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
 							congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
 							congDoan_DAO.insertCongDoan(congDoan);
-
+							modelDSCongDoan.setRowCount(0);
+							loadDataCD(congDoan_DAO.getAlListCongDoan());
+							modelDSCongDoan.fireTableDataChanged();
 							String maCongDoan = congDoan_DAO.getMaCongDoan(maSanPham);
 							CongDoan newCongDoan = congDoan_DAO.getCongDoanTheoMaCongDoan(maCongDoan);
 							Object[] rowData = new Object[] { maCongDoan, newCongDoan.getTenCongDoan(),
 									newCongDoan.getDan().getMaSanPham(), newCongDoan.getDan().getTenSanPham(),
 									newCongDoan.getDan().getLoaiSanPham(), newCongDoan.getGiaCongDoan() };
 							modelDSCongDoan.addRow(rowData);
-
 							txtMaCongDoan.setText("");
 							txtGiaCongDoan.setText("");
 							comboBox.setSelectedIndex(0);
@@ -371,6 +381,7 @@ public class frm_CongDoan extends JPanel {
 					if (rowCD >= 0) {
 						boolean kt = true;
 						try {
+							String maSanPham = modelDSCongDoan.getValueAt(rowCD, 3).toString();
 							String tenCongDoan = (String) comboBox.getSelectedItem();
 							String giaCongDoanStr = txtGiaCongDoan.getText();
 
@@ -379,17 +390,28 @@ public class frm_CongDoan extends JPanel {
 								JOptionPane.showMessageDialog(null,
 										"Tên công đoạn và giá công đoạn không được để trống.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
-							} else if (tenCongDoan.length() < 2) {
+							}
+							if (congDoan_DAO.checkIfExists(tenCongDoan, maSanPham)) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Công đoạn này đã tồn tại cho sản phẩm.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
+							}
+
+							if (tenCongDoan.length() < 2) {
 								kt = false;
 								JOptionPane.showMessageDialog(null, "Tên công đoạn phải có ít nhất 2 kí tự.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
-							} else {
-								float giaCongDoan = Float.parseFloat(giaCongDoanStr);
-								if (giaCongDoan < 0) {
-									kt = false;
-									JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
-											JOptionPane.ERROR_MESSAGE);
-								}
+							}
+							if (congDoan_DAO.checkIfExists(tenCongDoan, maSanPham)) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Công đoạn này đã tồn tại cho sản phẩm.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
+							}
+							float giaCongDoan = Float.parseFloat(giaCongDoanStr);
+							if (giaCongDoan < 0) {
+								kt = false;
+								JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số không âm.", "Lỗi",
+										JOptionPane.ERROR_MESSAGE);
 							}
 						} catch (NumberFormatException ex) {
 							JOptionPane.showMessageDialog(null, "Giá công đoạn phải là số.", "Lỗi",
@@ -406,6 +428,7 @@ public class frm_CongDoan extends JPanel {
 							congDoan.setMaCongDoan(maCongDoan);
 							congDoan_DAO.updateCongDoan(congDoan);
 							modelDSCongDoan.setRowCount(0);
+							loadDataCD(congDoan_DAO.getAlListCongDoan());
 							modelDSCongDoan.fireTableDataChanged();
 							for (Entity.CongDoan congDoan1 : congDoan_DAO.getAlListCongDoan()) {
 								Object[] objects = { congDoan1.getMaCongDoan(), congDoan1.getTenCongDoan(),
@@ -431,6 +454,7 @@ public class frm_CongDoan extends JPanel {
 			}
 		});
 		btnSua.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (btnSua.getText().equals("Sửa thông tin")) {
@@ -440,7 +464,6 @@ public class frm_CongDoan extends JPanel {
 						btnSua.setText("Huỷ");
 						txtGiaCongDoan.setEnabled(true);
 						comboBox.setEnabled(true);
-						editedRow = selectedRow;
 					} else {
 						JOptionPane.showMessageDialog(null, "Vui lòng chọn công đoạn cần sửa từ bảng.", "Lỗi",
 								JOptionPane.ERROR_MESSAGE);
@@ -457,6 +480,7 @@ public class frm_CongDoan extends JPanel {
 					tblDSSanPham.clearSelection();
 				}
 			}
+
 		});
 
 	};

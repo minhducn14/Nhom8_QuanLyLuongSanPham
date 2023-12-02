@@ -265,24 +265,20 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 	}
 
 	public static void addSalaryTableTitle(Sheet sheet, String title, int tableWidth) {
-		// Create a Font for styling the title
 		org.apache.poi.ss.usermodel.Font titleFont = sheet.getWorkbook().createFont();
 		titleFont.setBoldweight(org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD);
 		titleFont.setFontHeightInPoints((short) 16);
 
-		// Create a CellStyle with the font
 		CellStyle titleCellStyle = sheet.getWorkbook().createCellStyle();
 		titleCellStyle.setFont(titleFont);
 		titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
 
-		// Create the title row
-		Row titleRow = sheet.createRow(0); // Title at the first row (index 0)
+		Row titleRow = sheet.createRow(0); 
 
 		Cell titleCell = titleRow.createCell(0);
 		titleCell.setCellValue(title);
 		titleCell.setCellStyle(titleCellStyle);
 
-		// Merge cells for the title
 		sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, tableWidth - 1));
 	}
 

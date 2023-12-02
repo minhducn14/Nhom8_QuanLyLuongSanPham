@@ -91,7 +91,7 @@ public class DAO_LuongNhanVien {
 					+ "FROM BangChamCongNhanVien\r\n" + "WHERE maNhanVien = '" + maNhanVien + "'\r\n"
 					+ "  AND MONTH(ngayChamCong) = " + thang + "\r\n" + "  AND YEAR(ngayChamCong) = " + nam + "\r\n"
 					+ "  AND DATEPART(weekday, ngayChamCong) <> 1 \r\n"
-					+ "  AND trangThaiDiLam = N'Làm nguyên ca';\r\n";
+					+ "  AND trangThaiDiLam = N'Làm nguyên ngày công';\r\n";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while (rs.next()) {
@@ -110,7 +110,8 @@ public class DAO_LuongNhanVien {
 			String sql = "SET DATEFIRST 7;\r\n" + "SELECT COUNT(DISTINCT ngayChamCong) AS SoNgayLamNuaCa\r\n"
 					+ "FROM BangChamCongNhanVien\r\n" + "WHERE maNhanVien = '" + maNhanVien + "'\r\n"
 					+ "  AND MONTH(ngayChamCong) = " + thang + "\r\n" + "  AND YEAR(ngayChamCong) = " + nam + "\r\n"
-					+ "  AND DATEPART(weekday, ngayChamCong) <> 1 \r\n" + "  AND trangThaiDiLam = N'Làm nửa ca';\r\n";
+					+ "  AND DATEPART(weekday, ngayChamCong) <> 1 \r\n"
+					+ "  AND trangThaiDiLam = N'Làm nửa ngày công';\r\n";
 
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -150,7 +151,8 @@ public class DAO_LuongNhanVien {
 			String sql = "SET DATEFIRST 7;\r\n" + "SELECT COUNT(DISTINCT ngayChamCong) AS SoNgayLamNguyenCa\r\n"
 					+ "FROM BangChamCongNhanVien\r\n" + "WHERE maNhanVien = '" + maNhanVien + "'\r\n"
 					+ "  AND MONTH(ngayChamCong) = " + thang + "\r\n" + "  AND YEAR(ngayChamCong) = " + nam + "\r\n"
-					+ "  AND DATEPART(weekday, ngayChamCong) = 1 \r\n" + "  AND trangThaiDiLam = N'Làm nguyên ca';\r\n";
+					+ "  AND DATEPART(weekday, ngayChamCong) = 1 \r\n"
+					+ "  AND trangThaiDiLam = N'Làm nguyên ngày công';\r\n";
 
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -170,7 +172,8 @@ public class DAO_LuongNhanVien {
 			String sql = "SET DATEFIRST 7;\r\n" + "SELECT COUNT(DISTINCT ngayChamCong) AS SoNgayLamNuaCa\r\n"
 					+ "FROM BangChamCongNhanVien\r\n" + "WHERE maNhanVien = '" + maNhanVien + "'\r\n"
 					+ "  AND MONTH(ngayChamCong) = " + thang + "\r\n" + "  AND YEAR(ngayChamCong) = " + nam + "\r\n"
-					+ "  AND DATEPART(weekday, ngayChamCong) = 1 \r\n" + "  AND trangThaiDiLam = N'Làm nửa ca';\r\n";
+					+ "  AND DATEPART(weekday, ngayChamCong) = 1 \r\n"
+					+ "  AND trangThaiDiLam = N'Làm nửa ngày công';\r\n";
 
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
@@ -256,7 +259,6 @@ public class DAO_LuongNhanVien {
 			statement.execute();
 
 			maBangLuongResult = statement.getString(1);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -333,14 +335,15 @@ public class DAO_LuongNhanVien {
 		return n;
 	}
 
-	public ArrayList<BangLuongNhanVien> getBangLuongTheoTen(String tenNhanVien) {
+	public ArrayList<BangLuongNhanVien> getBangLuongTheoTen(String tenNhanVien, int thang, int nam) {
 		ArrayList<BangLuongNhanVien> list = new ArrayList<>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BangLuongNhanVien.*, CongNhanVien.hoTen  FROM BangLuongNhanVien \r\n"
 					+ "join NhanVien on BangLuongNhanVien.maNhanVien= NhanVien.maNhanVien\r\n"
 					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where CongNhanVien.hoTen LIKE N'%"
-					+ tenNhanVien + "%'";
+					+ tenNhanVien + "%'" + "  AND thang = " + thang + "\r\n"
+					+ "  AND nam = " + nam + "\r\n";
 			Statement statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
@@ -365,14 +368,15 @@ public class DAO_LuongNhanVien {
 		return list;
 	}
 
-	public ArrayList<BangLuongNhanVien> getBangLuongTheoPhongBan(String maPhongBan) {
+	public ArrayList<BangLuongNhanVien> getBangLuongTheoPhongBan(String maPhongBan, int thang, int nam) {
 		ArrayList<BangLuongNhanVien> list = new ArrayList<>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BangLuongNhanVien.*, CongNhanVien.hoTen  FROM BangLuongNhanVien \r\n"
 					+ "join NhanVien on BangLuongNhanVien.maNhanVien= NhanVien.maNhanVien\r\n"
 					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= NhanVien.maCongNhanVien where maPhongBan = '"
-					+ maPhongBan + "'";
+					+ maPhongBan + "'" + "  AND thang = " + thang + "\r\n" + "  AND nam = "
+					+ nam + "\r\n";
 			Statement statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {

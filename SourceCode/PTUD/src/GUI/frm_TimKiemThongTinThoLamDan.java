@@ -3,13 +3,11 @@ package GUI;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,23 +17,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+import javax.swing.RowFilter;
 
 import Connection.MyConnection;
+import DAO.DAO_CongNhanVien;
 import DAO.DAO_ThoLamDan;
+import Entity.CongNhanVien;
 import Entity.ThoLamDan;
 
-import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
-public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener {
-
-	/**
-	 * Create the panel.
-	 */
+public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField txtHoTen;
@@ -44,11 +43,17 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 	private JTextField textField_2;
 	private JTextField txtSoDienThoai;
 	private JComboBox<String> comboBoxTrangThai;
+	private ButtonGroup group = new ButtonGroup(), groupSex = new ButtonGroup();
+	private JRadioButton rdbtnNu, rdbtnNam;
+	private DAO_CongNhanVien dao_cnv = new DAO_CongNhanVien();
+	private DAO_ThoLamDan dao_tld = new DAO_ThoLamDan();
+	private JButton btnTmKim, btnXoRng;
 	private DefaultTableModel modell;
-	private JRadioButton rdbtnNu, rdbtnHoTen, rdbtnSoDienThoai, rdbtnDiaChi, rdbtnTrangThai, rdbtnGioiTinh, rdbtnNam;
-	private ButtonGroup group = new ButtonGroup(), groupGT = new ButtonGroup();
-	private DAO_ThoLamDan dao_ThoLamDan = new DAO_ThoLamDan();
 	private SimpleDateFormat dateFormat;
+	private JTable table_1;
+	private List<CongNhanVien> listcnv;
+	private List<ThoLamDan> listtld;
+	private JTextField txtmatld;
 
 	public frm_TimKiemThongTinThoLamDan() {
 		MyConnection.getInstance().MyConnection();
@@ -80,7 +85,7 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		scrollPane_1.setBounds(20, 10, 1380, 180);
 		panel_2.add(scrollPane_1);
 
-		JTable table_1 = new JTable();
+		table_1 = new JTable();
 		scrollPane_1.setViewportView(table_1);
 		JTableHeader tb1 = table_1.getTableHeader();
 		tb1.setBackground(new Color(221, 242, 251));
@@ -89,7 +94,8 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		int rowMargin1 = 10;
 		table_1.setRowHeight(rowHeight1);
 		table_1.setIntercellSpacing(new Dimension(0, rowMargin1));
-		String[] col = { "Mã thợ làm đàn", "Họ tên thợ làm đàn", "Giới tính", "Ngày sinh", "CMND", "Số điện thoại" };
+		String[] col = { "Mã Thợ Làm Đàn ", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT", "Địa Chỉ",
+				"Trạng Thái" };
 		modell = new DefaultTableModel(col, 0);
 		table_1.setModel(modell);
 
@@ -105,135 +111,19 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel_6_1 = new JLabel("Tìm kiếm thợ làm đàn theo :");
+		JLabel lblNewLabel_6_1 = new JLabel("Tìm Kiếm Thợ Làm Đàn Theo :");
 		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel_6_1.setBounds(35, 15, 304, 25);
 		panel.add(lblNewLabel_6_1);
 
-		JButton btnTmKim = new JButton("Tìm kiếm");
-		btnTmKim.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ButtonModel selectedRadioButton = group.getSelection();
-				if (selectedRadioButton != null) {
-					if (rdbtnHoTen.isSelected()) {
-						modell.setRowCount(0);
-						String ten = txtHoTen.getText().trim();
-						if (ten.equals("")) {
-							JOptionPane.showMessageDialog(null, "Tên không được để trống");
-						} else {
-							ArrayList<ThoLamDan> listTLD = dao_ThoLamDan.getThoLamDanTheoTen(ten);
-							for (ThoLamDan thoLamDan : listTLD) {
-								String ngaySinh = dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh());
-								String gioiTinh = thoLamDan.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
-								Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-										gioiTinh, ngaySinh, thoLamDan.getCongNhanVien().getMaCanCuocCongDan(),
-										thoLamDan.getCongNhanVien().getSoDienThoai() };
-								modell.addRow(objects);
-							}
-							modell.fireTableDataChanged();
-						}
-					} else if (rdbtnDiaChi.isSelected()) {
-						String diaChi = txtDiaChi.getText();
-						modell.setRowCount(0);
-						if (diaChi.equals("")) {
-							JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống");
-						} else {
-							ArrayList<ThoLamDan> listTLD = dao_ThoLamDan.getThoLamDanTheoDiaChi(diaChi);
-							for (ThoLamDan thoLamDan : listTLD) {
-								String ngaySinh = dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh());
-								String gioiTinh = thoLamDan.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
-								Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-										gioiTinh, ngaySinh, thoLamDan.getCongNhanVien().getMaCanCuocCongDan(),
-										thoLamDan.getCongNhanVien().getSoDienThoai() };
-								modell.addRow(objects);
-							}
-							modell.fireTableDataChanged();
-						}
-					} else if (rdbtnGioiTinh.isSelected()) {
-						int gt;
-						if (rdbtnNam.isSelected()) {
-							gt = 1;
-						} else {
-							gt = 0;
-						}
-						modell.setRowCount(0);
-						ArrayList<ThoLamDan> listTLD = dao_ThoLamDan.getThoLamDanTheoGioiTinh(gt);
-						for (ThoLamDan thoLamDan : listTLD) {
-							String ngaySinh = dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh());
-							String gioiTinh = thoLamDan.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
-							Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-									gioiTinh, ngaySinh, thoLamDan.getCongNhanVien().getMaCanCuocCongDan(),
-									thoLamDan.getCongNhanVien().getSoDienThoai() };
-							modell.addRow(objects);
-						}
-						modell.fireTableDataChanged();
-					} else if (rdbtnSoDienThoai.isSelected()) {
-						String sdt = txtSoDienThoai.getText().trim();
-
-						if (!(sdt.length() > 0 || sdt.matches("^0[0-9]{0,9}$"))) {
-							JOptionPane.showMessageDialog(null, "Error : Số điện thoại bắt đầu từ số 0 và là số");
-						} else {
-							modell.setRowCount(0);
-							ArrayList<ThoLamDan> listTLD = dao_ThoLamDan.getAllThoLamDanTheoSoDienThaoi(sdt);
-							for (ThoLamDan thoLamDan : listTLD) {
-								String ngaySinh = dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh());
-								String gioiTinh = thoLamDan.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
-								Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-										gioiTinh, ngaySinh, thoLamDan.getCongNhanVien().getMaCanCuocCongDan(),
-										thoLamDan.getCongNhanVien().getSoDienThoai() };
-								modell.addRow(objects);
-							}
-							modell.fireTableDataChanged();
-						}
-					} else if (rdbtnTrangThai.isSelected()) {
-						String trangThai = (String) comboBoxTrangThai.getSelectedItem();
-						int tt;
-						if (trangThai.equals("Đang Làm")) {
-							tt = 1;
-						} else {
-							tt = 0;
-						}
-						modell.setRowCount(0);
-						ArrayList<ThoLamDan> listTLD = dao_ThoLamDan.getThoLamDanTheoTrangThai(tt);
-						for (ThoLamDan thoLamDan : listTLD) {
-							String ngaySinh = dateFormat.format(thoLamDan.getCongNhanVien().getNgaySinh());
-							String gioiTinh = thoLamDan.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
-							Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-									gioiTinh, ngaySinh, thoLamDan.getCongNhanVien().getMaCanCuocCongDan(),
-									thoLamDan.getCongNhanVien().getSoDienThoai() };
-							modell.addRow(objects);
-						}
-						modell.fireTableDataChanged();
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Chưa tiêu chí nào được chọn để tìm kiếm");
-				}
-			}
-		});
+		btnTmKim = new JButton("Tìm kiếm");
 		btnTmKim.setForeground(Color.WHITE);
 		btnTmKim.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnTmKim.setBackground(new Color(2, 104, 156));
 		btnTmKim.setBounds(499, 255, 170, 50);
 		panel.add(btnTmKim);
 
-		JButton btnXoRng = new JButton("Xoá rỗng");
-		btnXoRng.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				group.clearSelection();
-				txtDiaChi.setText("");
-				txtHoTen.setText("");
-				txtSoDienThoai.setText("");
-				comboBoxTrangThai.setSelectedIndex(0);
-				rdbtnNam.setSelected(true);
-				txtDiaChi.setEnabled(false);
-				txtHoTen.setEnabled(false);
-				txtSoDienThoai.setEnabled(false);
-				comboBoxTrangThai.setEnabled(false);
-				rdbtnNam.setEnabled(false);
-				rdbtnNu.setEnabled(false);
-				group.clearSelection();
-			}
-		});
+		btnXoRng = new JButton("Xoá rỗng");
 		btnXoRng.setForeground(Color.WHITE);
 		btnXoRng.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnXoRng.setBackground(new Color(2, 104, 156));
@@ -246,13 +136,7 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
-		rdbtnHoTen = new JRadioButton("");
-		rdbtnHoTen.setBounds(0, 0, 25, 25);
-		rdbtnHoTen.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnHoTen.setBackground(new Color(255, 255, 255));
-		panel_1.add(rdbtnHoTen);
-
-		JLabel lblNewLabel_1 = new JLabel("Họ tên:");
+		JLabel lblNewLabel_1 = new JLabel("Họ tên");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(31, 0, 140, 25);
 		panel_1.add(lblNewLabel_1);
@@ -272,12 +156,6 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		panel_1_1.setBounds(91, 122, 560, 25);
 		panel_1_1.setBounds(50, 134, 519, 25);
 		panel.add(panel_1_1);
-
-		rdbtnDiaChi = new JRadioButton("");
-		rdbtnDiaChi.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnDiaChi.setBackground(Color.WHITE);
-		rdbtnDiaChi.setBounds(0, 0, 25, 25);
-		panel_1_1.add(rdbtnDiaChi);
 		JLabel lblNewLabel_1_1 = new JLabel("Địa chỉ:");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1.setBounds(31, 0, 140, 25);
@@ -299,40 +177,25 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		panel_1_2.setBounds(800, 65, 519, 25);
 		panel.add(panel_1_2);
 
-		rdbtnTrangThai = new JRadioButton("");
-		rdbtnTrangThai.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnTrangThai.setBackground(Color.WHITE);
-		rdbtnTrangThai.setBounds(0, 0, 25, 25);
-		panel_1_2.add(rdbtnTrangThai);
+		txtmatld = new JTextField();
+		txtmatld.setColumns(10);
+		txtmatld.setBounds(201, 0, 318, 25);
+		panel_1_2.add(txtmatld);
 
-		JLabel lblNewLabel_1_22 = new JLabel("Trạng thái:");
-		lblNewLabel_1_22.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_22.setBounds(31, 0, 140, 25);
-		panel_1_2.add(lblNewLabel_1_22);
+		JLabel lblNewLabel_1_3_2 = new JLabel("Mã thợ làm đàn :");
+		lblNewLabel_1_3_2.setBounds(30, 0, 140, 25);
+		panel_1_2.add(lblNewLabel_1_3_2);
+		lblNewLabel_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		textField_2.setBounds(180, 0, 380, 25);
-
-		comboBoxTrangThai = new JComboBox<String>();
-		comboBoxTrangThai.setBounds(201, 0, 318, 25);
-		comboBoxTrangThai.addItem("Đang Làm");
-		comboBoxTrangThai.addItem("Nghỉ Làm");
-		comboBoxTrangThai.setSelectedIndex(0);
-		panel_1_2.add(comboBoxTrangThai);
-
 		JPanel panel_1_3 = new JPanel();
 		panel_1_3.setLayout(null);
 		panel_1_3.setBackground(Color.WHITE);
 		panel_1_3.setBounds(759, 122, 560, 25);
 		panel_1_3.setBounds(800, 134, 519, 25);
 		panel.add(panel_1_3);
-
-		rdbtnSoDienThoai = new JRadioButton("");
-		rdbtnSoDienThoai.setHorizontalAlignment(SwingConstants.CENTER);
-		rdbtnSoDienThoai.setBackground(Color.WHITE);
-		rdbtnSoDienThoai.setBounds(0, 0, 25, 25);
-		panel_1_3.add(rdbtnSoDienThoai);
 
 		JLabel lblNewLabel_1_3 = new JLabel("Số điện thoại:");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -346,15 +209,9 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 
 		JPanel panel_1_4 = new JPanel();
 		panel_1_4.setBackground(Color.WHITE);
-		panel_1_4.setBounds(448, 202, 560, 25);
+		panel_1_4.setBounds(50, 202, 519, 25);
 		panel.add(panel_1_4);
 		panel_1_4.setLayout(null);
-
-		rdbtnGioiTinh = new JRadioButton("");
-		rdbtnGioiTinh.setBounds(1, 0, 25, 25);
-		rdbtnGioiTinh.setBackground(new Color(255, 255, 255));
-		rdbtnGioiTinh.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1_4.add(rdbtnGioiTinh);
 
 		JLabel lblNewLabel_4 = new JLabel("Giới tính:");
 		lblNewLabel_4.setBounds(32, 0, 85, 25);
@@ -363,7 +220,7 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 
 		rdbtnNam = new JRadioButton("");
 		rdbtnNam.setBounds(225, 0, 25, 25);
-		rdbtnNam.setSelected(true);
+		rdbtnNam.setSelected(false);
 		rdbtnNam.setBackground(new Color(255, 255, 255));
 		rdbtnNam.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_1_4.add(rdbtnNam);
@@ -390,90 +247,106 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ItemListener
 		rdbtnNu.setHorizontalAlignment(SwingConstants.CENTER);
 		rdbtnNu.setBackground(Color.WHITE);
 		rdbtnNu.setBounds(373, 0, 25, 25);
+		rdbtnNu.setSelected(false);
 		panel_1_4.add(rdbtnNu);
 
-		groupGT.add(rdbtnNam);
-		groupGT.add(rdbtnNu);
+		JPanel panel_1_3_1 = new JPanel();
+		panel_1_3_1.setLayout(null);
+		panel_1_3_1.setBackground(Color.WHITE);
+		panel_1_3_1.setBounds(800, 202, 519, 25);
+		panel.add(panel_1_3_1);
 
-		group.add(rdbtnDiaChi);
-		group.add(rdbtnGioiTinh);
-		group.add(rdbtnHoTen);
-		group.add(rdbtnSoDienThoai);
-		group.add(rdbtnTrangThai);
+		JLabel lblNewLabel_1_3_1 = new JLabel("Trạng thái:");
+		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_3_1.setBounds(31, 0, 140, 25);
+		panel_1_3_1.add(lblNewLabel_1_3_1);
 
-		rdbtnDiaChi.addItemListener(this);
-		rdbtnGioiTinh.addItemListener(this);
-		rdbtnHoTen.addItemListener(this);
-		rdbtnSoDienThoai.addItemListener(this);
-		rdbtnTrangThai.addItemListener(this);
+		comboBoxTrangThai = new JComboBox<String>();
+		comboBoxTrangThai.setBounds(201, 0, 318, 25);
+		comboBoxTrangThai.addItem("Tất cả");
+		comboBoxTrangThai.addItem("Đang Làm");
+		comboBoxTrangThai.addItem("Nghỉ Làm");
 
-		txtDiaChi.setEnabled(false);
-		txtHoTen.setEnabled(false);
-		txtSoDienThoai.setEnabled(false);
-		rdbtnNam.setEnabled(false);
-		rdbtnNu.setEnabled(false);
+		comboBoxTrangThai.setSelectedIndex(0);
+		panel_1_3_1.add(comboBoxTrangThai);
+
+		groupSex.add(rdbtnNu);
+		groupSex.add(rdbtnNam);
+
+		btnTmKim.addActionListener(this);
+		btnXoRng.addActionListener(this);
+
+		MyConnection.getInstance().MyConnection();
+		updateTableDataThoLamDan();
+	}
+
+	public void updateTableDataThoLamDan() {
+
+		listcnv = dao_cnv.docTuBang();
+		listtld = dao_tld.docTuBang();
+		modell.setRowCount(0);
+
+		for (int i = 0; i < listtld.size(); i++) {
+			ThoLamDan tld = listtld.get(i);
+			if (i < listcnv.size()) {
+				CongNhanVien cnv = listcnv.get(i);
+				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
+				String trangThai = cnv.isTrangThai() ? "Đang làm" : "Nghỉ làm";
+				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
+				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh, ngaySinh,
+						cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai(), cnv.getDiaChi(), trangThai };
+				modell.addRow(rowData);
+
+			} else {
+
+				String[] rowData = { tld.getMaThoLamDan(), "", "", "", "", "", "", "" };
+				modell.addRow(rowData);
+			}
+		}
 	}
 
 	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource().equals(rdbtnHoTen)) {
-			txtDiaChi.setText("");
-			txtSoDienThoai.setText("");
-			comboBoxTrangThai.setSelectedIndex(0);
-			rdbtnNam.setSelected(true);
-			txtDiaChi.setEnabled(false);
-			txtHoTen.setEnabled(true);
-			txtSoDienThoai.setEnabled(false);
-			comboBoxTrangThai.setEnabled(false);
-			rdbtnNam.setEnabled(false);
-			rdbtnNu.setEnabled(false);
-		} else if (e.getSource().equals(rdbtnDiaChi)) {
-			txtHoTen.setText("");
-			txtSoDienThoai.setText("");
-			comboBoxTrangThai.setSelectedIndex(0);
-			rdbtnNam.setSelected(true);
-			txtDiaChi.setEnabled(true);
-			txtHoTen.setEnabled(false);
-			txtSoDienThoai.setEnabled(false);
-			comboBoxTrangThai.setEnabled(false);
-			rdbtnNam.setEnabled(false);
-			rdbtnNu.setEnabled(false);
-		} else if (e.getSource().equals(rdbtnGioiTinh)) {
-			txtDiaChi.setText("");
-			txtHoTen.setText("");
-			txtSoDienThoai.setText("");
-			comboBoxTrangThai.setSelectedIndex(0);
-			rdbtnNam.setSelected(true);
-			txtDiaChi.setEnabled(false);
-			txtHoTen.setEnabled(false);
-			txtSoDienThoai.setEnabled(false);
-			comboBoxTrangThai.setEnabled(false);
-			rdbtnNam.setEnabled(true);
-			rdbtnNu.setEnabled(true);
-		} else if (e.getSource().equals(rdbtnSoDienThoai)) {
-			txtDiaChi.setText("");
-			txtHoTen.setText("");
-			comboBoxTrangThai.setSelectedIndex(0);
-			rdbtnNam.setSelected(true);
-			txtDiaChi.setEnabled(false);
-			txtHoTen.setEnabled(false);
-			txtSoDienThoai.setEnabled(true);
-			comboBoxTrangThai.setEnabled(false);
-			rdbtnNam.setEnabled(false);
-			rdbtnNu.setEnabled(false);
-		} else if (e.getSource().equals(rdbtnTrangThai)) {
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		if (o.equals(btnTmKim)) {
+			String maThoLamDan = txtmatld.getText();
+			String hoten = txtHoTen.getText();
+
+			String tinhTrang = comboBoxTrangThai.getSelectedItem().toString();
+			tinhTrang = tinhTrang.equalsIgnoreCase("Tất cả") ? "" : tinhTrang;
+
+			String diaChi = txtDiaChi.getText();
+			String sdt = txtSoDienThoai.getText();
+			String gioiTinh = String.valueOf(rdbtnNam.isSelected() ? "Nam" : "Nữ");
+
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(modell);
+			table_1.setRowSorter(sorter);
+			List<RowFilter<Object, Object>> filters = new ArrayList<>();
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(hoten), 1));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(diaChi), 6));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 5));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tinhTrang), 7));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(gioiTinh), 2));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(maThoLamDan), 0));
+			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
+			sorter.setRowFilter(af);
+
+			if (table_1.getRowCount() > 0) {
+
+				JOptionPane.showMessageDialog(null, "Tìm kiếm thành công");
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả tìm kiếm");
+			}
+		} else if (o.equals(btnXoRng)) {
+
+			group.clearSelection();
 			txtDiaChi.setText("");
 			txtHoTen.setText("");
 			txtSoDienThoai.setText("");
+			txtmatld.setText("");
 			comboBoxTrangThai.setSelectedIndex(0);
-			rdbtnNam.setSelected(true);
-			txtDiaChi.setEnabled(false);
-			txtHoTen.setEnabled(false);
-			txtSoDienThoai.setEnabled(false);
-			comboBoxTrangThai.setEnabled(true);
-			rdbtnNam.setEnabled(false);
-			rdbtnNu.setEnabled(false);
+			group.clearSelection();
 		}
 	}
 }

@@ -26,9 +26,12 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.toedter.calendar.JYearChooser;
 
@@ -39,6 +42,7 @@ import DAO.DAO_PhongBan;
 import Entity.BangLuongNhanVien;
 import Entity.NhanVien;
 import Entity.PhongBan;
+
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
@@ -59,8 +63,8 @@ public class frm_LuongNhanVien extends JPanel {
 	private DefaultTableModel modelDanhSachLuong;
 	private DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
 	private DAO_LuongNhanVien dao_LuongNhanVien = new DAO_LuongNhanVien();
-	private JYearChooser yearChooser;
-	private JComboBox<Object> cmbThang;
+	private static JYearChooser yearChooser;
+	private static JComboBox<Object> cmbThang;
 	private DAO_PhongBan dao_PhongBan = new DAO_PhongBan();
 
 	/**
@@ -201,7 +205,7 @@ public class frm_LuongNhanVien extends JPanel {
 		for (PhongBan phongBan : listPhongBan) {
 			comboBoxPhongBan.addItem(phongBan.getTenPhongBan());
 		}
-		comboBoxPhongBan.setSelectedIndex(-1);
+		comboBoxPhongBan.setSelectedIndex(0);
 		comboBoxPhongBan.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -258,13 +262,15 @@ public class frm_LuongNhanVien extends JPanel {
 		lblNam.setBounds(190, 20, 80, 30);
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
-		JButton btnXemLuong = new JButton("");
+		JButton btnXemLuong = new JButton("Tính lương");
 		btnXemLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_ThongTinLuong.setEnabled(true);
 				for (Component component : panel_ThongTinLuong.getComponents()) {
 					component.setEnabled(true);
 				}
+				comboBoxPhongBan.setSelectedIndex(0);
+				txtTen.setText("");
 				modelDanhSachLuong.setRowCount(0);
 				int nam = yearChooser.getYear();
 				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
@@ -317,11 +323,11 @@ public class frm_LuongNhanVien extends JPanel {
 
 			}
 		});
-		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		btnXemLuong.setIcon(null);
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 61, 30);
+		btnXemLuong.setBounds(340, 20, 130, 30);
 
 		panel_1.add(btnXemLuong);
 		panel_ThongTinLuong.setEnabled(false);
@@ -381,6 +387,7 @@ public class frm_LuongNhanVien extends JPanel {
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(), bl.getNhanVien()
 					.getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong()));
+
 			Object[] objects = { bl.getNhanVien().getMaNhanVien(), bl.getNhanVien().getCongNhanVien().getHoTen(),
 					decimalFormat.format(bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(),
 							nhanVien.tinhHeSoLuong())),
@@ -399,7 +406,9 @@ public class frm_LuongNhanVien extends JPanel {
 				JOptionPane.showMessageDialog(null, "Không có tên nhân viên tìm kiếm");
 			} else {
 				modelDanhSachLuong.setRowCount(0);
-				ArrayList<BangLuongNhanVien> listBL = dao_LuongNhanVien.getBangLuongTheoTen(tenNhanVien);
+				int nam = yearChooser.getYear();
+				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				ArrayList<BangLuongNhanVien> listBL = dao_LuongNhanVien.getBangLuongTheoTen(tenNhanVien, thang, nam);
 				for (BangLuongNhanVien bangLuongNhanVien : listBL) {
 					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 					double luongThucTe = bangLuongNhanVien.tinhLuongThucTe(
@@ -430,7 +439,9 @@ public class frm_LuongNhanVien extends JPanel {
 	private void loadDataLuongTheoPhongBan(String maPhongBan) {
 
 		modelDanhSachLuong.setRowCount(0);
-		ArrayList<BangLuongNhanVien> listBCC = dao_LuongNhanVien.getBangLuongTheoPhongBan(maPhongBan);
+		int nam = yearChooser.getYear();
+		int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+		ArrayList<BangLuongNhanVien> listBCC = dao_LuongNhanVien.getBangLuongTheoPhongBan(maPhongBan, thang, nam);
 		for (BangLuongNhanVien bangLuongNhanVien : listBCC) {
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bangLuongNhanVien.tinhLuongThucTe(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
@@ -451,6 +462,26 @@ public class frm_LuongNhanVien extends JPanel {
 		}
 		modelDanhSachLuong.fireTableDataChanged();
 	}
+//
+//	private void themBangLuong(NhanVien nhanVien) {
+//		LocalDate currentDate = LocalDate.now();
+//		Month currentMonth = currentDate.getMonth();
+//		int thang = currentMonth.getValue();
+//		int nam = currentDate.getYear();
+//		BangLuongNhanVien bl = new BangLuongNhanVien();
+//		bl.setNam(nam);
+//		bl.setThang(thang);
+//		bl.setNhanVien(nhanVien);
+//		String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
+//		bl.setMaBangLuong(maBangLuong);
+//		bl.setSoGioTangCaChuNhat(0);
+//		bl.setSoGioTangCaNgayThuong(0);
+//		bl.setSoNgayLamChuNhat(0);
+//		bl.setSoNgayNghiCoPhep(0);
+//		bl.setSoNgayNghiKhongPhep(0);
+//		bl.setSoNgayThuongDiLam(0);
+//		dao_LuongNhanVien.themBangLuongNhanVien(bl);
+//	}
 
 	public static void exportExcel(JTable table) {
 		JFileChooser fileChooser = new JFileChooser();
@@ -464,6 +495,14 @@ public class frm_LuongNhanVien extends JPanel {
 			try {
 				File fileToSave = fileChooser.getSelectedFile();
 				String filePath = fileToSave.getAbsolutePath();
+				if (fileToSave.exists()) {
+					int response = JOptionPane.showConfirmDialog(null, "Tệp đã tồn tại. Bạn có muốn ghi đè không?",
+							"Xác nhận ghi đè", JOptionPane.YES_NO_OPTION);
+
+					if (response != JOptionPane.YES_OPTION) {
+						return;
+					}
+				}
 				if (!filePath.endsWith(".xls")) {
 					filePath += ".xls";
 				}
@@ -471,25 +510,51 @@ public class frm_LuongNhanVien extends JPanel {
 				Workbook workbook = new HSSFWorkbook();
 				Sheet sheet = workbook.createSheet("DanhSachNhanVien");
 
-				Row headerRow = sheet.createRow(0);
+				org.apache.poi.ss.usermodel.Font titleFont = sheet.getWorkbook().createFont();
+				titleFont.setBoldweight(org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD);
+				titleFont.setFontHeightInPoints((short) 16);
+
+				CellStyle titleCellStyle = sheet.getWorkbook().createCellStyle();
+				titleCellStyle.setFont(titleFont);
+				titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+
+				Row titleRow = sheet.createRow(0);
+
+				Cell titleCell = titleRow.createCell(0);
+				int nam = yearChooser.getYear();
+				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				String txt = "Danh sách lương nhân viên Tháng " + thang + " Năm " + nam;
+
+				titleCell.setCellValue(txt);
+				titleCell.setCellStyle(titleCellStyle);
+				sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, table.getColumnCount() - 1));
+
+				Row headerRow = sheet.createRow(1);
 				for (int col = 0; col < table.getColumnCount(); col++) {
-					headerRow.createCell(col).setCellValue(table.getColumnName(col));
+					Cell cell = headerRow.createCell(col);
+					cell.setCellValue(table.getColumnName(col));
+					sheet.autoSizeColumn(col);
 				}
 
 				for (int row = 0; row < table.getRowCount(); row++) {
-					Row dataRow = sheet.createRow(row + 1);
+					Row dataRow = sheet.createRow(row + 2);
 					for (int col = 0; col < table.getColumnCount(); col++) {
+						Cell cell = dataRow.createCell(col);
 						Object cellValue = table.getValueAt(row, col);
 						if (cellValue != null) {
 							if (cellValue instanceof String) {
-								dataRow.createCell(col).setCellValue((String) cellValue);
+								cell.setCellValue((String) cellValue);
 							} else if (cellValue instanceof Number) {
-								dataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+								cell.setCellValue(((Number) cellValue).doubleValue());
 							} else {
-								dataRow.createCell(col).setCellValue(cellValue.toString());
+								cell.setCellValue(cellValue.toString());
 							}
 						}
 					}
+				}
+
+				for (int col = 0; col < table.getColumnCount(); col++) {
+					sheet.autoSizeColumn(col);
 				}
 
 				try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
@@ -504,4 +569,5 @@ public class frm_LuongNhanVien extends JPanel {
 			}
 		}
 	}
+
 }

@@ -195,14 +195,15 @@ public class DAO_LuongThoLamDan {
 		return n;
 	}
 
-	public ArrayList<BangLuongThoLamDan> getBangLuongTheoTen(String tenThoLamDan) {
+	public ArrayList<BangLuongThoLamDan> getBangLuongTheoTen(String tenThoLamDan, int thang, int nam) {
 		ArrayList<BangLuongThoLamDan> list = new ArrayList<>();
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
 			String sql = "SELECT BangLuongThoLamDan.*, CongNhanVien.hoTen  FROM BangLuongThoLamDan \r\n"
 					+ "join ThoLamDan on BangLuongThoLamDan.maThoLamDan= ThoLamDan.maThoLamDan\r\n"
 					+ "join CongNhanVien on CongNhanVien.maCongNhanVien= ThoLamDan.maCongNhanVien where CongNhanVien.hoTen LIKE N'%"
-					+ tenThoLamDan + "%'";
+					+ tenThoLamDan + "%'" + "  AND thang = " + thang + "\r\n" + "  AND nam = " + nam + "\r\n";
+			;
 			Statement statement = con.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {

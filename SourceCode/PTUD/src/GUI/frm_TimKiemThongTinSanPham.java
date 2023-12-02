@@ -5,49 +5,44 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import javax.swing.ButtonGroup;
-//import javax.naming.directory.SearchResult;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableRowSorter;
 
 import Connection.MyConnection;
 import DAO.DAO_Dan;
 import Entity.Dan;
 
-import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-public class frm_TimKiemThongTinSanPham extends JPanel {
+public class frm_TimKiemThongTinSanPham extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtTenSP;
 	private JComboBox<String> cmbLoaiSP;
 	private JComboBox<String> cmbTrangThai;
 	private JComboBox<String> cmbGiaBan;
+	private JButton btnTimKiem, btnXoaRong;
 	private DAO_Dan dan_DAO = new DAO_Dan();
 	private DefaultTableModel modelKQTK;
 	private JTable tblKQTK;
-	private ButtonGroup group = new ButtonGroup();
-	private JRadioButton rdbtnTenSanPham;
-	private JRadioButton rdbtnTrangThai;
-	private JRadioButton rdbtnLoaiSanPham;
-	private JRadioButton rdbtnGiaBan;
 	private List<Dan> danList = new ArrayList<>();
 
 	/**
@@ -141,13 +136,6 @@ public class frm_TimKiemThongTinSanPham extends JPanel {
 		panel.add(lblNewLabel_1_1);
 
 		txtTenSP = new JTextField();
-		txtTenSP.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtTenSP.setEnabled(true);
-			}
-		});
-		txtTenSP.setEnabled(false);
 		lblNewLabel_1.setLabelFor(txtTenSP);
 		txtTenSP.setColumns(10);
 		txtTenSP.setBounds(240, 65, 250, 25);
@@ -163,7 +151,7 @@ public class frm_TimKiemThongTinSanPham extends JPanel {
 		lblNewLabel_1_1_1_1.setBounds(900, 65, 170, 25);
 		panel.add(lblNewLabel_1_1_1_1);
 
-		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem = new JButton("Tìm kiếm");
 
 		btnTimKiem.setForeground(Color.WHITE);
 		btnTimKiem.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -171,7 +159,7 @@ public class frm_TimKiemThongTinSanPham extends JPanel {
 		btnTimKiem.setBounds(500, 225, 170, 50);
 		panel.add(btnTimKiem);
 
-		JButton btnXoaRong = new JButton("Xoá rỗng");
+		btnXoaRong = new JButton("Xoá rỗng");
 		btnXoaRong.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -189,165 +177,101 @@ public class frm_TimKiemThongTinSanPham extends JPanel {
 		btnXoaRong.setBounds(800, 225, 170, 50);
 		panel.add(btnXoaRong);
 
-		rdbtnTenSanPham = new JRadioButton("");
-		rdbtnTenSanPham.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					txtTenSP.setEnabled(true);
-					btnXoaRong.setText("Xoá rỗng");
-				} else {
-					txtTenSP.setEnabled(false);
-				}
-
-			}
-		});
-		rdbtnTenSanPham.setBackground(Color.WHITE);
-		rdbtnTenSanPham.setBounds(60, 65, 27, 21);
-		panel.add(rdbtnTenSanPham);
-
-		String[] loaiSP = { "Classic", "Acoustic", "Phím lõm", "Cao cấp" };
+		String[] loaiSP = { "Tất cả", "CLASSIC", "ACOUSTIC" };
 		cmbLoaiSP = new JComboBox<>(loaiSP);
 		cmbLoaiSP.setSelectedIndex(0);
-		cmbLoaiSP.setEnabled(false);
 		cmbLoaiSP.setBackground(Color.WHITE);
 		cmbLoaiSP.setBounds(240, 165, 250, 25);
 		panel.add(cmbLoaiSP);
 
-		rdbtnLoaiSanPham = new JRadioButton("");
-		rdbtnLoaiSanPham.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					cmbLoaiSP.setEnabled(true);
-					btnXoaRong.setText("Xoá rỗng");
-				} else {
-					cmbLoaiSP.setEnabled(false);
-				}
-
-			}
-		});
-		rdbtnLoaiSanPham.setBackground(Color.WHITE);
-		rdbtnLoaiSanPham.setBounds(60, 165, 27, 21);
-		panel.add(rdbtnLoaiSanPham);
-
-		String[] giaBan = { "500.000 - 1.000.000", "1.000.000 - 2.000.000", "2.000.000 - 3.000.000",
+		String[] giaBan = { "Tất cả", "500.000 - 1.000.000", "1.000.000 - 2.000.000", "2.000.000 - 3.000.000",
 				"3.000.000 - 4.000.000", "4.000.000 - 5.000.000", "5.000.000 - 6.000.000" };
 		cmbGiaBan = new JComboBox<>(giaBan);
 		cmbGiaBan.setSelectedIndex(0);
-		cmbGiaBan.setEnabled(false);
 		cmbGiaBan.setBackground(Color.WHITE);
 		cmbGiaBan.setBounds(1060, 169, 250, 25);
 		panel.add(cmbGiaBan);
 
-		rdbtnGiaBan = new JRadioButton("");
-		rdbtnGiaBan.setBackground(Color.WHITE);
-		rdbtnGiaBan.setBounds(868, 165, 27, 21);
-		panel.add(rdbtnGiaBan);
-
-		rdbtnGiaBan.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					cmbGiaBan.setEnabled(true);
-					btnXoaRong.setText("Xoá rỗng");
-				} else {
-					cmbGiaBan.setEnabled(false);
-				}
-
-			}
-		});
-
-		rdbtnTrangThai = new JRadioButton("");
-
-		rdbtnTrangThai.setBackground(Color.WHITE);
-		rdbtnTrangThai.setBounds(867, 65, 27, 21);
-		panel.add(rdbtnTrangThai);
-
-		String[] tinhTrang = { "Đang bán", "Ngưng phục vụ" };
+		String[] tinhTrang = { "Tất cả", "Đang bán", "Ngưng phục vụ" };
 		cmbTrangThai = new JComboBox<>(tinhTrang);
 		cmbTrangThai.setSelectedIndex(0);
-		cmbTrangThai.setEnabled(false);
 		cmbTrangThai.setBackground(Color.WHITE);
 		cmbTrangThai.setBounds(1060, 65, 250, 25);
 		panel.add(cmbTrangThai);
+		btnTimKiem.addActionListener(this);
+		btnXoaRong.addActionListener(this);
+		updateTableKQ();
 
-		rdbtnTrangThai.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					cmbTrangThai.setEnabled(true);
-					btnXoaRong.setText("Xoá rỗng");
-
-				} else {
-					cmbTrangThai.setEnabled(false);
-				}
-
-			}
-		});
-
-		btnTimKiem.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println();
-				searchDan();
-
-			}
-		});
-
-		group.add(rdbtnTrangThai);
-		group.add(rdbtnGiaBan);
-		group.add(rdbtnLoaiSanPham);
-		group.add(rdbtnTenSanPham);
 	}
 
-//
+	public void updateTableKQ() {
+		danList = dan_DAO.getAlListDan();
+		modelKQTK.setRowCount(0);
+		for (int i = 0; i < danList.size(); i++) {
+			Dan dan = danList.get(i);
+			String trangThai = dan.isTrangThai() ? "Đang bán" : "Ngưng phục vụ";
+			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 
-//	private void search() {
-//
-//		String tenSP = txtTenSP.getText();
-//		String loaiSP = (String) cmbLoaiSP.getSelectedItem();
-//		String giaBan = (String)cmbGiaBan.getSelectedItem();
-//		String trangThai = (String)cmbTrangThai.getSelectedItem();
-//		List<Dan> searchResults = searchDan();
-//		displaySearchResult(searchResults);
-//	}
+			String[] rowData = { dan.getMaSanPham(), dan.getTenSanPham(), dan.getLoaiSanPham(), trangThai,
+					decimalFormat.format(dan.getGiaBan()) };
+			modelKQTK.addRow(rowData);
 
-	private void searchDan() {
-
-		if (rdbtnTenSanPham.isSelected()) {
-			String tenSP = txtTenSP.getText();
-		} else if (rdbtnLoaiSanPham.isSelected()) {
-			String loaiSP = (String) cmbLoaiSP.getSelectedItem();
-			danList = dan_DAO.searchDanTheoLoaiSP(loaiSP);
-			modelKQTK.setRowCount(0);
-
-			for (Dan dan : danList) {
-				Object[] rowData = { dan.getMaSanPham(), dan.getTenSanPham(), dan.getLoaiSanPham(), dan.isTrangThai() };
-				modelKQTK.addRow(rowData);
-			}
-			modelKQTK.fireTableDataChanged();
-		} else if (rdbtnGiaBan.isSelected()) {
-			String giaBan = cmbGiaBan.getSelectedItem().toString();
-		} else if (rdbtnTrangThai.isSelected()) {
-			String trangThai = cmbTrangThai.getSelectedItem().toString();
 		}
 	}
 
-	private void displaySearchResult(List<Dan> searchResults) {
-		modelKQTK.setRowCount(0);
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if (o.equals(btnTimKiem)) {
 
-		for (Dan dan : searchResults) {
-			Object[] rowData = { dan.getMaSanPham(), dan.getTenSanPham(), dan.getLoaiSanPham(), dan.isTrangThai() };
-			modelKQTK.addRow(rowData);
+			String tenSP = txtTenSP.getText().toLowerCase();
+			String loaiSP = cmbLoaiSP.getSelectedItem().toString().equalsIgnoreCase("Tất cả") ? ""
+					: cmbLoaiSP.getSelectedItem().toString();
+			String trangThai = cmbTrangThai.getSelectedItem().toString().equalsIgnoreCase("Tất cả") ? ""
+					: cmbTrangThai.getSelectedItem().toString();
+
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(modelKQTK);
+			tblKQTK.setRowSorter(sorter);
+			List<RowFilter<Object, Object>> filters = new ArrayList<>();
+
+			if (!cmbGiaBan.getSelectedItem().toString().equalsIgnoreCase("Tất cả")) {
+				String[] parts = cmbGiaBan.getSelectedItem().toString().split(" - ");
+				double lowerBound = Double.parseDouble(parts[0].replace(".", "").replace(",", "").trim());
+				double upperBound = Double.parseDouble(parts[1].replace(".", "").replace(",", "").trim());
+
+				filters.add(new RowFilter<Object, Object>() {
+					@Override
+					public boolean include(Entry<? extends Object, ? extends Object> entry) {
+						String priceStr = entry.getStringValue(4).replace(",", "");
+						double price;
+						try {
+							price = Double.parseDouble(priceStr);
+						} catch (NumberFormatException ex) {
+							return false;
+						}
+						return price >= lowerBound && price <= upperBound;
+					}
+				});
+			}
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tenSP), 1));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(loaiSP), 2));
+			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(trangThai), 3));
+			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
+			sorter.setRowFilter(af);
+
+			if (tblKQTK.getRowCount() > 0) {
+				JOptionPane.showMessageDialog(null, "Tìm kiếm thành công");
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả tìm kiếm");
+			}
+
+		} else if (o.equals(btnXoaRong)) {
+			txtTenSP.setText("");
+			cmbGiaBan.setSelectedIndex(0);
+			cmbLoaiSP.setSelectedIndex(0);
+			cmbTrangThai.setSelectedIndex(0);
 		}
 	}
 

@@ -277,4 +277,44 @@ public class DAO_ThoLamDan {
 		}
 		return dsTholamDan;
 	}
+	
+	public boolean update(ThoLamDan tld, CongNhanVien cnv) {
+		Connection con = MyConnection.getInstance().getConnection();
+		if (con == null) {
+			return false;
+		}
+
+		PreparedStatement stm = null;
+		int n = 0;
+		try {
+			String sql = "update ThoLamDan set tayNghe=? where maThoLamDan=? update CongNhanVien set hoTen=?, gioiTinh=?, ngaySinh=?, maCanCuocCongDan=?, soDienThoai=?, diaChi=?, trangThai=?, ngayVaoLam=? where maCongNhanVien=? ";
+			stm = con.prepareStatement(sql);
+			
+			stm.setString(1, tld.getTayNghe());
+			stm.setString(2, tld.getMaThoLamDan());
+			stm.setString(3, cnv.getHoTen());
+			stm.setBoolean(4, cnv.isGioiTinh());	
+			stm.setDate(5, cnv.getNgaySinh());
+			stm.setString(6, cnv.getMaCanCuocCongDan());
+			stm.setString(7, cnv.getSoDienThoai());
+			stm.setString(8, cnv.getDiaChi());
+			stm.setBoolean(9, cnv.isTrangThai());
+			stm.setDate(10, cnv.getNgayVaoLam());
+			stm.setString(11, cnv.getMaCongNhanVien());
+
+			n = stm.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return n > 0;
+	}
 }

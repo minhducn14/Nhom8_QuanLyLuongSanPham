@@ -30,9 +30,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+
 import com.toedter.calendar.JYearChooser;
 import Connection.MyConnection;
 import DAO.DAO_LuongThoLamDan;
@@ -47,8 +51,8 @@ public class frm_LuongThoLamDan extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable tbl_BangLuong;
 	private JTextField txtTen;
-	private JYearChooser yearChooser;
-	private JComboBox<Object> cmbThang;
+	private static JYearChooser yearChooser;
+	private static JComboBox<Object> cmbThang;
 	private DefaultTableModel modelDanhSachLuong;
 	private DAO_ThoLamDan dao_ThoLamDan = new DAO_ThoLamDan();
 	private DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
@@ -222,12 +226,12 @@ public class frm_LuongThoLamDan extends JPanel {
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
 
-		JButton btnXemLuong = new JButton("");
-		btnXemLuong.setIcon(new ImageIcon(frm_LuongNhanVien.class.getResource("/icons/search_icon.png")));
+		JButton btnXemLuong = new JButton("Tính Lương");
+		btnXemLuong.setIcon(null);
 		btnXemLuong.setForeground(Color.WHITE);
 		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 61, 30);
+		btnXemLuong.setBounds(340, 20, 130, 30);
 		panel_1.add(btnXemLuong);
 		btnXemLuong.addActionListener(new ActionListener() {
 
@@ -279,11 +283,6 @@ public class frm_LuongThoLamDan extends JPanel {
 			dao_LuongThoLamDan.updateBangLuongThoLamDan(bl);
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(thoLamDan.getMaThoLamDan(), thang, nam);
-			boolean KT = dao_LuongThoLamDan.kiemTraTrungMa(thang, nam, thoLamDan.getMaThoLamDan());
-
-			if (!KT) {
-				themBangLuong(thoLamDan);
-			}
 			Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
 					decimalFormat.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNien(thoLamDan.tinhHeSoLuong())),
 					decimalFormat.format(luong), decimalFormat.format(bl.tinhLuongThucLinh(luong)) };
@@ -303,32 +302,66 @@ public class frm_LuongThoLamDan extends JPanel {
 			try {
 				File fileToSave = fileChooser.getSelectedFile();
 				String filePath = fileToSave.getAbsolutePath();
+				if (fileToSave.exists()) {
+					int response = JOptionPane.showConfirmDialog(null, "Tệp đã tồn tại. Bạn có muốn ghi đè không?",
+							"Xác nhận ghi đè", JOptionPane.YES_NO_OPTION);
+
+					if (response != JOptionPane.YES_OPTION) {
+						return;
+					}
+				}
 				if (!filePath.endsWith(".xls")) {
 					filePath += ".xls";
 				}
 
 				Workbook workbook = new HSSFWorkbook();
-				Sheet sheet = workbook.createSheet("DanhSachThoLamDan");
+				Sheet sheet = workbook.createSheet("DanhSachNhanVien");
 
-				Row headerRow = sheet.createRow(0);
+				org.apache.poi.ss.usermodel.Font titleFont = sheet.getWorkbook().createFont();
+				titleFont.setBoldweight(org.apache.poi.ss.usermodel.Font.BOLDWEIGHT_BOLD);
+				titleFont.setFontHeightInPoints((short) 16);
+
+				CellStyle titleCellStyle = sheet.getWorkbook().createCellStyle();
+				titleCellStyle.setFont(titleFont);
+				titleCellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+
+				Row titleRow = sheet.createRow(0);
+
+				Cell titleCell = titleRow.createCell(0);
+				int nam = yearChooser.getYear();
+				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				String txt = "Danh sách lương thợ làm đàn Tháng " + thang + " Năm " + nam;
+
+				titleCell.setCellValue(txt);
+				titleCell.setCellStyle(titleCellStyle);
+				sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, table.getColumnCount() - 1));
+
+				Row headerRow = sheet.createRow(1);
 				for (int col = 0; col < table.getColumnCount(); col++) {
-					headerRow.createCell(col).setCellValue(table.getColumnName(col));
+					Cell cell = headerRow.createCell(col);
+					cell.setCellValue(table.getColumnName(col));
+					sheet.autoSizeColumn(col);
 				}
 
 				for (int row = 0; row < table.getRowCount(); row++) {
-					Row dataRow = sheet.createRow(row + 1);
+					Row dataRow = sheet.createRow(row + 2);
 					for (int col = 0; col < table.getColumnCount(); col++) {
+						Cell cell = dataRow.createCell(col);
 						Object cellValue = table.getValueAt(row, col);
 						if (cellValue != null) {
 							if (cellValue instanceof String) {
-								dataRow.createCell(col).setCellValue((String) cellValue);
+								cell.setCellValue((String) cellValue);
 							} else if (cellValue instanceof Number) {
-								dataRow.createCell(col).setCellValue(((Number) cellValue).doubleValue());
+								cell.setCellValue(((Number) cellValue).doubleValue());
 							} else {
-								dataRow.createCell(col).setCellValue(cellValue.toString());
+								cell.setCellValue(cellValue.toString());
 							}
 						}
 					}
+				}
+
+				for (int col = 0; col < table.getColumnCount(); col++) {
+					sheet.autoSizeColumn(col);
 				}
 
 				try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
@@ -344,21 +377,21 @@ public class frm_LuongThoLamDan extends JPanel {
 		}
 	}
 
-	private void themBangLuong(ThoLamDan thoLamDan) {
-		LocalDate currentDate = LocalDate.now();
-		Month currentMonth = currentDate.getMonth();
-		int thang = currentMonth.getValue();
-		int nam = currentDate.getYear();
-		BangLuongThoLamDan bl = new BangLuongThoLamDan();
-		bl.setNam(nam);
-		bl.setThang(thang);
-		bl.setThoLamDan(thoLamDan);
-		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
-		bl.setMaBangLuong(maBangLuong);
-		bl.setSoLuongSanPham(0);
-		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
-		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
-	}
+//	private void themBangLuong(ThoLamDan thoLamDan) {
+//		LocalDate currentDate = LocalDate.now();
+//		Month currentMonth = currentDate.getMonth();
+//		int thang = currentMonth.getValue();
+//		int nam = currentDate.getYear();
+//		BangLuongThoLamDan bl = new BangLuongThoLamDan();
+//		bl.setNam(nam);
+//		bl.setThang(thang);
+//		bl.setThoLamDan(thoLamDan);
+//		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
+//		bl.setMaBangLuong(maBangLuong);
+//		bl.setSoLuongSanPham(0);
+//		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
+//		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
+//	}
 
 	private void loadDataLuongTheoTen(String tenThoLamDan) {
 
@@ -370,7 +403,9 @@ public class frm_LuongThoLamDan extends JPanel {
 			} else {
 				modelDanhSachLuong.setRowCount(0);
 				DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
-				ArrayList<BangLuongThoLamDan> listBL = dao_LuongThoLamDan.getBangLuongTheoTen(tenThoLamDan);
+				int nam = yearChooser.getYear();
+				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				ArrayList<BangLuongThoLamDan> listBL = dao_LuongThoLamDan.getBangLuongTheoTen(tenThoLamDan, thang, nam);
 				for (BangLuongThoLamDan bangLuongThoLamDan : listBL) {
 					double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(
 							bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(), bangLuongThoLamDan.getThang(),

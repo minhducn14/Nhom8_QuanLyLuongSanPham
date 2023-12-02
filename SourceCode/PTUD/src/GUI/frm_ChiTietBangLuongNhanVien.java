@@ -7,29 +7,17 @@ import java.text.DecimalFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import Connection.MyConnection;
-import DAO.DAO_LuongNhanVien;
 import Entity.BangLuongNhanVien;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
-import java.awt.Container;
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -103,7 +91,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		contentPane.add(lblCV);
 
 		JLabel lblThongTin = new JLabel();
-		String txt= "Phiếu Lương Tháng " + bangLuongNhanVien.getThang() + " Năm " + bangLuongNhanVien.getNam();
+		String txt = "Phiếu Lương Tháng " + bangLuongNhanVien.getThang() + " Năm " + bangLuongNhanVien.getNam();
 		lblThongTin.setText(txt);
 		lblThongTin.setBounds(0, 10, 939, 49);
 		lblThongTin.setHorizontalAlignment(SwingConstants.CENTER);
@@ -156,11 +144,11 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		lblAT.setBounds(36, 425, 300, 20);
 		contentPane.add(lblAT);
 
-		JLabel lblNewLabel_1_1_1_2_2_1_1_1_1 = new JLabel("Tổng lương được nhận");
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setForeground(new Color(0, 0, 0));
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_1_1_1_2_2_1_1_1_1.setBounds(131, 527, 300, 25);
-		contentPane.add(lblNewLabel_1_1_1_2_2_1_1_1_1);
+		JLabel lblTongLuong = new JLabel("Tổng lương được nhận");
+		lblTongLuong.setForeground(new Color(0, 0, 0));
+		lblTongLuong.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTongLuong.setBounds(131, 527, 300, 25);
+		contentPane.add(lblTongLuong);
 
 		JLabel lblThuNhap = new JLabel("Các khoản thu nhập");
 		lblThuNhap.setForeground(new Color(0, 0, 0));
@@ -331,7 +319,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		lblTongPC.setBounds(262, 321, 169, 20);
 		contentPane.add(lblTongPC);
 
-		JButton btnNewButton = new JButton("Export pdf");
+		JButton btnNewButton = new JButton("Xuất pdf");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				exportPDF();
@@ -342,7 +330,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 
 		JSeparator separator = new JSeparator();
 		separator.setForeground(new Color(0, 0, 0));
-		separator.setBounds(10, 224, 900, 5);
+		separator.setBounds(10, 225, 900, 5);
 		contentPane.add(separator);
 
 		JSeparator separator_1 = new JSeparator();
@@ -350,55 +338,55 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		separator_1.setBounds(10, 257, 900, 5);
 		contentPane.add(separator_1);
 
-		JSeparator separator_1_1 = new JSeparator();
-		separator_1_1.setForeground(Color.BLACK);
-		separator_1_1.setBounds(10, 306, 900, 5);
-		contentPane.add(separator_1_1);
+		JSeparator separator_7 = new JSeparator();
+		separator_7.setForeground(Color.BLACK);
+		separator_7.setBounds(10, 306, 900, 5);
+		contentPane.add(separator_7);
 
-		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setForeground(Color.BLACK);
-		separator_1_1_1.setBounds(10, 356, 900, 5);
-		contentPane.add(separator_1_1_1);
+		JSeparator separator_8 = new JSeparator();
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setBounds(10, 356, 900, 5);
+		contentPane.add(separator_8);
 
-		JSeparator separator_1_1_1_1 = new JSeparator();
-		separator_1_1_1_1.setForeground(Color.BLACK);
-		separator_1_1_1_1.setBounds(10, 410, 900, 5);
-		contentPane.add(separator_1_1_1_1);
+		JSeparator separator_9 = new JSeparator();
+		separator_9.setForeground(Color.BLACK);
+		separator_9.setBounds(10, 410, 900, 5);
+		contentPane.add(separator_9);
 
-		JSeparator separator_1_1_1_1_1 = new JSeparator();
-		separator_1_1_1_1_1.setForeground(Color.BLACK);
-		separator_1_1_1_1_1.setBounds(10, 455, 900, 5);
-		contentPane.add(separator_1_1_1_1_1);
+		JSeparator separator_10 = new JSeparator();
+		separator_10.setForeground(Color.BLACK);
+		separator_10.setBounds(10, 455, 900, 5);
+		contentPane.add(separator_10);
 
 		JSeparator separator_2 = new JSeparator();
 		separator_2.setForeground(new Color(0, 0, 0));
 		separator_2.setOrientation(SwingConstants.VERTICAL);
-		separator_2.setBounds(909, 224, 30, 230);
+		separator_2.setBounds(909, 226, 30, 231);
 		contentPane.add(separator_2);
 
-		JSeparator separator_2_1 = new JSeparator();
-		separator_2_1.setOrientation(SwingConstants.VERTICAL);
-		separator_2_1.setForeground(Color.BLACK);
-		separator_2_1.setBounds(730, 224, 30, 230);
-		contentPane.add(separator_2_1);
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setOrientation(SwingConstants.VERTICAL);
+		separator_3.setForeground(Color.BLACK);
+		separator_3.setBounds(730, 225, 30, 230);
+		contentPane.add(separator_3);
 
-		JSeparator separator_2_1_1 = new JSeparator();
-		separator_2_1_1.setOrientation(SwingConstants.VERTICAL);
-		separator_2_1_1.setForeground(Color.BLACK);
-		separator_2_1_1.setBounds(470, 224, 30, 230);
-		contentPane.add(separator_2_1_1);
+		JSeparator separator_4 = new JSeparator();
+		separator_4.setOrientation(SwingConstants.VERTICAL);
+		separator_4.setForeground(Color.BLACK);
+		separator_4.setBounds(470, 226, 30, 230);
+		contentPane.add(separator_4);
 
-		JSeparator separator_2_1_1_1 = new JSeparator();
-		separator_2_1_1_1.setOrientation(SwingConstants.VERTICAL);
-		separator_2_1_1_1.setForeground(Color.BLACK);
-		separator_2_1_1_1.setBounds(250, 224, 30, 230);
-		contentPane.add(separator_2_1_1_1);
+		JSeparator separator_5 = new JSeparator();
+		separator_5.setOrientation(SwingConstants.VERTICAL);
+		separator_5.setForeground(Color.BLACK);
+		separator_5.setBounds(250, 226, 30, 230);
+		contentPane.add(separator_5);
 
-		JSeparator separator_2_1_1_1_1 = new JSeparator();
-		separator_2_1_1_1_1.setOrientation(SwingConstants.VERTICAL);
-		separator_2_1_1_1_1.setForeground(Color.BLACK);
-		separator_2_1_1_1_1.setBounds(10, 224, 30, 230);
-		contentPane.add(separator_2_1_1_1_1);
+		JSeparator separator_6 = new JSeparator();
+		separator_6.setOrientation(SwingConstants.VERTICAL);
+		separator_6.setForeground(Color.BLACK);
+		separator_6.setBounds(9, 226, 30, 230);
+		contentPane.add(separator_6);
 
 	}
 

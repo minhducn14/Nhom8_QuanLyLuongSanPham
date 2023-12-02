@@ -67,4 +67,545 @@ public class DAO_ThongKe {
 		}
 		return model;
 	}
+
+	// ==============================
+	public DefaultTableModel allMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + "\r\n order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel allMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + "\r\n order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongKinhDoanhMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + " and pb.tenPhongBan='Kinh Doanh'\r\n order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongKinhDoanhMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + " and pb.tenPhongBan='Kinh Doanh'\r\n order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongMarketingMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + " and pb.tenPhongBan='Marketing'\r\n order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongMarketingMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, (nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\nfrom NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		on pb.maPhongBan=nv.maPhongBan\r\nwhere thang="
+					+ thang + " and nam=" + nam + " and pb.tenPhongBan='Marketing'\r\n order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongNhanSuMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Nhân Sự'\r\n " + "order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongNhanSuMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Nhân Sự'\r\n " + "order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongPhatTrienSanPhamMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Phát Triển Sản Phẩm'\r\n " + "order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongPhatTrienSanPhamMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Phát Triển Sản Phẩm'\r\n " + "order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongDieuPhoiMax(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Điều Phối'\r\n " + "order by tongLuong desc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
+
+	public DefaultTableModel phongDieuPhoiMin(int thang, int nam) {
+		DefaultTableModel model = new DefaultTableModel();
+		model.addColumn("Mã số");
+		model.addColumn("Họ Tên");
+		model.addColumn("Giới tính");
+		model.addColumn("Phòng Ban");
+		model.addColumn("Mã CCCD");
+		model.addColumn("Số Điện Thoại");
+		model.addColumn("Tổng lương");
+		Connection connection = MyConnection.getInstance().getConnection();
+		try {
+			String sql = "select top 5 nv.maNhanVien, cnv.hoTen, cnv.gioiTinh, pb.tenPhongBan,cnv.maCanCuocCongDan, cnv.soDienThoai, "
+					+ "(nv.luongCoBan+(blnv.soNgayLamChuNhat + blnv.soNgayThuongDiLam)*30000+blnv.soGioTangCaChuNhat*1.5*25000+blnv.soGioTangCaNgayThuong*25000) as tongLuong\r\n"
+					+ "from NhanVien nv join CongNhanVien cnv \r\n		on cnv.maCongNhanVien=nv.maCongNhanVien\r\n		"
+					+ "join BangLuongNhanVien blnv\r\n		on blnv.maNhanVien=nv.maNhanVien\r\n		join PhongBan pb\r\n		"
+					+ "on pb.maPhongBan=nv.maPhongBan\r\nwhere thang=" + thang + " and nam=" + nam
+					+ " and pb.tenPhongBan=N'Điều Phối'\r\n " + "order by tongLuong asc";
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				try (ResultSet resultSet = statement.executeQuery()) {
+					while (resultSet.next()) {
+						String manv = resultSet.getString("maNhanVien");
+						String name = resultSet.getString("hoTen");
+						boolean gender = resultSet.getBoolean("gioiTinh");
+						String gioiTinh = gender ? "Nam" : "Nữ";
+
+						String phongBan = resultSet.getString("tenPhongBan");
+						String cccd = resultSet.getString("maCanCuocCongDan");
+						String sdt = resultSet.getString("soDienThoai");
+						double tongLuong = resultSet.getDouble("tongLuong");
+						java.util.Vector<Object> row = new Vector<Object>();
+						row.add(manv);
+						row.add(name);
+						row.add(gioiTinh);
+						row.add(phongBan);
+						row.add(cccd);
+						row.add(sdt);
+						row.add(tongLuong);
+						model.addRow(row);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace(); // Handle the exception according to your needs
+		}
+		return model;
+	}
 }

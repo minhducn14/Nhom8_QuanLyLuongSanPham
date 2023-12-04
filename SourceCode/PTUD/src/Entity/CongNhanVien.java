@@ -3,7 +3,6 @@ package Entity;
 import java.sql.Date;
 import java.time.LocalDate;
 
-
 public class CongNhanVien {
 	private String maCongNhanVien;
 	private String hoTen;
@@ -130,6 +129,26 @@ public class CongNhanVien {
 		this.ngayVaoLam = ngayVaoLam;
 	}
 
+	public CongNhanVien() {
+		super();
+	}
+
+	public CongNhanVien(String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan, String soDienThoai,
+			String diaChi, boolean trangThai, Date ngayVaoLam, String maCongNhanVien) {
+		// TODO Auto-generated constructor stub
+		super();
+
+		this.hoTen = hoTen;
+		this.gioiTinh = gioiTinh;
+		this.ngaySinh = ngaySinh;
+		this.maCanCuocCongDan = maCanCuocCongDan;
+		this.soDienThoai = soDienThoai;
+		this.diaChi = diaChi;
+		this.trangThai = trangThai;
+		this.ngayVaoLam = ngayVaoLam;
+		this.maCongNhanVien = maCongNhanVien;
+	}
+
 	@Override
 	public String toString() {
 		return "CongNhanVien [maCongNhanVien=" + maCongNhanVien + ", hoTen=" + hoTen + ", gioiTinh=" + gioiTinh
@@ -166,26 +185,5 @@ public class CongNhanVien {
 			return 0.0;
 		}
 	}
-
-	public CongNhanVien() {
-		super();
-	}
-
-	public CongNhanVien( String hoTen, boolean gioiTinh, Date ngaySinh, String maCanCuocCongDan,
-			String soDienThoai, String diaChi, boolean trangThai, Date ngayVaoLam,String maCongNhanVien) {
-		// TODO Auto-generated constructor stub
-		super();
-		
-		this.hoTen = hoTen;
-		this.gioiTinh = gioiTinh;
-		this.ngaySinh = ngaySinh;
-		this.maCanCuocCongDan = maCanCuocCongDan;
-		this.soDienThoai = soDienThoai;
-		this.diaChi = diaChi;
-		this.trangThai = trangThai;
-		this.ngayVaoLam = ngayVaoLam;
-		this.maCongNhanVien = maCongNhanVien;
-	}
-
 
 }

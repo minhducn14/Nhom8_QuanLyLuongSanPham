@@ -25,12 +25,8 @@ import javax.swing.RowFilter;
 
 import Connection.MyConnection;
 import DAO.DAO_CongNhanVien;
-import DAO.DAO_NhanVien;
-import DAO.DAO_PhongBan;
 import DAO.DAO_ThoLamDan;
 import Entity.CongNhanVien;
-import Entity.NhanVien;
-import Entity.PhongBan;
 import Entity.ThoLamDan;
 
 import javax.swing.JComboBox;
@@ -98,7 +94,8 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 		int rowMargin1 = 10;
 		table_1.setRowHeight(rowHeight1);
 		table_1.setIntercellSpacing(new Dimension(0, rowMargin1));
-		String[] col = { "Mã Thợ Làm Đàn ", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT", "Địa Chỉ", "Trạng Thái" };
+		String[] col = { "Mã Thợ Làm Đàn ", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT", "Địa Chỉ",
+				"Trạng Thái" };
 		modell = new DefaultTableModel(col, 0);
 		table_1.setModel(modell);
 
@@ -179,12 +176,12 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 		panel_1_2.setBounds(759, 65, 560, 25);
 		panel_1_2.setBounds(800, 65, 519, 25);
 		panel.add(panel_1_2);
-		
+
 		txtmatld = new JTextField();
 		txtmatld.setColumns(10);
 		txtmatld.setBounds(201, 0, 318, 25);
 		panel_1_2.add(txtmatld);
-		
+
 		JLabel lblNewLabel_1_3_2 = new JLabel("Mã thợ làm đàn :");
 		lblNewLabel_1_3_2.setBounds(30, 0, 140, 25);
 		panel_1_2.add(lblNewLabel_1_3_2);
@@ -296,8 +293,8 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
 				String trangThai = cnv.isTrangThai() ? "Đang làm" : "Nghỉ làm";
 				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
-				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
-						cnv.getSoDienThoai(), cnv.getDiaChi(), trangThai };
+				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh, ngaySinh,
+						cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai(), cnv.getDiaChi(), trangThai };
 				modell.addRow(rowData);
 
 			} else {

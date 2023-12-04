@@ -183,6 +183,8 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		cbbEoLung.addItem("Gỗ cẩm Ấn");
 		cbbEoLung.addItem("Gỗ điệp Solid");
 		cbbEoLung.addItem("Gỗ hồng đào");
+		cbbEoLung.addItem("Gỗ hồng đào");
+		cbbEoLung.addItem("Ván ép chất lượng cao");
 		cbbEoLung.setBounds(163, 151, 305, 28);
 		panel_1.add(cbbEoLung);
 
@@ -269,14 +271,14 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		cbbMatDan.setEditable(true);
 		cbbMatDan.addItem("Gỗ thông sitka");
 		cbbMatDan.addItem("Thông Cedar");
-		cbbMatDan.addItem("Gỗ thông sitka");
+		cbbMatDan.addItem("Thông Solid");
 		cbbMatDan.setBounds(163, 131, 305, 28);
 		panel_1_2.add(cbbMatDan);
 
 		cbbCau = new JComboBox<String>();
 		cbbCau.setEditable(true);
 		cbbCau.addItem("Gỗ thao lao");
-		cbbCau.addItem("Gỗ giá ty");
+		cbbCau.addItem("Gỗ giá tỵ");
 		cbbCau.setBounds(163, 178, 305, 28);
 		panel_1_2.add(cbbCau);
 

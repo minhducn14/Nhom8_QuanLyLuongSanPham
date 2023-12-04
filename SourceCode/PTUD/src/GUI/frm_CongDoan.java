@@ -37,13 +37,13 @@ public class frm_CongDoan extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtMaCongDoan;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
+	private JLabel lblCongDoan;
+	private JLabel lblTenCD;
+	private JLabel lblGiaCD;
 	private JTextField txtGiaCongDoan;
-	private JLabel lblNewLabel_4;
+	private JLabel lblTTCongDoan;
 	private JLabel lblDSSanPham;
-	private JPanel panel_1;
+	private JPanel pnlDSSP;
 	private JSeparator separator_1;
 	private JTable tblDSCongDoan;
 	private JScrollPane scrollPane_1;
@@ -62,11 +62,11 @@ public class frm_CongDoan extends JPanel {
 		setBackground(new Color(221, 242, 251));
 		setLayout(null);
 
-		lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(550, 5, 375, 70);
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 40));
-		add(lblNewLabel_1);
-		lblNewLabel_1.setText("CÔNG ĐOẠN");
+		lblCongDoan = new JLabel("New label");
+		lblCongDoan.setBounds(550, 5, 375, 70);
+		lblCongDoan.setFont(new Font("Tahoma", Font.BOLD, 40));
+		add(lblCongDoan);
+		lblCongDoan.setText("CÔNG ĐOẠN");
 
 		JPanel panel = new JPanel();
 		panel.setBounds(975, 90, 460, 315);
@@ -104,17 +104,17 @@ public class frm_CongDoan extends JPanel {
 		txtGiaCongDoan.setColumns(10);
 		txtGiaCongDoan.setEnabled(false);
 
-		lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setBounds(20, 205, 170, 25);
-		panel.add(lblNewLabel_3);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_3.setText("Giá công đoạn");
+		lblGiaCD = new JLabel("New label");
+		lblGiaCD.setBounds(20, 205, 170, 25);
+		panel.add(lblGiaCD);
+		lblGiaCD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblGiaCD.setText("Giá công đoạn");
 
-		lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(20, 135, 170, 25);
-		panel.add(lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_2.setText("Tên công đoạn");
+		lblTenCD = new JLabel("New label");
+		lblTenCD.setBounds(20, 135, 170, 25);
+		panel.add(lblTenCD);
+		lblTenCD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblTenCD.setText("Tên công đoạn");
 
 		txtMaCongDoan = new JTextField();
 		txtMaCongDoan.setBounds(160, 65, 250, 25);
@@ -123,18 +123,18 @@ public class frm_CongDoan extends JPanel {
 		txtMaCongDoan.setColumns(10);
 		txtMaCongDoan.setEnabled(false);
 
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(20, 65, 170, 25);
-		panel.add(lblNewLabel);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel.setText("Mã công đoạn");
-		lblNewLabel.setLabelFor(txtMaCongDoan);
+		JLabel lblMaCD = new JLabel("New label");
+		lblMaCD.setBounds(20, 65, 170, 25);
+		panel.add(lblMaCD);
+		lblMaCD.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblMaCD.setText("Mã công đoạn");
+		lblMaCD.setLabelFor(txtMaCongDoan);
 
-		lblNewLabel_4 = new JLabel("New label");
-		lblNewLabel_4.setBounds(35, 15, 220, 25);
-		panel.add(lblNewLabel_4);
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_4.setText("Thông tin công đoạn");
+		lblTTCongDoan = new JLabel("New label");
+		lblTTCongDoan.setBounds(35, 15, 220, 25);
+		panel.add(lblTTCongDoan);
+		lblTTCongDoan.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTTCongDoan.setText("Thông tin công đoạn");
 
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(160, 135, 250, 25);
@@ -149,15 +149,15 @@ public class frm_CongDoan extends JPanel {
 		}
 		comboBox.setSelectedIndex(0);
 		comboBox.setEnabled(false);
-		panel_1 = new JPanel();
-		panel_1.setBounds(15, 90, 900, 315);
-		panel_1.setBackground(Color.WHITE);
-		add(panel_1);
-		panel_1.setLayout(null);
+		pnlDSSP = new JPanel();
+		pnlDSSP.setBounds(15, 90, 900, 315);
+		pnlDSSP.setBackground(Color.WHITE);
+		add(pnlDSSP);
+		pnlDSSP.setLayout(null);
 
 		lblDSSanPham = new JLabel("New label");
 		lblDSSanPham.setBounds(35, 15, 217, 25);
-		panel_1.add(lblDSSanPham);
+		pnlDSSP.add(lblDSSanPham);
 		lblDSSanPham.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblDSSanPham.setText("Danh sách sản phẩm");
 
@@ -177,7 +177,7 @@ public class frm_CongDoan extends JPanel {
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 75, 860, 230);
-		panel_1.add(scrollPane);
+		pnlDSSP.add(scrollPane);
 		int rowHeight = 30;
 		int rowMargin = 10;
 		tblDSSanPham = new JTable(modelDSSanPham);
@@ -205,16 +205,16 @@ public class frm_CongDoan extends JPanel {
 		separator_1.setBounds(15, 430, 1420, 3);
 		add(separator_1);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
-		panel_2.setBounds(15, 490, 1420, 200);
-		add(panel_2);
-		panel_2.setLayout(null);
+		JPanel pnlDSCongDoan = new JPanel();
+		pnlDSCongDoan.setBackground(Color.WHITE);
+		pnlDSCongDoan.setBounds(15, 490, 1420, 200);
+		add(pnlDSCongDoan);
+		pnlDSCongDoan.setLayout(null);
 
 		scrollPane_1 = new JScrollPane();
 
 		scrollPane_1.setBounds(20, 10, 1380, 180);
-		panel_2.add(scrollPane_1);
+		pnlDSCongDoan.add(scrollPane_1);
 
 		String[] col = { "M\u00E3 C\u00F4ng \u0110o\u1EA1n", "T\u00EAn C\u00F4ng \u0110o\u1EA1n",
 				"M\u00E3 S\u1EA3n Ph\u1EA9m", "T\u00EAn S\u1EA3n Ph\u1EA9m", "Lo\u1EA1i S\u1EA3n Ph\u1EA9m",
@@ -263,11 +263,11 @@ public class frm_CongDoan extends JPanel {
 		tblDSCongDoan.setRowHeight(rowHeight);
 		tblDSCongDoan.setIntercellSpacing(new Dimension(0, rowMargin));
 
-		JLabel lblNewLabel_6 = new JLabel("New label");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_6.setBounds(49, 450, 217, 25);
-		add(lblNewLabel_6);
-		lblNewLabel_6.setText("Danh sách công đoạn");
+		JLabel lblDSCD = new JLabel("New label");
+		lblDSCD.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblDSCD.setBounds(49, 450, 217, 25);
+		add(lblDSCD);
+		lblDSCD.setText("Danh sách công đoạn");
 
 		btnXoaRong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -351,6 +351,8 @@ public class frm_CongDoan extends JPanel {
 							congDoan.setTenCongDoan((String) comboBox.getSelectedItem());
 							congDoan.setGiaCongDoan(Float.parseFloat(txtGiaCongDoan.getText()));
 							congDoan_DAO.insertCongDoan(congDoan);
+							JOptionPane.showMessageDialog(null, "Thêm công đoạn thành công ");
+							
 							modelDSCongDoan.setRowCount(0);
 							loadDataCD(congDoan_DAO.getAlListCongDoan());
 							modelDSCongDoan.fireTableDataChanged();
@@ -436,6 +438,7 @@ public class frm_CongDoan extends JPanel {
 										congDoan1.getDan().getLoaiSanPham(), congDoan1.getGiaCongDoan() };
 								modelDSCongDoan.addRow(objects);
 							}
+							JOptionPane.showMessageDialog(null, "Sửa công đoạn thành công ");
 							modelDSCongDoan.fireTableDataChanged();
 							txtMaCongDoan.setText("");
 							txtGiaCongDoan.setText("");

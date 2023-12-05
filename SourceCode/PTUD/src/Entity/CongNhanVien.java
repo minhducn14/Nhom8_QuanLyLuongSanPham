@@ -156,13 +156,13 @@ public class CongNhanVien {
 				+ ", diaChi=" + diaChi + ", trangThai=" + trangThai + ", ngayVaoLam=" + ngayVaoLam + "]";
 	}
 
-	public double tinhPhuCapThamNien(double luongCoBan, double heSoLuong) {
+	public double tinhPhuCapThamNienNhanVien(double luongCoBan, double heSoLuong) {
 		double tyLePhuCap = xacDinhTyLePhuCap();
 		double phuCapThamNien = luongCoBan * heSoLuong * (tyLePhuCap / 100);
 		return phuCapThamNien;
 	}
 
-	public double tinhPhuCapThamNien(double heSo) {
+	public double tinhPhuCapThamNienThoLamDan(double heSo) {
 		double tyLePhuCap = xacDinhTyLePhuCap();
 		double phuCapThamNien = 3000000 * heSo * (tyLePhuCap / 100);
 		return phuCapThamNien;

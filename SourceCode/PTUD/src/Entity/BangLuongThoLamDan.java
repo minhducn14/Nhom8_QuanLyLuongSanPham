@@ -64,7 +64,7 @@ public class BangLuongThoLamDan {
 
 	public double tinhLuongThucLinh(double luongThucTe) {
 		double luongThucLinh = luongThucTe - (3000000 * 0.08 + 3000000 * 0.015 + 3000000 * 0.01) + 900000
-				+ thoLamDan.getCongNhanVien().tinhPhuCapThamNien(thoLamDan.tinhHeSoLuong());
+				+ thoLamDan.getCongNhanVien().tinhPhuCapThamNienThoLamDan(thoLamDan.tinhHeSoLuong());
 		return luongThucLinh;
 	}
 

@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
@@ -541,6 +542,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		String hoTen = txtHoTen.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String diaChi = txtDiaChi.getText().trim();
+		Date ngaySinh = new Date(dateChooserNgaySinh.getDate().getTime());
+		Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());
+		java.util.Date today = new java.util.Date();
 		// them try catch
 		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
 
@@ -562,6 +566,15 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		}
 		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\s]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
+			return false;
+		}
+		if (ngaySinh.after(today)
+				|| (int) ((today.getTime() - ngaySinh.getTime()) / (1000 * 60 * 24 * 60 * 365)) < 18) {
+			JOptionPane.showMessageDialog(null, "Ngày Sinh Không Hợp Lệ!!!");
+			return false;
+		}
+		if (ngayVaoLam.after(today)) {
+			JOptionPane.showMessageDialog(null, "Ngày Vào Làm Phải Trước Ngày Hiện Tại !!!");
 			return false;
 		}
 		return true;

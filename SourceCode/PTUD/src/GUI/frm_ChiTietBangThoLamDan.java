@@ -207,7 +207,7 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 		lblPCTN.setBounds(304, 539, 300, 20);
 		contentPane.add(lblPCTN);
 		lblPCTN.setText(decimalFormat.format(bangLuongThoLamDan.getThoLamDan().getCongNhanVien()
-				.tinhPhuCapThamNien(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong())));
+				.tinhPhuCapThamNienThoLamDan(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong())));
 
 		JLabel lblPCAnTrua = new JLabel("Phụ cấp ăn trưa : ");
 		lblPCAnTrua.setForeground(Color.BLACK);
@@ -413,7 +413,7 @@ public class frm_ChiTietBangThoLamDan extends JFrame {
 					Object[] PCTNData = { "Phụ cấp thâm niên", "", "",
 							decimalFormat
 									.format(bangLuongThoLamDan.getThoLamDan().getCongNhanVien()
-											.tinhPhuCapThamNien(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong()))
+											.tinhPhuCapThamNienThoLamDan(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong()))
 									+ " VND" };
 					for (int col = 0; col < PCTNData.length; col++) {
 						Object cellValue = PCTNData[col];

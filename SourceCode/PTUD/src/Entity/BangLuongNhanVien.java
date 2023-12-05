@@ -129,7 +129,7 @@ public class BangLuongNhanVien {
 
 	public double tinhLuongThucLinh(double luongThucTe, double luongCoBan, double heSoLuong) {
 		double luongThucLinh = luongThucTe - (luongThucTe * 0.08 + luongThucTe * 0.015 + luongThucTe * 0.01)
-				+ nhanVien.getCongNhanVien().tinhPhuCapThamNien(luongCoBan, nhanVien.tinhHeSoLuong())
+				+ nhanVien.getCongNhanVien().tinhPhuCapThamNienNhanVien(luongCoBan, nhanVien.tinhHeSoLuong())
 				+ (soNgayLamChuNhat + soNgayThuongDiLam) * 30000;
 		return luongThucLinh;
 	}

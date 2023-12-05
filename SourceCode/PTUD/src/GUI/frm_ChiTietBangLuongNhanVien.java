@@ -194,7 +194,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		JLabel lbLuong = new JLabel();
 		double luongTT = bangLuongNhanVien.tinhLuongThucTe(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 				bangLuongNhanVien.getNhanVien().tinhHeSoLuong(),
-				bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(
+				bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
 						bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 						bangLuongNhanVien.getNhanVien().tinhHeSoLuong()));
 		String luongThucTe = decimalFormat.format(luongTT);
@@ -254,7 +254,7 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 		contentPane.add(lblLuong);
 
 		JLabel lblPCTN = new JLabel("");
-		double phuCapThamNien = bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(
+		double phuCapThamNien = bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
 				bangLuongNhanVien.getNhanVien().getLuongCoBan(), bangLuongNhanVien.getNhanVien().tinhHeSoLuong());
 		lblPCTN.setText(decimalFormat.format(phuCapThamNien));
 		lblPCTN.setForeground(new Color(0, 0, 0));

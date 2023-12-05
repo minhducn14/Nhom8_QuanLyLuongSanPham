@@ -284,7 +284,7 @@ public class frm_LuongThoLamDan extends JPanel {
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(thoLamDan.getMaThoLamDan(), thang, nam);
 			Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-					decimalFormat.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNien(thoLamDan.tinhHeSoLuong())),
+					decimalFormat.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNienThoLamDan(thoLamDan.tinhHeSoLuong())),
 					decimalFormat.format(luong), decimalFormat.format(bl.tinhLuongThucLinh(luong)) };
 			modelDanhSachLuong.addRow(objects);
 		}
@@ -414,7 +414,7 @@ public class frm_LuongThoLamDan extends JPanel {
 					Object[] objects = { bangLuongThoLamDan.getThoLamDan().getMaThoLamDan(),
 							bangLuongThoLamDan.getThoLamDan().getCongNhanVien().getHoTen(),
 							decimalFormat.format(bangLuongThoLamDan.getThoLamDan().getCongNhanVien()
-									.tinhPhuCapThamNien(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong())),
+									.tinhPhuCapThamNienThoLamDan(bangLuongThoLamDan.getThoLamDan().tinhHeSoLuong())),
 							decimalFormat.format(luong),
 							decimalFormat.format(bangLuongThoLamDan.tinhLuongThucLinh(luong)) };
 					modelDanhSachLuong.addRow(objects);

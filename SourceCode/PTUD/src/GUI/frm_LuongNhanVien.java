@@ -310,12 +310,12 @@ public class frm_LuongNhanVien extends JPanel {
 					dao_LuongNhanVien.updateBangLuongNhanVien(bl);
 					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 					double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(),
-							bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(),
+							bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(),
 									nhanVien.tinhHeSoLuong()));
 					Object[] objects = { bl.getNhanVien().getMaNhanVien(),
 							bl.getNhanVien().getCongNhanVien().getHoTen(),
 							decimalFormat.format(bl.getNhanVien().getCongNhanVien()
-									.tinhPhuCapThamNien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())),
+									.tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())),
 							decimalFormat.format(luongThucTe), decimalFormat.format(bl.tinhLuongThucLinh(luongThucTe,
 									nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())) };
 					modelDanhSachLuong.addRow(objects);
@@ -386,10 +386,10 @@ public class frm_LuongNhanVien extends JPanel {
 			dao_LuongNhanVien.updateBangLuongNhanVien(bl);
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(), bl.getNhanVien()
-					.getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong()));
+					.getCongNhanVien().tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong()));
 
 			Object[] objects = { bl.getNhanVien().getMaNhanVien(), bl.getNhanVien().getCongNhanVien().getHoTen(),
-					decimalFormat.format(bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(nhanVien.getLuongCoBan(),
+					decimalFormat.format(bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(),
 							nhanVien.tinhHeSoLuong())),
 					decimalFormat.format(luongThucTe), decimalFormat.format(
 							bl.tinhLuongThucLinh(luongThucTe, nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())) };
@@ -414,12 +414,12 @@ public class frm_LuongNhanVien extends JPanel {
 					double luongThucTe = bangLuongNhanVien.tinhLuongThucTe(
 							bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 							bangLuongNhanVien.getNhanVien().tinhHeSoLuong(),
-							bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(
+							bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
 									bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 									bangLuongNhanVien.getNhanVien().tinhHeSoLuong()));
 					Object[] objects = { bangLuongNhanVien.getNhanVien().getMaNhanVien(),
 							bangLuongNhanVien.getNhanVien().getCongNhanVien().getHoTen(),
-							decimalFormat.format(bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(
+							decimalFormat.format(bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
 									bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 									bangLuongNhanVien.getNhanVien().tinhHeSoLuong())),
 							decimalFormat.format(luongThucTe),
@@ -446,13 +446,13 @@ public class frm_LuongNhanVien extends JPanel {
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bangLuongNhanVien.tinhLuongThucTe(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 					bangLuongNhanVien.getNhanVien().tinhHeSoLuong(),
-					bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNien(
+					bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
 							bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 							bangLuongNhanVien.getNhanVien().tinhHeSoLuong()));
 			Object[] objects = { bangLuongNhanVien.getNhanVien().getMaNhanVien(),
 					bangLuongNhanVien.getNhanVien().getCongNhanVien().getHoTen(),
 					decimalFormat.format(bangLuongNhanVien.getNhanVien().getCongNhanVien()
-							.tinhPhuCapThamNien(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
+							.tinhPhuCapThamNienNhanVien(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
 									bangLuongNhanVien.getNhanVien().tinhHeSoLuong())),
 					decimalFormat.format(luongThucTe),
 					decimalFormat.format(bangLuongNhanVien.tinhLuongThucLinh(luongThucTe,

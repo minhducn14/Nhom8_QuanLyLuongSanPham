@@ -101,7 +101,7 @@ public class NhanVien {
 		this.congNhanVien = congNhanVien;
 	}
 
-	public double tinhHeSoLuong(Date ngayVaoLam, String trinhDo) {
+	public double tinhHeSoLuong(Date ngayVaoLam, String trinhDoVanHoa) {
 		Instant ngayVaoLamInstant = new java.util.Date(ngayVaoLam.getTime()).toInstant();
 		LocalDate ngayVaoLamLocal = ngayVaoLamInstant.atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -115,15 +115,15 @@ public class NhanVien {
 
 		double heSoLuong = 0.0;
 
-		if ("Cao Đẳng".equalsIgnoreCase(trinhDo)) {
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
 			heSoLuong = 2.1;
-		} else if ("Đại Học".equalsIgnoreCase(trinhDo)) {
+		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
 			heSoLuong = 2.41;
 		}
 
-		if ("Cao Đẳng".equalsIgnoreCase(trinhDo)) {
+		if ("Cao Đẳng".equalsIgnoreCase(trinhDoVanHoa)) {
 			heSoLuong += soBacTangLuong * heSoTienTrienCaoDang;
-		} else if ("Đại Học".equalsIgnoreCase(trinhDo)) {
+		} else if ("Đại Học".equalsIgnoreCase(trinhDoVanHoa)) {
 			heSoLuong += soBacTangLuong * heSoTienTrienDaiHoc;
 		}
 

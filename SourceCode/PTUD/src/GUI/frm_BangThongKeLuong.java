@@ -115,6 +115,18 @@ public class frm_BangThongKeLuong extends JPanel {
 		btnTmKim.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				int selectedYear = yearChooser.getYear();
+		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+
+		        LocalDate currentDate = LocalDate.now();
+		        int currentYear = currentDate.getYear();
+		        int currentMonth = currentDate.getMonthValue();
+
+		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+		            return;
+		        }
+		        
 				int nam = yearChooser.getYear();
 				int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
 				int maxMin = cmbTieuChi.getSelectedIndex();

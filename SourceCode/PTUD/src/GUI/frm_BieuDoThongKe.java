@@ -18,6 +18,8 @@ import Connection.MyConnection;
 import DAO.DAO_ThongKe;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -120,6 +122,17 @@ public class frm_BieuDoThongKe extends JPanel {
 		JButton btnTmKim = new JButton("Thống kê");
 		btnTmKim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int selectedYear = yearChooser.getYear();
+		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+
+		        LocalDate currentDate = LocalDate.now();
+		        int currentYear = currentDate.getYear();
+		        int currentMonth = currentDate.getMonthValue();
+
+		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+		            return;
+		        }
 				panel_1.removeAll();
 				JLabel lblNewLabel_5 = new JLabel("Biểu đồ thống kê");
 				lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 20));

@@ -265,6 +265,18 @@ public class frm_LuongNhanVien extends JPanel {
 		JButton btnXemLuong = new JButton("Tính lương");
 		btnXemLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				int selectedYear = yearChooser.getYear();
+		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+
+		        LocalDate currentDate = LocalDate.now();
+		        int currentYear = currentDate.getYear();
+		        int currentMonth = currentDate.getMonthValue();
+
+		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+		            return;
+		        }
 				panel_ThongTinLuong.setEnabled(true);
 				for (Component component : panel_ThongTinLuong.getComponents()) {
 					component.setEnabled(true);

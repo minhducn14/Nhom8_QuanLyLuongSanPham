@@ -238,6 +238,17 @@ public class frm_LuongThoLamDan extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				int selectedYear = yearChooser.getYear();
+		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+
+		        LocalDate currentDate = LocalDate.now();
+		        int currentYear = currentDate.getYear();
+		        int currentMonth = currentDate.getMonthValue();
+
+		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+		            return;
+		        }
 				panel_ThongTinLuong.setEnabled(true);
 				for (Component component : panel_ThongTinLuong.getComponents()) {
 					component.setEnabled(true);

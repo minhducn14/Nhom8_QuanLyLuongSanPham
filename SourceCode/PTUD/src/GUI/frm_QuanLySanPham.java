@@ -437,15 +437,15 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		String moTa = txtMoTa.getText().trim();
 		double giaBan = Double.parseDouble(txtGiaBan.getText().trim());
 
-		if (!(tensp.length() > 0 || tensp.matches("^[\\p{L}\\s]+$"))) {
+		if (!(tensp.length() > 0 && tensp.matches("^[\\p{L}\\d\\s.,]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Tên sản phẩm phải là ký tự");
 			return false;
 		}
-		if (!(giaBan > 0)) {
-			JOptionPane.showMessageDialog(this, "Error : Giá Bán phải lớn hơn 0 ");
+		if (!(giaBan > 3000000 )) {
+			JOptionPane.showMessageDialog(this, "Error : Giá Bán phải lớn hơn 3000000 ");
 			return false;
 		}
-		if (!(moTa.length() > 0 || moTa.matches("^[\\p{L}\\s]+$"))) {
+		if (!(moTa.length() > 0 && moTa.matches("^[\\p{L}\\d\\s.,]+$"))) {
 			JOptionPane.showMessageDialog(this, "Mô tả phải là ký tự");
 			return false;
 		}

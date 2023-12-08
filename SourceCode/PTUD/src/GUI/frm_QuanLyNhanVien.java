@@ -542,9 +542,10 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		String hoTen = txtHoTen.getText().trim();
 		String sdt = txtSDT.getText().trim();
 		String diaChi = txtDiaChi.getText().trim();
+		java.util.Date today = new java.util.Date();
 		Date ngaySinh = new Date(dateChooserNgaySinh.getDate().getTime());
 		Date ngayVaoLam = new Date(dateChooserNgayVaoLam.getDate().getTime());
-		java.util.Date today = new java.util.Date();
+		
 		// them try catch
 		double luong = Double.parseDouble(txtLuongCoBan.getText().trim());
 
@@ -564,7 +565,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
 			return false;
 		}
-		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\s]+$"))) {
+		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\d\\s.,]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
 			return false;
 		}

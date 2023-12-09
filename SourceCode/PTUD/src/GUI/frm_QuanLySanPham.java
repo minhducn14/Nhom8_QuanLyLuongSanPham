@@ -240,7 +240,7 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		lblMatDan.setBounds(20, 128, 133, 25);
 		panel_1_2.add(lblMatDan);
 
-		JLabel lblCan = new JLabel("Cầu");
+		JLabel lblCan = new JLabel("Cần");
 		lblCan.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblCan.setBounds(20, 175, 133, 25);
 		panel_1_2.add(lblCan);

@@ -179,7 +179,7 @@ public class DAO_CongDoan {
 		int tong = 0;
 		try {
 			Connection con = MyConnection.getInstance().getConnection();
-			String sql = "SELECT COUNT(*) FROM CongDoan WHERE TenCongDoan = N'" + tenCongDoan + "' AND MaSanPham = '"
+			String sql = "SELECT COUNT(*) FROM CongDoan WHERE TenCongDoan = N'" + tenCongDoan + "' AND MaSanPham = N'"
 					+ maSanPham + "'";
 
 			Statement statement = con.createStatement();

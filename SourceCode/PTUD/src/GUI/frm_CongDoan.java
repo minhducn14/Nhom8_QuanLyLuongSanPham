@@ -383,7 +383,7 @@ public class frm_CongDoan extends JPanel {
 					if (rowCD >= 0) {
 						boolean kt = true;
 						try {
-							String maSanPham = modelDSCongDoan.getValueAt(rowCD, 3).toString();
+							String maSanPham = modelDSCongDoan.getValueAt(rowCD, 2).toString();
 							String tenCongDoan = (String) comboBox.getSelectedItem();
 							String giaCongDoanStr = txtGiaCongDoan.getText();
 
@@ -394,6 +394,7 @@ public class frm_CongDoan extends JPanel {
 										JOptionPane.ERROR_MESSAGE);
 							}
 							if (congDoan_DAO.checkIfExists(tenCongDoan, maSanPham)) {
+								
 								kt = false;
 								JOptionPane.showMessageDialog(null, "Công đoạn này đã tồn tại cho sản phẩm.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
@@ -402,11 +403,6 @@ public class frm_CongDoan extends JPanel {
 							if (tenCongDoan.length() < 2) {
 								kt = false;
 								JOptionPane.showMessageDialog(null, "Tên công đoạn phải có ít nhất 2 kí tự.", "Lỗi",
-										JOptionPane.ERROR_MESSAGE);
-							}
-							if (congDoan_DAO.checkIfExists(tenCongDoan, maSanPham)) {
-								kt = false;
-								JOptionPane.showMessageDialog(null, "Công đoạn này đã tồn tại cho sản phẩm.", "Lỗi",
 										JOptionPane.ERROR_MESSAGE);
 							}
 							float giaCongDoan = Float.parseFloat(giaCongDoanStr);

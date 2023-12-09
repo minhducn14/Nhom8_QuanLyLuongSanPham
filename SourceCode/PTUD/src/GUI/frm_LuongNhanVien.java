@@ -262,21 +262,22 @@ public class frm_LuongNhanVien extends JPanel {
 		lblNam.setBounds(190, 20, 80, 30);
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
-		JButton btnXemLuong = new JButton("Tính lương");
-		btnXemLuong.addActionListener(new ActionListener() {
+		JButton btnTinhLuong = new JButton("Tính lương");
+		btnTinhLuong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int selectedYear = yearChooser.getYear();
-		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
 
-		        LocalDate currentDate = LocalDate.now();
-		        int currentYear = currentDate.getYear();
-		        int currentMonth = currentDate.getMonthValue();
+				LocalDate currentDate = LocalDate.now();
+				int currentYear = currentDate.getYear();
+				int currentMonth = currentDate.getMonthValue();
 
-		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
-		            return;
-		        }
+				if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+					JOptionPane.showMessageDialog(null,
+							"Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+					return;
+				}
 				panel_ThongTinLuong.setEnabled(true);
 				for (Component component : panel_ThongTinLuong.getComponents()) {
 					component.setEnabled(true);
@@ -319,6 +320,10 @@ public class frm_LuongNhanVien extends JPanel {
 					bl.setSoNgayNghiKhongPhep(soNgayNghiKhongPhep);
 					String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
 					bl.setMaBangLuong(maBangLuong);
+					boolean KT = dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
+					if (KT==false) {
+						themBangLuong(nhanVien);
+					}
 					dao_LuongNhanVien.updateBangLuongNhanVien(bl);
 					DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 					double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(),
@@ -335,13 +340,13 @@ public class frm_LuongNhanVien extends JPanel {
 
 			}
 		});
-		btnXemLuong.setIcon(null);
-		btnXemLuong.setForeground(Color.WHITE);
-		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 130, 30);
+		btnTinhLuong.setIcon(null);
+		btnTinhLuong.setForeground(Color.WHITE);
+		btnTinhLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTinhLuong.setBackground(new Color(2, 104, 156));
+		btnTinhLuong.setBounds(340, 20, 130, 30);
 
-		panel_1.add(btnXemLuong);
+		panel_1.add(btnTinhLuong);
 		panel_ThongTinLuong.setEnabled(false);
 		for (Component component : panel_ThongTinLuong.getComponents()) {
 			component.setEnabled(false);
@@ -395,14 +400,18 @@ public class frm_LuongNhanVien extends JPanel {
 			bl.setSoNgayNghiKhongPhep(soNgayNghiKhongPhep);
 			String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
 			bl.setMaBangLuong(maBangLuong);
+			boolean KT = dao_LuongNhanVien.kiemTraTrungMa(thang, nam, nhanVien.getMaNhanVien());
+			if (KT==false) {
+				themBangLuong(nhanVien);
+			}
 			dao_LuongNhanVien.updateBangLuongNhanVien(bl);
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luongThucTe = bl.tinhLuongThucTe(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong(), bl.getNhanVien()
 					.getCongNhanVien().tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong()));
 
 			Object[] objects = { bl.getNhanVien().getMaNhanVien(), bl.getNhanVien().getCongNhanVien().getHoTen(),
-					decimalFormat.format(bl.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(),
-							nhanVien.tinhHeSoLuong())),
+					decimalFormat.format(bl.getNhanVien().getCongNhanVien()
+							.tinhPhuCapThamNienNhanVien(nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())),
 					decimalFormat.format(luongThucTe), decimalFormat.format(
 							bl.tinhLuongThucLinh(luongThucTe, nhanVien.getLuongCoBan(), nhanVien.tinhHeSoLuong())) };
 			modelDanhSachLuong.addRow(objects);
@@ -431,9 +440,9 @@ public class frm_LuongNhanVien extends JPanel {
 									bangLuongNhanVien.getNhanVien().tinhHeSoLuong()));
 					Object[] objects = { bangLuongNhanVien.getNhanVien().getMaNhanVien(),
 							bangLuongNhanVien.getNhanVien().getCongNhanVien().getHoTen(),
-							decimalFormat.format(bangLuongNhanVien.getNhanVien().getCongNhanVien().tinhPhuCapThamNienNhanVien(
-									bangLuongNhanVien.getNhanVien().getLuongCoBan(),
-									bangLuongNhanVien.getNhanVien().tinhHeSoLuong())),
+							decimalFormat.format(bangLuongNhanVien.getNhanVien().getCongNhanVien()
+									.tinhPhuCapThamNienNhanVien(bangLuongNhanVien.getNhanVien().getLuongCoBan(),
+											bangLuongNhanVien.getNhanVien().tinhHeSoLuong())),
 							decimalFormat.format(luongThucTe),
 							decimalFormat.format(bangLuongNhanVien.tinhLuongThucLinh(luongThucTe,
 									bangLuongNhanVien.getNhanVien().getLuongCoBan(),
@@ -474,26 +483,26 @@ public class frm_LuongNhanVien extends JPanel {
 		}
 		modelDanhSachLuong.fireTableDataChanged();
 	}
-//
-//	private void themBangLuong(NhanVien nhanVien) {
-//		LocalDate currentDate = LocalDate.now();
-//		Month currentMonth = currentDate.getMonth();
-//		int thang = currentMonth.getValue();
-//		int nam = currentDate.getYear();
-//		BangLuongNhanVien bl = new BangLuongNhanVien();
-//		bl.setNam(nam);
-//		bl.setThang(thang);
-//		bl.setNhanVien(nhanVien);
-//		String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
-//		bl.setMaBangLuong(maBangLuong);
-//		bl.setSoGioTangCaChuNhat(0);
-//		bl.setSoGioTangCaNgayThuong(0);
-//		bl.setSoNgayLamChuNhat(0);
-//		bl.setSoNgayNghiCoPhep(0);
-//		bl.setSoNgayNghiKhongPhep(0);
-//		bl.setSoNgayThuongDiLam(0);
-//		dao_LuongNhanVien.themBangLuongNhanVien(bl);
-//	}
+
+	private void themBangLuong(NhanVien nhanVien) {
+		int nam = yearChooser.getYear();
+		int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+		BangLuongNhanVien bl = new BangLuongNhanVien();
+		bl.setNam(nam);
+		bl.setThang(thang);
+		bl.setNhanVien(nhanVien);
+		bl.setSoGioTangCaChuNhat(0);
+		bl.setSoGioTangCaNgayThuong(0);
+		bl.setSoNgayLamChuNhat(0);
+		bl.setSoNgayThuongDiLam(0);
+		bl.setSoNgayNghiCoPhep(0);
+		bl.setSoNgayNghiKhongPhep(0);
+		String maBangLuong = dao_LuongNhanVien.getMaBangLuong(thang, nam, nhanVien.getMaNhanVien());
+		bl.setMaBangLuong(maBangLuong);
+		DAO_LuongNhanVien dao_LuongNhanVien = new DAO_LuongNhanVien();
+		dao_LuongNhanVien.themBangLuongNhanVien(bl);
+		System.out.println(bl);
+	}
 
 	public static void exportExcel(JTable table) {
 		JFileChooser fileChooser = new JFileChooser();

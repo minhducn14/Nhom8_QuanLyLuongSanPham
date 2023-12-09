@@ -226,29 +226,30 @@ public class frm_LuongThoLamDan extends JPanel {
 		panel_1.add(lblNam);
 		lblNam.setFont(new Font("Tahoma", Font.BOLD, 16));
 
-		JButton btnXemLuong = new JButton("Tính Lương");
-		btnXemLuong.setIcon(null);
-		btnXemLuong.setForeground(Color.WHITE);
-		btnXemLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnXemLuong.setBackground(new Color(2, 104, 156));
-		btnXemLuong.setBounds(340, 20, 130, 30);
-		panel_1.add(btnXemLuong);
-		btnXemLuong.addActionListener(new ActionListener() {
+		JButton btnTinhLuong = new JButton("Tính Lương");
+		btnTinhLuong.setIcon(null);
+		btnTinhLuong.setForeground(Color.WHITE);
+		btnTinhLuong.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnTinhLuong.setBackground(new Color(2, 104, 156));
+		btnTinhLuong.setBounds(340, 20, 130, 30);
+		panel_1.add(btnTinhLuong);
+		btnTinhLuong.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int selectedYear = yearChooser.getYear();
-		        int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
+				int selectedMonth = Integer.parseInt(cmbThang.getSelectedItem().toString());
 
-		        LocalDate currentDate = LocalDate.now();
-		        int currentYear = currentDate.getYear();
-		        int currentMonth = currentDate.getMonthValue();
+				LocalDate currentDate = LocalDate.now();
+				int currentYear = currentDate.getYear();
+				int currentMonth = currentDate.getMonthValue();
 
-		        if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
-		            JOptionPane.showMessageDialog(null, "Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
-		            return;
-		        }
+				if (selectedYear > currentYear || (selectedYear == currentYear && selectedMonth > currentMonth)) {
+					JOptionPane.showMessageDialog(null,
+							"Tháng và năm không hợp lệ! Vui lòng chọn một tháng và năm trong phù hợp.");
+					return;
+				}
 				panel_ThongTinLuong.setEnabled(true);
 				for (Component component : panel_ThongTinLuong.getComponents()) {
 					component.setEnabled(true);
@@ -291,11 +292,16 @@ public class frm_LuongThoLamDan extends JPanel {
 			String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
 			bl.setMaBangLuong(maBangLuong);
 			bl.setThoLamDan(thoLamDan);
+			boolean KT = dao_LuongThoLamDan.kiemTraTrungMa(thang, nam, thoLamDan.getMaThoLamDan());
+			if (KT==false) {
+				themBangLuong(thoLamDan);
+			}
 			dao_LuongThoLamDan.updateBangLuongThoLamDan(bl);
 			DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
 			double luong = dao_LuongThoLamDan.layTongThuNhapTungThang(thoLamDan.getMaThoLamDan(), thang, nam);
 			Object[] objects = { thoLamDan.getMaThoLamDan(), thoLamDan.getCongNhanVien().getHoTen(),
-					decimalFormat.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNienThoLamDan(thoLamDan.tinhHeSoLuong())),
+					decimalFormat
+							.format(thoLamDan.getCongNhanVien().tinhPhuCapThamNienThoLamDan(thoLamDan.tinhHeSoLuong())),
 					decimalFormat.format(luong), decimalFormat.format(bl.tinhLuongThucLinh(luong)) };
 			modelDanhSachLuong.addRow(objects);
 		}
@@ -388,21 +394,19 @@ public class frm_LuongThoLamDan extends JPanel {
 		}
 	}
 
-//	private void themBangLuong(ThoLamDan thoLamDan) {
-//		LocalDate currentDate = LocalDate.now();
-//		Month currentMonth = currentDate.getMonth();
-//		int thang = currentMonth.getValue();
-//		int nam = currentDate.getYear();
-//		BangLuongThoLamDan bl = new BangLuongThoLamDan();
-//		bl.setNam(nam);
-//		bl.setThang(thang);
-//		bl.setThoLamDan(thoLamDan);
-//		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
-//		bl.setMaBangLuong(maBangLuong);
-//		bl.setSoLuongSanPham(0);
-//		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
-//		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
-//	}
+	private void themBangLuong(ThoLamDan thoLamDan) {
+		int nam = yearChooser.getYear();
+		int thang = Integer.parseInt(cmbThang.getSelectedItem().toString());
+		BangLuongThoLamDan bl = new BangLuongThoLamDan();
+		bl.setNam(nam);
+		bl.setThang(thang);
+		bl.setThoLamDan(thoLamDan);
+		String maBangLuong = dao_LuongThoLamDan.getMaBangLuong(thang, nam, thoLamDan.getMaThoLamDan());
+		bl.setMaBangLuong(maBangLuong);
+		bl.setSoLuongSanPham(0);
+		DAO_LuongThoLamDan dao_LuongThoLamDan = new DAO_LuongThoLamDan();
+		dao_LuongThoLamDan.themBangLuongThoLamDan(bl);
+	}
 
 	private void loadDataLuongTheoTen(String tenThoLamDan) {
 

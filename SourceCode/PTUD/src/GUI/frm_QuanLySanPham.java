@@ -397,16 +397,16 @@ public class frm_QuanLySanPham extends JPanel implements ActionListener {
 		txtTenSanPham.setText("");
 		txtGiaBan.setText("");
 		txtMoTa.setText("");
-		cbbEoLung.setSelectedItem(null);
-		cbbCau.setSelectedItem(null);
-		cbbDay.setSelectedItem(null);
-		cbbKhoa.setSelectedItem(null);
-		cbbLoaiSanPham.setSelectedItem(null);
-		cbbMatDan.setSelectedItem(null);
-		cbbMatPhim.setSelectedItem(null);
-		cbbNgua.setSelectedItem(null);
-		cbbTrangThai.setSelectedItem(null);
-		txtMaSanPham.requestFocus();
+		cbbEoLung.setSelectedIndex(0);
+		cbbCau.setSelectedIndex(0);
+		cbbDay.setSelectedIndex(0);
+		cbbKhoa.setSelectedIndex(0);
+		cbbLoaiSanPham.setSelectedIndex(0);
+		cbbMatDan.setSelectedIndex(0);
+		cbbMatPhim.setSelectedIndex(0);
+		cbbNgua.setSelectedIndex(0);
+		cbbTrangThai.setSelectedIndex(0);
+		txtTenSanPham.requestFocus();
 		autoGenIdSanPham();
 	}
 

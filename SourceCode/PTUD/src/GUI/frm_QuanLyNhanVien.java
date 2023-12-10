@@ -512,7 +512,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		java.util.Date currentDate = new java.util.Date();
 		dateChooserNgayVaoLam.setDate(currentDate);
 		rbtNam.setSelected(true);
-		txtMaNhanVien.requestFocus();
+		txtHoTen.requestFocus();
 		cbbChucVu.setSelectedIndex(0);
 		cbbPhongBan.setSelectedIndex(0);
 		cbbTrangThai.setSelectedIndex(0);

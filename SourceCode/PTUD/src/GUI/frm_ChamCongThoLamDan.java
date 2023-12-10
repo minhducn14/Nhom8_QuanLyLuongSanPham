@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -190,23 +191,41 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				// TODO Auto-generated method stub
+
 				if (e.getType() == TableModelEvent.UPDATE) {
 					int row = e.getFirstRow();
 					int column = e.getColumn();
 
+					if (column == 6) {
+						String status = (String) model_BagPhanCong.getValueAt(row, 6);
+						Object vaObject = model_BagPhanCong.getValueAt(row, 4);
+						int defaultValue = (int) vaObject;
+						if (status.equals("Có mặt")) {
+							model_BagPhanCong.setValueAt(defaultValue, row, 5);
+						} else if (status.equals("Vắng mặt")) {
+							model_BagPhanCong.setValueAt(0, row, 5);
+						}
+					}
+
 					if (column == 5) {
-						Object oldValue = model_BagPhanCong.getValueAt(row, column - 1);
-						int soLuongPC = (int) oldValue;
-						String newValue = model_BagPhanCong.getValueAt(row, column).toString();
-						try {
-							int slHT = Integer.parseInt(newValue);
-							if (slHT > soLuongPC) {
-								JOptionPane.showMessageDialog(null,
-										"Số lượng hoàn thành phải nhỏ hơn số lượng được phân công");
+						String status = (String) model_BagPhanCong.getValueAt(row, 6);
+						if (status.equals("Có mặt")) {
+							Object oldValue = model_BagPhanCong.getValueAt(row, 4);
+							int soLuongPC = (int) oldValue;
+							String newValue = model_BagPhanCong.getValueAt(row, 5).toString();
+							try {
+								int slHT = Integer.parseInt(newValue);
+								if (slHT > soLuongPC && slHT > 0) {
+									model_BagPhanCong.setValueAt(oldValue, row, 5);
+									JOptionPane.showMessageDialog(null,
+											"Số lượng hoàn thành phải nhỏ hơn số lượng được phân công và phải lớn hơn 0");
+								}
+							} catch (Exception e2) {
+								// TODO: handle exception
+								JOptionPane.showMessageDialog(null, "Số lượng hoàn thành phải là số");
 							}
-						} catch (Exception e2) {
-							// TODO: handle exception
-							JOptionPane.showMessageDialog(null, "Số lượng hoàn thành phải là số");
+						} else if (status.equals("Chưa ghi nhận chấm công")) {
+							JOptionPane.showMessageDialog(null, "Vui lòng chọn trạng thái trước khi nhập số lượng");
 						}
 
 					}
@@ -236,7 +255,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 					try {
 						java.util.Date utilDate = new java.util.Date();
 						Date date = new Date(utilDate.getTime());
-
+						int check = 0;
 						ArrayList<BangChamCongThoLamDan> listBCC = dao_ChamCongThoLamDan.layDanhSachChamCong(date);
 						ArrayList<String> listtld = new ArrayList<>();
 						for (BangChamCongThoLamDan bangChamCongThoLamDan : listBCC) {
@@ -249,6 +268,7 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 							} else {
 								String trangThaiDiLam = (String) model_BagPhanCong.getValueAt(row, 6);
 								if (!trangThaiDiLam.equals("Chưa ghi nhận chấm công")) {
+									check++;
 									String maThoLamDan = (String) model_BagPhanCong.getValueAt(row, 0);
 									ThoLamDan thoLamDan = dao_ThoLamDan.getTLDTheoMaThoLamDan(maThoLamDan);
 									BangChamCongThoLamDan bccThoLamDan = new BangChamCongThoLamDan();
@@ -295,7 +315,14 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 								}
 							}
 						}
+						if (check != 0) {
+							JOptionPane.showMessageDialog(null, "Chấm Công Thành Công");
+						} else {
+							JOptionPane.showMessageDialog(null, "Không có thợ làm đàn nào để chấm công");
+
+						}
 					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
 						e2.printStackTrace();
 					}
 				}
@@ -389,6 +416,41 @@ public class frm_ChamCongThoLamDan extends JPanel implements ActionListener {
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBounds(366, 20, 5, 25);
 		panel_1_2.add(separator);
+
+		JButton btnMacDinh = new JButton("Mặc định");
+		btnMacDinh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					java.util.Date utilDate = new java.util.Date();
+					Date date = new Date(utilDate.getTime());
+					ArrayList<BangChamCongThoLamDan> listBCC = dao_ChamCongThoLamDan.layDanhSachChamCong(date);
+					ArrayList<String> listtld = new ArrayList<>();
+					for (BangChamCongThoLamDan bangChamCongThoLamDan : listBCC) {
+						listtld.add(bangChamCongThoLamDan.getThoLamDan().getMaThoLamDan());
+					}
+
+					for (int row = 0; row < model_BagPhanCong.getRowCount(); row++) {
+						if (listtld.contains((String) model_BagPhanCong.getValueAt(row, 0))) {
+
+						} else {
+
+							Object slValue = model_BagPhanCong.getValueAt(row, 4);
+							int sl = (int) slValue;
+							model_BagPhanCong.setValueAt("Có mặt", row, 6);
+							model_BagPhanCong.setValueAt(sl, row, 5);
+						}
+					}
+
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		});
+		btnMacDinh.setForeground(Color.WHITE);
+		btnMacDinh.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnMacDinh.setBackground(new Color(120, 186, 219));
+		btnMacDinh.setBounds(1104, 528, 129, 30);
+		panel_1_2.add(btnMacDinh);
 		loadDataIntoTableChamCong();
 	}
 

@@ -148,7 +148,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 				int output = JOptionPane.showConfirmDialog(null, "Bạn xác nhận chấm công", "Thông báo xác nhận",
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if (output == JOptionPane.YES_OPTION) {
-
+					int check =0;
 					java.util.Date utilDate = new java.util.Date();
 					Date date = new Date(utilDate.getTime());
 					ArrayList<BangChamCongNhanVien> listBCC;
@@ -165,6 +165,7 @@ public class frm_ChamCongNhanVien extends JPanel {
 							} else {
 								String trangThaiDiLam = (String) modelChamCong.getValueAt(row, 2);
 								if (!trangThaiDiLam.equals("Chưa ghi nhận công")) {
+									check++;
 									String maNhanVien = (String) modelChamCong.getValueAt(row, 0);
 									NhanVien nhanVien = dao_NhanVien.getNhanVienTheoMa(maNhanVien);
 									BangChamCongNhanVien bangChamCong = new BangChamCongNhanVien();
@@ -210,9 +211,15 @@ public class frm_ChamCongNhanVien extends JPanel {
 							}
 
 						}
+						if(check!=0) {
+							JOptionPane.showMessageDialog(null, "Chấm Công Thành Công");
+						}else {
+							JOptionPane.showMessageDialog(null, "Không có nhân viên nào để chấm công");
 
+						}
 					} catch (SQLException e2) {
 						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, "Chấm Công Thất Bại");
 						e2.printStackTrace();
 					}
 
@@ -428,11 +435,11 @@ public class frm_ChamCongNhanVien extends JPanel {
 
 			for (NhanVien nhanVien : dao_NhanVien.getAllNhanVienTheoPhongBan(maPhongBan)) {
 				if (listNV.contains(nhanVien.getMaNhanVien())) {
-					int position = listNV.indexOf(nhanVien.getMaNhanVien());
-					Object[] objects = { listBCC.get(position).getNhanVien().getMaNhanVien(),
-							listBCC.get(position).getNhanVien().getCongNhanVien().getHoTen(),
-							listBCC.get(position).getTrangThaiDiLam(), listBCC.get(position).getSoGioTangCa() };
-					modelChamCong.addRow(objects);
+//					int position = listNV.indexOf(nhanVien.getMaNhanVien());
+//					Object[] objects = { listBCC.get(position).getNhanVien().getMaNhanVien(),
+//							listBCC.get(position).getNhanVien().getCongNhanVien().getHoTen(),
+//							listBCC.get(position).getTrangThaiDiLam(), listBCC.get(position).getSoGioTangCa() };
+//					modelChamCong.addRow(objects);
 				} else {
 					Object[] objects = { nhanVien.getMaNhanVien(), nhanVien.getCongNhanVien().getHoTen(),
 							"Chưa ghi nhận công", "0" };

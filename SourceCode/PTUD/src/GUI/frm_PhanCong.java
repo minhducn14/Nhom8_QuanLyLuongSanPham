@@ -438,8 +438,9 @@ public class frm_PhanCong extends JPanel {
 											bangPhanCong.getCongDoan().getDan().getTenSanPham(),
 											bangPhanCong.getNgayPhanCong() };
 									modelDSPC.addRow(rowData);
+									JOptionPane.showMessageDialog(null, "Phân công thành công ");
+
 								}
-								JOptionPane.showMessageDialog(null, "Phân công thành công ");
 								
 								txtSoLuongSanPham.setText("");
 								txtSoLuongSanPham.setEnabled(false);

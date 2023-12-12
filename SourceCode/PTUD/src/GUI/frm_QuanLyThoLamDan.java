@@ -586,11 +586,11 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			if (row >= 0) {
 				if (checkregex()) {
 					if (row >= 0) {
-						String maThoLamDan = jmaTLD.getText();
-						String hoTen = jhoTen.getText();
-						String sdt = jsdt.getText();
-						String cmnd = jcmnd.getText();
-						String diaChi = jdiaChi.getText();
+						String maThoLamDan = jmaTLD.getText().trim();
+						String hoTen = jhoTen.getText().trim();
+						String sdt = jsdt.getText().trim();
+						String cmnd = jcmnd.getText().trim();
+						String diaChi = jdiaChi.getText().trim();
 						String tayNghe = (String) jtayNghe.getSelectedItem();
 						java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
 						java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());

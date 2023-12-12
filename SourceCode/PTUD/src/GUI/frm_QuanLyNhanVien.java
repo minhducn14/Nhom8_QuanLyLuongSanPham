@@ -406,7 +406,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 				if (row >= 0 && row < listnv.size()) {
 					NhanVien nv = listnv.get(row);
-
+					txtHoTen.setEnabled(false);
 					txtMaNhanVien.setText(nv.getMaNhanVien());
 					txtHoTen.setText(nv.getCongNhanVien().getHoTen());
 					txtSDT.setText(nv.getCongNhanVien().getSoDienThoai());
@@ -506,6 +506,7 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 		txtCMND.setText("");
 		txtHoTen.setText("");
+		txtHoTen.setEnabled(true);
 		txtSDT.setText("");
 		txtDiaChi.setText("");
 		txtLuongCoBan.setText("");
@@ -623,39 +624,46 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 
 					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai,
 							ngayVaoLam);
-					dao_cnv.taoCNV(cnv);
-					CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
-					NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
-					dao_nv.taoNV(nv);
 
-					String maNVNew = dao_nv.getMaNhanVienMoiTao();
-					nv.setMaNhanVien(maNVNew);
-
-					String gioiTinh;
-					Boolean gt = nv.getCongNhanVien().isGioiTinh();
-					boolean kiemTraGT = true;
-
-					if (gt == kiemTraGT) {
-						gioiTinh = "Nam";
+					if (dao_cnv.isDuplicate(hoTen, cmnd, sdt)) {
+						JOptionPane.showMessageDialog(this, "Họ tên, Căn cước công dân hoặc số điện thoại đã tồn tại");
+						return;
 					} else {
-						gioiTinh = "Nữ";
-					}
-					String maPB = nv.getPhongBan().getMaPhongBan();
-					if (maPB.equals("PB005") || maPB.equals("PB002")) {
-						TaiKhoan tk = new TaiKhoan();
-						tk.setTaiKhoan(nv.getMaNhanVien());
-						tk.setMatKhau("123");
-						try {
-							dao_TaiKhoan.themTaiKhoan(tk);
-						} catch (SQLException e1) {
-							e1.printStackTrace();
+						dao_cnv.taoCNV(cnv);
+						CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+						NhanVien nv = new NhanVien(chucVu, trinhDo, luongCoBan, pb, cnvNew);
+						dao_nv.taoNV(nv);
+
+						String maNVNew = dao_nv.getMaNhanVienMoiTao();
+						nv.setMaNhanVien(maNVNew);
+
+						String gioiTinh;
+						Boolean gt = nv.getCongNhanVien().isGioiTinh();
+						boolean kiemTraGT = true;
+
+						if (gt == kiemTraGT) {
+							gioiTinh = "Nam";
+						} else {
+							gioiTinh = "Nữ";
 						}
+						String maPB = nv.getPhongBan().getMaPhongBan();
+						if (maPB.equals("PB005") || maPB.equals("PB002")) {
+							TaiKhoan tk = new TaiKhoan();
+							tk.setTaiKhoan(nv.getMaNhanVien());
+							tk.setMatKhau("123");
+							try {
+								dao_TaiKhoan.themTaiKhoan(tk);
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+						}
+						modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(),
+								gioiTinh, nv.getCongNhanVien().getNgaySinh(),
+								nv.getCongNhanVien().getMaCanCuocCongDan(), nv.getCongNhanVien().getSoDienThoai() });
+						JOptionPane.showMessageDialog(this, "Thêm thành công");
+						xoaRong();
 					}
-					modelNhanVien.addRow(new Object[] { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh,
-							nv.getCongNhanVien().getNgaySinh(), nv.getCongNhanVien().getMaCanCuocCongDan(),
-							nv.getCongNhanVien().getSoDienThoai() });
-					JOptionPane.showMessageDialog(this, "Thêm thành công");
-					xoaRong();
+
 				}
 			} else {
 				JOptionPane.showMessageDialog(this, "Nhân viên đã có không thể thêm");

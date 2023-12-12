@@ -41,6 +41,24 @@ public class DAO_CongNhanVien {
 		return dsCongNhanVien;
 	}
 
+	public boolean isDuplicate(String hoTen, String maCanCuocCongDan, String soDienThoai) {
+		Connection con = MyConnection.getInstance().getConnection();
+		String sql = "SELECT COUNT(*) FROM CongNhanVien WHERE hoTen = ? OR maCanCuocCongDan = ? OR soDienThoai = ?";
+		try (PreparedStatement pst = con.prepareStatement(sql)) {
+			pst.setString(1, hoTen);
+			pst.setString(2, maCanCuocCongDan);
+			pst.setString(3, soDienThoai);
+
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 	public boolean taoCNV(CongNhanVien cnv) {
 		Connection con = MyConnection.getInstance().getConnection();
 		if (con == null) {

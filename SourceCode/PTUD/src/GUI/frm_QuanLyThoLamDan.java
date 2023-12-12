@@ -59,7 +59,6 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_ThoLamDan dao_tld;
 	private List<ThoLamDan> listtld;
-	private List<CongNhanVien> listcnv;
 	private JTable table_1;
 
 	public frm_QuanLyThoLamDan() {
@@ -388,6 +387,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 				// TODO Auto-generated method stub
 				int row = table_1.getSelectedRow();
 				if (row >= 0 && row < listtld.size()) {
+					jhoTen.setEnabled(false);
 					ThoLamDan tld = listtld.get(row);
 					jmaTLD.setText(tld.getMaThoLamDan());
 					jhoTen.setText(tld.getCongNhanVien().getHoTen());
@@ -417,7 +417,6 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 
 	private void updateTableDataThoLamDan() {
 		listtld = dao_tld.docTuBang();
-		listcnv = dao_cnv.docTuBang();
 		modelThoLamDan.setRowCount(0);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -468,6 +467,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 	public void xoaRong() {
 		java.util.Date today = new java.util.Date();
 		jmaTLD.setText("");
+		jhoTen.setEnabled(true);
 		jhoTen.setText("");
 		jsdt.setText("");
 		jcmnd.setText("");
@@ -550,27 +550,32 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 					}
 					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai,
 							ngayVaoLam);
-					dao_cnv.taoCNV(cnv);
-					CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
-					ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
-					dao_tld.taoTLD(tld);
-
-					String maTLDNew = dao_tld.getMaThoLamDanMoiTao();
-					tld.setMaThoLamDan(maTLDNew);
-					String gioiTinh;
-					Boolean gt = tld.getCongNhanVien().isGioiTinh();
-					boolean kiemTraGT = true;
-
-					if (gt == kiemTraGT) {
-						gioiTinh = "Nam";
+					if (dao_cnv.isDuplicate(hoTen, cmnd, sdt)) {
+						JOptionPane.showMessageDialog(this, "Họ tên, Căn cước công dân hoặc số điện thoại đã tồn tại");
+						return;
 					} else {
-						gioiTinh = "Nữ";
+						dao_cnv.taoCNV(cnv);
+						CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+						ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
+						dao_tld.taoTLD(tld);
+						String maTLDNew = dao_tld.getMaThoLamDanMoiTao();
+						tld.setMaThoLamDan(maTLDNew);
+						String gioiTinh;
+						Boolean gt = tld.getCongNhanVien().isGioiTinh();
+						boolean kiemTraGT = true;
+
+						if (gt == kiemTraGT) {
+							gioiTinh = "Nam";
+						} else {
+							gioiTinh = "Nữ";
+						}
+						modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
+								gioiTinh, tld.getCongNhanVien().getNgaySinh(),
+								tld.getCongNhanVien().getMaCanCuocCongDan(), tld.getCongNhanVien().getSoDienThoai() });
+						JOptionPane.showMessageDialog(this, "Thêm thành công");
+						xoaRong();
 					}
-					modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
-							gioiTinh, tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
-							tld.getCongNhanVien().getSoDienThoai() });
-					JOptionPane.showMessageDialog(this, "Thêm thành công");
-					xoaRong();
+
 				}
 			} else {
 				JOptionPane.showMessageDialog(this, "Thợ làm đàn đã có không thể thêm");

@@ -390,21 +390,44 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 
 	}
 
-	private static void savePanelAsJpg() {
+//	private static void savePanelAsJpg() {
+//		BufferedImage image = new BufferedImage(contentPane.getWidth(), contentPane.getHeight() - 50,
+//				BufferedImage.TYPE_INT_RGB);
+//		Graphics2D g2d = image.createGraphics();
+//		contentPane.printAll(g2d);
+//		g2d.dispose();
+//		try {
+//			ImageIO.write(image, "jpg", new File("../SourceCode/PTUD/src/contentPane.jpg"));
+//		} catch (IOException ex) {
+//			JOptionPane.showMessageDialog(contentPane, ex);
+//			ex.printStackTrace();
+//		}
+//	}
+
+	private static String savePanelAsJpg() {
+		String tempDir = System.getProperty("java.io.tmpdir");
+		String fileName = "contentPane.jpg";
+		String filePath = tempDir + File.separator + fileName;
 		BufferedImage image = new BufferedImage(contentPane.getWidth(), contentPane.getHeight() - 50,
 				BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = image.createGraphics();
 		contentPane.printAll(g2d);
 		g2d.dispose();
 		try {
-			ImageIO.write(image, "jpg", new File("src//contentPane.jpg"));
+			File outputFile = new File(filePath);
+			ImageIO.write(image, "jpg", outputFile);
+			return outputFile.getAbsolutePath();
 		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(contentPane, ex);
 			ex.printStackTrace();
 		}
+		return null;
 	}
 
 	private static void exportPDF() {
-		savePanelAsJpg();
+		String jpgFilePath = savePanelAsJpg();
+		if (jpgFilePath == null)
+			return;
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Chọn nơi lưu tệp pdf");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf");
@@ -428,7 +451,6 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 				if (!filePath.endsWith(".pdf")) {
 					filePath += ".pdf";
 				}
-				String jpgFilePath = "src//contentPane.jpg";
 				Document document = new Document(PageSize.A5.rotate(), 0, 0, 0, 0);
 
 				try {
@@ -442,14 +464,9 @@ public class frm_ChiTietBangLuongNhanVien extends JFrame {
 
 					document.close();
 					fos.close();
-
-					String duongDan = "src//contentPane.jpg";
-
-					File tepCanXoa = new File(duongDan);
-
-					if (tepCanXoa.exists()) {
-						tepCanXoa.delete();
-
+					File tempFile = new File(jpgFilePath);
+					if (tempFile.exists()) {
+						tempFile.delete();
 					}
 					JOptionPane.showMessageDialog(null, "Tạo và lưu tệp thành công!");
 				} catch (Exception e) {

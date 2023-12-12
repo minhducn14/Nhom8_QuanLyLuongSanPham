@@ -7,6 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, ActionListener {
 	/**
@@ -189,13 +194,39 @@ public class frm_GiaoDienChinhQLNhanSu extends JFrame implements MouseListener, 
 			pnCneter.add(form_trangChu);
 			validate();
 		} else if (e.getSource().equals(mnTroGiup)) {
-			String[] commands = { "cmd", "/c", "start", "/B", "cmd", "/c", "start", "cmd", "/c",
-					"mode con cols=120 lines=40 && start src\\help\\helpQLNS.chm" };
-			try {
-				Runtime.getRuntime().exec(commands);
-			} catch (Exception e2) {
-				e2.printStackTrace();
+
+			String helpFilePath = "/help/helpQLNS.chm";
+			URL helpFileURL = getClass().getResource(helpFilePath);
+			if (helpFileURL == null) {
+				String basePath = System.getProperty("user.dir");
+				String basePathNew = basePath.substring(0, basePath.length() - 11);
+				String helpFolderPath = basePathNew + "SourceCode" + File.separator + "PTUD" + File.separator + "src"
+						+ File.separator + "help" + File.separator + "helpQLNS.chm";
+				File newFile = new File(helpFolderPath);
+				try {
+					helpFileURL = newFile.toURI().toURL();
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
+
+			File helpFile;
+			try {
+				helpFile = new File(helpFileURL.toURI());
+				String[] commands = { "cmd", "/c", "start", helpFile.getAbsolutePath() };
+				Runtime.getRuntime().exec(commands);
+
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Không thể mở file .chm: " + e1.getMessage());
+
+			}
+
 		}
 
 	}

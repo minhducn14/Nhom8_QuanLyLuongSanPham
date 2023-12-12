@@ -9,6 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 public class frm_GiaoDienChinhQLSanXuat extends JFrame implements MouseListener, ActionListener {
 	/**
@@ -149,17 +154,6 @@ public class frm_GiaoDienChinhQLSanXuat extends JFrame implements MouseListener,
 		cp.add(pnCneter, BorderLayout.CENTER);
 		menuBar.setBackground(Color.decode("#B2EBF2"));
 
-//		mnThngK = new JMenu("Thống kê");
-//		mnThngK.setIcon(new ImageIcon(frm_GiaoDienChinhQLSanXuat.class.getResource("/icons/analytis_icon.png")));
-//		mnThngK.setFont(new Font("Arial", Font.BOLD, 20));
-//		menuBar.add(mnThngK);
-//
-//		mntmNewMenuItem = new JMenuItem("Biểu đồ");
-//		mnThngK.add(mntmNewMenuItem);
-//
-//		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Danh sách");
-//		mnThngK.add(mntmNewMenuItem_1);
-
 		pnCneter.setForeground(Color.decode("#CCCCCC"));
 
 		// Event
@@ -175,22 +169,38 @@ public class frm_GiaoDienChinhQLSanXuat extends JFrame implements MouseListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getSource().equals(mnTrangChu)) {
-			frm_TrangChu form_trangChu = new frm_TrangChu();
-			pnCneter.removeAll();
-			pnCneter.add(form_trangChu);
-			validate();
-		} else if (e.getSource().equals(mnTroGiup)) {
-			String[] commands = { "cmd", "/c", "start", "/B", "cmd", "/c", "start", "cmd", "/c",
-					"mode con cols=120 lines=40 && start src\\help\\helpQLSX.chm" };
 
+		String helpFilePath = "/help/helpQLSX.chm";
+		URL helpFileURL = getClass().getResource(helpFilePath);
+		if (helpFileURL == null) {
+			String basePath = System.getProperty("user.dir");
+			String basePathNew = basePath.substring(0, basePath.length() - 11);
+			String helpFolderPath = basePathNew + "SourceCode" + File.separator + "PTUD" + File.separator + "src"
+					+ File.separator + "help" + File.separator + "helpQLSX.chm";
+			File newFile = new File(helpFolderPath);
 			try {
-				Runtime.getRuntime().exec(commands);
-			} catch (Exception e2) {
-				e2.printStackTrace();
+				helpFileURL = newFile.toURI().toURL();
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 
+		File helpFile;
+		try {
+			helpFile = new File(helpFileURL.toURI());
+			String[] commands = { "cmd", "/c", "start", helpFile.getAbsolutePath() };
+			Runtime.getRuntime().exec(commands);
+
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Không thể mở file .chm: " + e1.getMessage());
+
+		}
 	}
 
 	@Override

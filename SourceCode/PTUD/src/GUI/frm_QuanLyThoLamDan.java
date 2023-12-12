@@ -416,14 +416,10 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 	}
 
 	private void updateTableDataThoLamDan() {
-		listtld = dao_tld.docTuBang();
 		modelThoLamDan.setRowCount(0);
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
 		DAO_ThoLamDan dsThoLamDan = new DAO_ThoLamDan();
 		List<ThoLamDan> listtld = dsThoLamDan.docTuBang();
-
 		for (ThoLamDan thoLamDan : listtld) {
 			Boolean gt = thoLamDan.getCongNhanVien().isGioiTinh();
 			boolean kiemTraGT = true;
@@ -621,11 +617,19 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 						CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai,
 								ngayVaoLam, maCNV);
 						ThoLamDan tld = new ThoLamDan(maThoLamDan, tayNghe, cnv);
+
+						String gt;
+						if (tld.getCongNhanVien().isGioiTinh()) {
+							gt = "Nam";
+						} else {
+							gt = "Nữ";
+						}
 						if (dao_tld.update(tld, cnv)) {
 							table_1.setValueAt(maThoLamDan, row, 0);
 							table_1.setValueAt(hoTen, row, 1);
-							table_1.setValueAt(phai, row, 2);
-							table_1.setValueAt(ngaySinh, row, 3);
+							table_1.setValueAt(gt, row, 2);
+							SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+							table_1.setValueAt(dateFormat.format(ngaySinh), row, 3);
 							table_1.setValueAt(cmnd, row, 4);
 							table_1.setValueAt(sdt, row, 5);
 							JOptionPane.showMessageDialog(this, "Sửa thành công");

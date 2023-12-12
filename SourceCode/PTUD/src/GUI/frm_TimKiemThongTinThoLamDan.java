@@ -38,11 +38,9 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField txtHoTen;
-	private JTextField textField_1;
 	private JTextField txtDiaChi;
-	private JTextField textField_2;
 	private JTextField txtSoDienThoai;
-	private JComboBox<String> comboBoxTrangThai;
+	private JComboBox<String> comboBoxTrangThai, comboBoxTayNghe;
 	private ButtonGroup group = new ButtonGroup(), groupSex = new ButtonGroup();
 	private JRadioButton rdbtnNu, rdbtnNam;
 	private DAO_CongNhanVien dao_cnv = new DAO_CongNhanVien();
@@ -53,7 +51,6 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 	private JTable table_1;
 	private List<CongNhanVien> listcnv;
 	private List<ThoLamDan> listtld;
-	private JTextField txtmatld;
 
 	public frm_TimKiemThongTinThoLamDan() {
 		MyConnection.getInstance().MyConnection();
@@ -95,7 +92,7 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 		table_1.setRowHeight(rowHeight1);
 		table_1.setIntercellSpacing(new Dimension(0, rowMargin1));
 		String[] col = { "Mã Thợ Làm Đàn ", "Họ Tên Thợ Làm Đàn", "Giới Tính", "Ngày Sinh", "CMND", "SDT", "Địa Chỉ",
-				"Trạng Thái" };
+				"Tay Nghề", "Trạng Thái" };
 		modell = new DefaultTableModel(col, 0);
 		table_1.setModel(modell);
 
@@ -161,10 +158,6 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 		lblNewLabel_1_1.setBounds(31, 0, 140, 25);
 		panel_1_1.add(lblNewLabel_1_1);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(180, 0, 380, 25);
-
 		txtDiaChi = new JTextField();
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBounds(201, 0, 318, 25);
@@ -177,19 +170,21 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 		panel_1_2.setBounds(800, 65, 519, 25);
 		panel.add(panel_1_2);
 
-		txtmatld = new JTextField();
-		txtmatld.setColumns(10);
-		txtmatld.setBounds(201, 0, 318, 25);
-		panel_1_2.add(txtmatld);
-
-		JLabel lblNewLabel_1_3_2 = new JLabel("Mã thợ làm đàn :");
+		JLabel lblNewLabel_1_3_2 = new JLabel("Tay Nghề :");
 		lblNewLabel_1_3_2.setBounds(30, 0, 140, 25);
 		panel_1_2.add(lblNewLabel_1_3_2);
 		lblNewLabel_1_3_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(180, 0, 380, 25);
+		comboBoxTayNghe = new JComboBox<String>();
+		comboBoxTayNghe.setBounds(201, 0, 318, 25);
+		comboBoxTayNghe.addItem("Tất cả");
+		comboBoxTayNghe.addItem("Bậc 1");
+		comboBoxTayNghe.addItem("Bậc 2");
+		comboBoxTayNghe.addItem("Bậc 3");
+		comboBoxTayNghe.addItem("Bậc 4");
+		comboBoxTayNghe.addItem("Bậc 5");
+		panel_1_2.add(comboBoxTayNghe);
+
 		JPanel panel_1_3 = new JPanel();
 		panel_1_3.setLayout(null);
 		panel_1_3.setBackground(Color.WHITE);
@@ -288,20 +283,15 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 
 		for (int i = 0; i < listtld.size(); i++) {
 			ThoLamDan tld = listtld.get(i);
-			if (i < listcnv.size()) {
-				CongNhanVien cnv = listcnv.get(i);
-				String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
-				String trangThai = cnv.isTrangThai() ? "Đang làm" : "Nghỉ làm";
-				String ngaySinh = dateFormat.format(cnv.getNgaySinh());
-				String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh, ngaySinh,
-						cnv.getMaCanCuocCongDan(), cnv.getSoDienThoai(), cnv.getDiaChi(), trangThai };
-				modell.addRow(rowData);
+			CongNhanVien cnv = listcnv.get(i);
+			String gioiTinh = cnv.isGioiTinh() ? "Nam" : "Nữ";
+			String trangThai = cnv.isTrangThai() ? "Đang làm" : "Nghỉ làm";
+			String ngaySinh = dateFormat.format(cnv.getNgaySinh());
+			String taynghe = tld.getTayNghe();
+			String[] rowData = { tld.getMaThoLamDan(), cnv.getHoTen(), gioiTinh, ngaySinh, cnv.getMaCanCuocCongDan(),
+					cnv.getSoDienThoai(), cnv.getDiaChi(), taynghe, trangThai };
+			modell.addRow(rowData);
 
-			} else {
-
-				String[] rowData = { tld.getMaThoLamDan(), "", "", "", "", "", "", "" };
-				modell.addRow(rowData);
-			}
 		}
 	}
 
@@ -309,42 +299,57 @@ public class frm_TimKiemThongTinThoLamDan extends JPanel implements ActionListen
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if (o.equals(btnTmKim)) {
-			String maThoLamDan = txtmatld.getText();
+
+			String tayNghe = comboBoxTayNghe.getSelectedItem().toString();
 			String hoten = txtHoTen.getText();
-
 			String tinhTrang = comboBoxTrangThai.getSelectedItem().toString();
-			tinhTrang = tinhTrang.equalsIgnoreCase("Tất cả") ? "" : tinhTrang;
-
 			String diaChi = txtDiaChi.getText();
 			String sdt = txtSoDienThoai.getText();
-			String gioiTinh = String.valueOf(rdbtnNam.isSelected() ? "Nam" : "Nữ");
 
-			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<DefaultTableModel>(modell);
+			String gioiTinhFilter = "";
+			if (rdbtnNam.isSelected()) {
+				gioiTinhFilter = "Nam";
+			} else if (rdbtnNu.isSelected()) {
+				gioiTinhFilter = "Nữ";
+			}
+
+			TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modell);
 			table_1.setRowSorter(sorter);
 			List<RowFilter<Object, Object>> filters = new ArrayList<>();
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(hoten), 1));
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(diaChi), 6));
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 5));
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tinhTrang), 7));
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(gioiTinh), 2));
-			filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(maThoLamDan), 0));
-			RowFilter<Object, Object> af = RowFilter.andFilter(filters);
-			sorter.setRowFilter(af);
+			if (!hoten.isEmpty()) {
+				filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(hoten), 1));
+			}
+			if (!diaChi.isEmpty()) {
+				filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(diaChi), 6));
+			}
+			if (!sdt.isEmpty()) {
+				filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(sdt), 5));
+			}
+			if (!tinhTrang.equalsIgnoreCase("Tất cả")) {
+				filters.add(RowFilter.regexFilter("(?i)" + Pattern.quote(tinhTrang), 8));
+			}
+			if (!tayNghe.equalsIgnoreCase("Tất cả")) {
+				filters.add(RowFilter.regexFilter(tayNghe, 7));
+			}
+			if (!gioiTinhFilter.isEmpty()) {
+				filters.add(RowFilter.regexFilter(gioiTinhFilter, 2));
+			}
+
+			RowFilter<Object, Object> combinedFilter = RowFilter.andFilter(filters);
+			sorter.setRowFilter(combinedFilter);
 
 			if (table_1.getRowCount() > 0) {
-
 				JOptionPane.showMessageDialog(null, "Tìm kiếm thành công");
 			} else {
 
 				JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả tìm kiếm");
 			}
 		} else if (o.equals(btnXoRng)) {
-
-			group.clearSelection();
+			groupSex.clearSelection();
 			txtDiaChi.setText("");
 			txtHoTen.setText("");
 			txtSoDienThoai.setText("");
-			txtmatld.setText("");
+			comboBoxTayNghe.setSelectedIndex(0);
 			comboBoxTrangThai.setSelectedIndex(0);
 			group.clearSelection();
 		}

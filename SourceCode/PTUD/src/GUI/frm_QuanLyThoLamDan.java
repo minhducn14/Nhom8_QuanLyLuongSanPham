@@ -527,10 +527,10 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			int row = table_1.getSelectedRow();
 			if (row == -1) {
 				if (checkregex()) {
-					String hoTen = jhoTen.getText();
-					String sdt = jsdt.getText();
-					String cmnd = jcmnd.getText();
-					String diaChi = jdiaChi.getText();
+					String hoTen = jhoTen.getText().trim();
+					String sdt = jsdt.getText().trim();
+					String cmnd = jcmnd.getText().trim();
+					String diaChi = jdiaChi.getText().trim();
 					String tayNghe = (String) jtayNghe.getSelectedItem();
 					java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
 					java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());

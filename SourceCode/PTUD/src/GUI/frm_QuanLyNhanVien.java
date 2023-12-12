@@ -595,9 +595,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 				if (checkregex()) {
 					String chucVu = (String) cbbChucVu.getSelectedItem();
 					String trinhDo = (String) cbbTrinhDo.getSelectedItem();
-					double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
+					double luongCoBan = Double.parseDouble(txtLuongCoBan.getText().trim());
 
-					String hoTen = txtHoTen.getText();
+					String hoTen = txtHoTen.getText().trim();
 					boolean phai = false;
 					if (G.getSelection() != null) {
 						if (G.getSelection().equals(rbtNam.getModel())) {
@@ -608,9 +608,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					}
 					java.sql.Date ngaySinh = new java.sql.Date(dateChooserNgaySinh.getDate().getTime());
 
-					String cmnd = txtCMND.getText();
-					String sdt = txtSDT.getText();
-					String diaChi = txtDiaChi.getText();
+					String cmnd = txtCMND.getText().trim();
+					String sdt = txtSDT.getText().trim();
+					String diaChi = txtDiaChi.getText().trim();
 					boolean trangThai = true;
 					if (cbbTrangThai.getSelectedItem().equals("Đang Làm")) {
 						trangThai = true;
@@ -676,10 +676,10 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 					if (row >= 0) {
 						String chucVu = (String) cbbChucVu.getSelectedItem();
 						String trinhDo = (String) cbbTrinhDo.getSelectedItem();
-						double luongCoBan = Double.parseDouble(txtLuongCoBan.getText());
-						String maNV = txtMaNhanVien.getText();
+						double luongCoBan = Double.parseDouble(txtLuongCoBan.getText().trim());
+						String maNV = txtMaNhanVien.getText().trim();
 
-						String hoTen = txtHoTen.getText();
+						String hoTen = txtHoTen.getText().trim();
 						boolean phai = false;
 						if (G.getSelection() != null) {
 							if (G.getSelection().equals(rbtNam.getModel())) {
@@ -690,9 +690,9 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 						}
 
 						java.sql.Date ngaySinh = new java.sql.Date(dateChooserNgaySinh.getDate().getTime());
-						String cmnd = txtCMND.getText();
-						String sdt = txtSDT.getText();
-						String diaChi = txtDiaChi.getText();
+						String cmnd = txtCMND.getText().trim();
+						String sdt = txtSDT.getText().trim();
+						String diaChi = txtDiaChi.getText().trim();
 						boolean trangThai = true;
 						if (cbbTrangThai.getSelectedItem().equals("Đang Làm")) {
 							trangThai = true;

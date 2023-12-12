@@ -259,6 +259,8 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		jngayVaoLam.setLocation(180, 0);
 		jngayVaoLam.setSize(380, 25);
 		jngayVaoLam.setDateFormatString("dd-MM-yyyy");
+		java.util.Date currentDate = new java.util.Date();
+		jngayVaoLam.setDate(currentDate);
 		panel_1_6.add(jngayVaoLam);
 
 		JPanel panel_1_7 = new JPanel();
@@ -291,6 +293,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		jngaySinh = new JDateChooser();
 		jngaySinh.setDateFormatString("dd-MM-yyyy");
 		jngaySinh.setBounds(180, 0, 380, 25);
+		jngaySinh.setDate(currentDate);
 		panel_1_8.add(jngaySinh);
 
 		JPanel panel_1_9 = new JPanel();
@@ -386,14 +389,13 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 				int row = table_1.getSelectedRow();
 				if (row >= 0 && row < listtld.size()) {
 					ThoLamDan tld = listtld.get(row);
-					CongNhanVien cnv = (row < listcnv.size()) ? listcnv.get(row) : new CongNhanVien();
 					jmaTLD.setText(tld.getMaThoLamDan());
-					jhoTen.setText(cnv.getHoTen());
-					jcmnd.setText(cnv.getMaCanCuocCongDan());
-					jdiaChi.setText(cnv.getDiaChi());
-					jsdt.setText(cnv.getSoDienThoai());
+					jhoTen.setText(tld.getCongNhanVien().getHoTen());
+					jcmnd.setText(tld.getCongNhanVien().getMaCanCuocCongDan());
+					jdiaChi.setText(tld.getCongNhanVien().getDiaChi());
+					jsdt.setText(tld.getCongNhanVien().getSoDienThoai());
 					jtayNghe.setSelectedItem(tld.getTayNghe());
-					jtrangThai.setSelectedItem(cnv.isTrangThai() ? "Đang Làm" : "Nghỉ Việc");
+					jtrangThai.setSelectedItem(tld.getCongNhanVien().isTrangThai() ? "Đang Làm" : "Nghỉ Việc");
 					String gioiTinhValue = modelThoLamDan.getValueAt(row, 2).toString();
 					if ("Nữ".equals(gioiTinhValue)) {
 						rdbtnNewRadioButton_4.setSelected(true);
@@ -498,7 +500,7 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Error : Họ tên phải là ký tự");
 			return false;
 		}
-		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\s]+$"))) {
+		if (!(diaChi.length() > 0 && diaChi.matches("^[\\p{L}\\d\\s.,]+$"))) {
 			JOptionPane.showMessageDialog(this, "Error : Địa chỉ phải là ký tự");
 			return false;
 		}
@@ -522,56 +524,9 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 		if (o.equals(btnXoaRong)) {
 			xoaRong();
 		} else if (o.equals(btnThem)) {
-			if (checkregex()) {
-				String hoTen = jhoTen.getText();
-				String sdt = jsdt.getText();
-				String cmnd = jcmnd.getText();
-				String diaChi = jdiaChi.getText();
-				String tayNghe = (String) jtayNghe.getSelectedItem();
-				java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
-				java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
-				boolean trangThai = true;
-				if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
-					trangThai = true;
-				} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
-					trangThai = false;
-				}
-				boolean phai = false;
-				if (buttonGroup.getSelection() != null) {
-					if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
-						phai = true;
-					} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
-						phai = false;
-					}
-				}
-				CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam);
-				dao_cnv.taoCNV(cnv);
-				CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
-				ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
-				dao_tld.taoTLD(tld);
-
-				String maTLDNew = dao_tld.getMaThoLamDanMoiTao();
-				tld.setMaThoLamDan(maTLDNew);
-				String gioiTinh;
-				Boolean gt = tld.getCongNhanVien().isGioiTinh();
-				boolean kiemTraGT = true;
-
-				if (gt == kiemTraGT) {
-					gioiTinh = "Nam";
-				} else {
-					gioiTinh = "Nữ";
-				}
-				modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(), gioiTinh,
-						tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
-						tld.getCongNhanVien().getSoDienThoai() });
-				JOptionPane.showMessageDialog(this, "Thêm thành công");
-				xoaRong();
-			}
-		} else if (o.equals(btnSua)) {
-			if (checkregex()) {
-				int row = table_1.getSelectedRow();
-				if (row >= 0) {
-					String maThoLamDan = jmaTLD.getText();
+			int row = table_1.getSelectedRow();
+			if (row == -1) {
+				if (checkregex()) {
 					String hoTen = jhoTen.getText();
 					String sdt = jsdt.getText();
 					String cmnd = jcmnd.getText();
@@ -593,32 +548,91 @@ public class frm_QuanLyThoLamDan extends JPanel implements ActionListener {
 							phai = false;
 						}
 					}
+					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai,
+							ngayVaoLam);
+					dao_cnv.taoCNV(cnv);
+					CongNhanVien cnvNew = dao_cnv.getCongNhanVienMoiTao();
+					ThoLamDan tld = new ThoLamDan(tayNghe, cnvNew);
+					dao_tld.taoTLD(tld);
 
-					String maCNV = "";
-					int[] selectedRow = table_1.getSelectedRows();
-					for (int selectedIndex : selectedRow) {
-						if (selectedIndex >= 0 && selectedIndex < listtld.size()) {
-							ThoLamDan thoLamDanDuocChon = listtld.get(selectedIndex);
-							CongNhanVien CNV = thoLamDanDuocChon.getCongNhanVien();
-							maCNV = CNV.getMaCongNhanVien();
+					String maTLDNew = dao_tld.getMaThoLamDanMoiTao();
+					tld.setMaThoLamDan(maTLDNew);
+					String gioiTinh;
+					Boolean gt = tld.getCongNhanVien().isGioiTinh();
+					boolean kiemTraGT = true;
+
+					if (gt == kiemTraGT) {
+						gioiTinh = "Nam";
+					} else {
+						gioiTinh = "Nữ";
+					}
+					modelThoLamDan.addRow(new Object[] { tld.getMaThoLamDan(), tld.getCongNhanVien().getHoTen(),
+							gioiTinh, tld.getCongNhanVien().getNgaySinh(), tld.getCongNhanVien().getMaCanCuocCongDan(),
+							tld.getCongNhanVien().getSoDienThoai() });
+					JOptionPane.showMessageDialog(this, "Thêm thành công");
+					xoaRong();
+				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Thợ làm đàn đã có không thể thêm");
+				xoaRong();
+			}
+		} else if (o.equals(btnSua)) {
+			int row = table_1.getSelectedRow();
+			if (row >= 0) {
+				if (checkregex()) {
+					if (row >= 0) {
+						String maThoLamDan = jmaTLD.getText();
+						String hoTen = jhoTen.getText();
+						String sdt = jsdt.getText();
+						String cmnd = jcmnd.getText();
+						String diaChi = jdiaChi.getText();
+						String tayNghe = (String) jtayNghe.getSelectedItem();
+						java.sql.Date ngaySinh = new java.sql.Date(jngaySinh.getDate().getTime());
+						java.sql.Date ngayVaoLam = new java.sql.Date(jngayVaoLam.getDate().getTime());
+						boolean trangThai = true;
+						if (jtrangThai.getSelectedItem().equals("Đang Làm")) {
+							trangThai = true;
+						} else if (jtrangThai.getSelectedItem().equals("Nghỉ Làm")) {
+							trangThai = false;
+						}
+						boolean phai = false;
+						if (buttonGroup.getSelection() != null) {
+							if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_5.getModel())) {
+								phai = true;
+							} else if (buttonGroup.getSelection().equals(rdbtnNewRadioButton_4.getModel())) {
+								phai = false;
+							}
+						}
+
+						String maCNV = "";
+						int[] selectedRow = table_1.getSelectedRows();
+						for (int selectedIndex : selectedRow) {
+							if (selectedIndex >= 0 && selectedIndex < listtld.size()) {
+								ThoLamDan thoLamDanDuocChon = listtld.get(selectedIndex);
+								CongNhanVien CNV = thoLamDanDuocChon.getCongNhanVien();
+								maCNV = CNV.getMaCongNhanVien();
+							}
+						}
+						CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai,
+								ngayVaoLam, maCNV);
+						ThoLamDan tld = new ThoLamDan(maThoLamDan, tayNghe, cnv);
+						if (dao_tld.update(tld, cnv)) {
+							table_1.setValueAt(maThoLamDan, row, 0);
+							table_1.setValueAt(hoTen, row, 1);
+							table_1.setValueAt(phai, row, 2);
+							table_1.setValueAt(ngaySinh, row, 3);
+							table_1.setValueAt(cmnd, row, 4);
+							table_1.setValueAt(sdt, row, 5);
+							JOptionPane.showMessageDialog(this, "Sửa thành công");
+							updateTableDataThoLamDan();
 						}
 					}
-					CongNhanVien cnv = new CongNhanVien(hoTen, phai, ngaySinh, cmnd, sdt, diaChi, trangThai, ngayVaoLam,
-							maCNV);
-					ThoLamDan tld = new ThoLamDan(maThoLamDan, tayNghe, cnv);
-					if (dao_tld.update(tld, cnv)) {
-						table_1.setValueAt(maThoLamDan, row, 0);
-						table_1.setValueAt(hoTen, row, 1);
-						table_1.setValueAt(phai, row, 2);
-						table_1.setValueAt(ngaySinh, row, 3);
-						table_1.setValueAt(cmnd, row, 4);
-						table_1.setValueAt(sdt, row, 5);
-						JOptionPane.showMessageDialog(this, "Sửa thành công");
-						updateTableDataThoLamDan();
-					}
+					xoaRong();
 				}
+			} else {
+				JOptionPane.showMessageDialog(this, "Không có thợ làm đàn để sửa");
+
 			}
 		}
 	}
-
 }

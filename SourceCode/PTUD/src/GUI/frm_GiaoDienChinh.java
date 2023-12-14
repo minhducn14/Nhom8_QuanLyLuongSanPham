@@ -28,24 +28,24 @@ public class frm_GiaoDienChinh extends JFrame implements MouseListener, ActionLi
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_1;
 
-	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UIManager.setLookAndFeel(new FlatMacLightLaf());
-				} catch (Exception ex) {
-					System.err.println("Failed to initialize LaF");
-				}
-				try {
-					frm_GiaoDienChinh frame = new frm_GiaoDienChinh();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					UIManager.setLookAndFeel(new FlatMacLightLaf());
+//				} catch (Exception ex) {
+//					System.err.println("Failed to initialize LaF");
+//				}
+//				try {
+//					frm_GiaoDienChinh frame = new frm_GiaoDienChinh();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	public frm_GiaoDienChinh() {
 		getContentPane().setBackground(new Color(221, 242, 251));

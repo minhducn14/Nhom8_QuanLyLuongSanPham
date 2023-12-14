@@ -54,7 +54,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 	private ButtonGroup G;
 	private SimpleDateFormat dateFormat;
 	private List<NhanVien> listnv;
-	private List<CongNhanVien> listcnv;
 	private DAO_NhanVien dao_nv;
 	private DAO_CongNhanVien dao_cnv;
 	private DAO_PhongBan dao_pb;
@@ -461,7 +460,6 @@ public class frm_QuanLyNhanVien extends JPanel implements ActionListener {
 		modelNhanVien.setRowCount(0);
 		for (int i = 0; i < listnv.size(); i++) {
 			NhanVien nv = listnv.get(i);
-			System.out.println(nv);
 			String gioiTinh = nv.getCongNhanVien().isGioiTinh() ? "Nam" : "Nữ";
 			String ngaySinh = dateFormat.format(nv.getCongNhanVien().getNgaySinh());
 			String[] rowData = { nv.getMaNhanVien(), nv.getCongNhanVien().getHoTen(), gioiTinh, ngaySinh,
